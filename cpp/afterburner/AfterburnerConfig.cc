@@ -4,10 +4,30 @@
 
 #include "AfterburnerConfig.hh"
 
+using namespace ab;
 
-JS_OBJ_EXT(AfterburnerConfig, beam_hor_variance, beam_ver_variance);
+//JS_OBJ_EXT(ab::BeamConfig, direction_theta, direction_phi, divergence_hor, divergence_ver, z_shift_hor, z_shift_ver);
+JS_OBJ_EXT(ab::BeamConfig, direction_theta);
+JS_OBJ_EXT(AfterburnerConfig, random_seed);
+//JS_OBJ_EXT(AfterburnerConfig,
+//           random_seed,
+//           vertex_smear_func_x,
+//           vertex_smear_func_y,
+//           vertex_smear_func_z,
+//           vertex_smear_func_t,
+//           vertex_smear_width_x,
+//           vertex_smear_width_y,
+//           vertex_smear_width_z,
+//           vertex_smear_width_t,
+//           vertex_shift_x,
+//           vertex_shift_y,
+//           vertex_shift_z,
+//           vertex_shift_t,
+////           beam_one,
+////           beam_two,
+//           );
 
-AfterburnerConfig AfterburnerConfig::load(const std::string &file_name) {
+ab::AfterburnerConfig ab::AfterburnerConfig::load(const std::string &file_name) {
     std::ifstream reader(file_name);
     if(!reader.good()) {
         std::string errorStr = "Can't open file: '" + file_name + "'";
@@ -29,7 +49,7 @@ AfterburnerConfig AfterburnerConfig::load(const std::string &file_name) {
     return config;
 }
 
-void AfterburnerConfig::save(const std::string &file_name, const AfterburnerConfig &config) {
+void ab::AfterburnerConfig::save(const std::string &file_name, const AfterburnerConfig &config) {
     std::string pretty_json = JS::serializeStruct(config);
     std::ofstream out(file_name);
     out << pretty_json;

@@ -11,40 +11,40 @@
 
 #include "Afterburner.h"
 
-Afterburner::Afterburner() : _smearer(1) {
+ab::Afterburner::Afterburner() : _smearer(1) {
 
 }
 
-CLHEP::HepLorentzVector Afterburner::move_vertex(const CLHEP::HepLorentzVector &init_vtx) {
+CLHEP::HepLorentzVector ab::Afterburner::move_vertex(const CLHEP::HepLorentzVector &init_vtx) {
 
-    double x = init_vtx.x() + _smearer.smear(_cfg._vertex_x, _cfg._vertex_width_x, _cfg._vertex_func_x);
-    double y = init_vtx.y() + _smearer.smear(_cfg._vertex_y, _cfg._vertex_width_y, _cfg._vertex_func_y);
-    double z = init_vtx.z() + _smearer.smear(_cfg._vertex_z, _cfg._vertex_width_z, _cfg._vertex_func_z);
-    double t = init_vtx.t() + _smearer.smear(_cfg._vertex_t, _cfg._vertex_width_t, _cfg._vertex_func_t);
+    double x = init_vtx.x() + _smearer.smear(_cfg.vertex_shift_x, _cfg.vertex_smear_width_x, _cfg.vertex_smear_func_x);
+    double y = init_vtx.y() + _smearer.smear(_cfg.vertex_shift_y, _cfg.vertex_smear_width_y, _cfg.vertex_smear_func_y);
+    double z = init_vtx.z() + _smearer.smear(_cfg.vertex_shift_z, _cfg.vertex_smear_width_z, _cfg.vertex_smear_func_z);
+    double t = init_vtx.t() + _smearer.smear(_cfg.vertex_shift_t, _cfg.vertex_smear_width_t, _cfg.vertex_smear_func_t);
     return CLHEP::HepLorentzVector {x, y, z, t};
 }
 
 /// function to convert spherical coordinate to Hep3Vector in x-y-z
-CLHEP::Hep3Vector Afterburner::spherical_to_cartesian(const double theta, const double phi) {
+CLHEP::Hep3Vector ab::Afterburner::spherical_to_cartesian(const double theta, const double phi) {
     return {sin(theta) * cos(phi),
             sin(theta) * sin(phi),
             cos(theta)};
 }
 
 // function to do angular shifts relative to central beam angle
-CLHEP::Hep3Vector Afterburner::smear_beam_divergence(const CLHEP::Hep3Vector &beam_dir, const BeamConfig& beam_cfg, const double vtx_z) {
+CLHEP::Hep3Vector ab::Afterburner::smear_beam_divergence(const CLHEP::Hep3Vector &beam_dir, const ab::BeamConfig& beam_cfg, const double vtx_z) {
 
     // y direction in accelerator
     static const CLHEP::Hep3Vector accelerator_plane(0, 1, 0);
 
     // Horizontal
-    double horizontal_angle = vtx_z * beam_cfg.z_kick_hor;                                     // horizontal angle 0
-    horizontal_angle = _smearer.smear(horizontal_angle, beam_cfg.divergence_hor, Gaus);    // smear horizontal angle
+    double horizontal_angle = vtx_z * beam_cfg.z_shift_hor;                                     // horizontal angle 0
+    horizontal_angle = _smearer.smear(horizontal_angle, beam_cfg.divergence_hor, SmearFuncs::Gauss);    // smear horizontal angle
     CLHEP::HepRotation x_smear_in_accelerator_plane(accelerator_plane, horizontal_angle);      // central horizontal angle shift
 
     // Vertical
-    double vertical_angle =  vtx_z * beam_cfg.angular_z_coefficient_v;                          // vertical angle 0
-    vertical_angle = _smearer.smear(vertical_angle, beam_cfg.angular_divergence_v, Gaus);   // smear vertical angle
+    double vertical_angle =  vtx_z * beam_cfg.z_shift_ver;                                             // vertical angle 0
+    vertical_angle = _smearer.smear(vertical_angle, beam_cfg.divergence_ver, SmearFuncs::Gauss);   // smear vertical angle
     auto out_accelerator_plane = accelerator_plane.cross(beam_dir);                             // vertical out acc plane
     CLHEP::HepRotation y_smear_out_accelerator_plane(out_accelerator_plane, vertical_angle);    // central vertical angle shift
 
@@ -53,7 +53,7 @@ CLHEP::Hep3Vector Afterburner::smear_beam_divergence(const CLHEP::Hep3Vector &be
 }
 
 //! move vertex in translation,boost,rotation according to vertex settings
-AfterburnerEventResult Afterburner::process_event(const CLHEP::HepLorentzVector &init_vtx) {
+ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorentzVector &init_vtx) {
     using namespace std;
 
     if (m_verbosity) {
@@ -65,7 +65,7 @@ AfterburnerEventResult Afterburner::process_event(const CLHEP::HepLorentzVector 
     // now handle the collision vertex first, in the head-on collision frame
     // this is used as input to the Crab angle correction
     result.vertex = move_vertex(init_vtx);
-    const double init_vertex_longitudinal = result.vertex.z();
+    const double init_vertex_z = result.vertex.z();
 
     // boost-rotation from beam angles
     const static CLHEP::Hep3Vector z_axis(0, 0, 1);
@@ -97,8 +97,8 @@ AfterburnerEventResult Afterburner::process_event(const CLHEP::HepLorentzVector 
 
 
 
-    CLHEP::Hep3Vector beamA_vec = smear_beam_divergence(beamA_center, _cfg.beam_one, init_vertex_longitudinal);
-    CLHEP::Hep3Vector beamB_vec = smear_beam_divergence(beamB_center, _cfg.beam_two, init_vertex_longitudinal);
+    CLHEP::Hep3Vector beamA_vec = smear_beam_divergence(beamA_center, _cfg.beam_one, init_vertex_z);
+    CLHEP::Hep3Vector beamB_vec = smear_beam_divergence(beamB_center, _cfg.beam_two, init_vertex_z);
 
     if (m_verbosity) {
         cout << __PRETTY_FUNCTION__ << ": " << endl;
@@ -234,22 +234,22 @@ AfterburnerEventResult Afterburner::process_event(const CLHEP::HepLorentzVector 
 
 
 
-void Afterburner::print() const {
+void ab::Afterburner::print() const {
     using namespace std;
-    static std::map <VTXFUNC, string> vtxfunc = {{VTXFUNC::Uniform, "Uniform"}, {VTXFUNC::Gaus,    "Gaus"}};
+    static std::map <SmearFuncs, string> vtxfunc = {{ab::SmearFuncs::Uniform, "Uniform"}, {ab::SmearFuncs::Gauss, "Gauss"}};
 
     cout << "Vertex distribution width"
-            "  x: " << _cfg._vertex_width_x
-         << ", y: " << _cfg._vertex_width_y
-         << ", z: " << _cfg._vertex_width_z
-         << ", t: " << _cfg._vertex_width_t
+            "  x: " << _cfg.vertex_smear_width_x
+         << ", y: " << _cfg.vertex_smear_width_y
+         << ", z: " << _cfg.vertex_smear_width_z
+         << ", t: " << _cfg.vertex_smear_width_t
          << endl;
 
     cout << "Vertex distribution function"
-            "  x: " << vtxfunc[_cfg._vertex_func_x]
-         << ", y: " << vtxfunc[_cfg._vertex_func_y]
-         << ", z: " << vtxfunc[_cfg._vertex_func_z]
-         << ", t: " << vtxfunc[_cfg._vertex_func_t]
+            "  x: " << vtxfunc[_cfg.vertex_smear_func_x]
+         << ", y: " << vtxfunc[_cfg.vertex_smear_func_y]
+         << ", z: " << vtxfunc[_cfg.vertex_smear_func_z]
+         << ", t: " << vtxfunc[_cfg.vertex_smear_func_t]
          << endl;
 
     cout << "Beam direction: A  theta-phi = " << _cfg.beam_one.direction_theta
@@ -258,14 +258,14 @@ void Afterburner::print() const {
          << ", " << _cfg.beam_two.direction_phi << endl;
 
     cout << "Beam divergence: A X-Y = " << _cfg.beam_one.divergence_hor
-         << ", " << _cfg.beam_one.angular_divergence_v << endl;
+         << ", " << _cfg.beam_one.divergence_ver << endl;
     cout << "Beam divergence: B X-Y = " << _cfg.beam_two.divergence_hor
-         << ", " << _cfg.beam_two.angular_divergence_v << endl;
+         << ", " << _cfg.beam_two.divergence_ver << endl;
 
     cout << "Beam angle shift as linear function of longitudinal vertex position : A X-Y = "
-         << _cfg.beam_one.z_kick_hor
-         << ", " << _cfg.beam_one.angular_z_coefficient_v << endl;
+         << _cfg.beam_one.z_shift_hor
+         << ", " << _cfg.beam_one.z_shift_ver << endl;
     cout << "Beam angle shift as linear function of longitudinal vertex position: B X-Y = "
-         << _cfg.beam_two.z_kick_hor
-         << ", " << _cfg.beam_two.angular_z_coefficient_v << endl;
+         << _cfg.beam_two.z_shift_hor
+         << ", " << _cfg.beam_two.z_shift_ver << endl;
 }

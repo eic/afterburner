@@ -15,45 +15,52 @@
 #include "AfterburnerConfig.hh"
 #include "Smearer.hh"
 
+namespace ab{
+    struct AfterburnerEventResult {
+        CLHEP::HepBoost boost;
+        CLHEP::HepRotation rotation;
+        CLHEP::HepLorentzVector vertex;
+    };
 
-struct AfterburnerEventResult {
-    CLHEP::HepBoost boost;
-    CLHEP::HepRotation rotation;
-    CLHEP::HepLorentzVector vertex;
-};
+    /*!
+     * \brief Afterburner provides service of DST upload of HepMC subevent, vertex assignment and random generator
+     */
+    class Afterburner
+    {
+    public:
+        Afterburner();
 
-/*!
- * \brief Afterburner provides service of DST upload of HepMC subevent, vertex assignment and random generator
- */
-class Afterburner
-{
- public:
-  Afterburner();
+        AfterburnerEventResult process_event(const CLHEP::HepLorentzVector &init_vtx);
 
-  AfterburnerEventResult process_event(const CLHEP::HepLorentzVector &init_vtx);
+        void print() const;
 
-  void print() const;
+        void set_verbose(int v) { m_verbosity = v; }
 
-  void set_verbose(int v) { m_verbosity = v; }
+        int verbose() const { return m_verbosity; }
 
-  int verbose() const { return m_verbosity; }
+        void set_config(ab::AfterburnerConfig config) {
+            _cfg = config;
+        }
 
- private:
-    /** verbosity */
-    int m_verbosity = 0;
+        ab::AfterburnerConfig config() const {
+            return _cfg;
+        }
 
-    AfterburnerConfig _cfg;
-    Smearer _smearer;
+    private:
+        /** verbosity */
+        int m_verbosity = 0;
 
-    /** Converts from spherical theta-phi to cartesian vector */
-    static CLHEP::Hep3Vector spherical_to_cartesian(double theta, double phi);
+        AfterburnerConfig _cfg;
+        Smearer _smearer;
 
-    /** Adds divergense and z kick smearing to a beam */
-    CLHEP::Hep3Vector smear_beam_divergence(const CLHEP::Hep3Vector &beam_dir, const BeamConfig &beam_cfg, double vtx_z);
+        /** Converts from spherical theta-phi to cartesian vector */
+        static CLHEP::Hep3Vector spherical_to_cartesian(double theta, double phi);
 
-    CLHEP::HepLorentzVector move_vertex(const CLHEP::HepLorentzVector &init_vtx);
+        /** Adds divergense and z kick smearing to a beam */
+        CLHEP::Hep3Vector smear_beam_divergence(const CLHEP::Hep3Vector &beam_dir, const BeamConfig &beam_cfg, double vtx_z);
 
-
-};
+        CLHEP::HepLorentzVector move_vertex(const CLHEP::HepLorentzVector &init_vtx);
+    };
+}
 
 #endif /* AB_AFTERBURNER */
