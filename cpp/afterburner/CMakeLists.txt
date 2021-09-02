@@ -4,7 +4,7 @@ project(EICAfterburnerLibrary LANGUAGES CXX)
 
 message(STATUS "EIC Afterburner library" )
 
-find_package(CLHEP)
+# find_package(CLHEP)
 
 add_library(afterburner
         Afterburner.cc
@@ -12,7 +12,7 @@ add_library(afterburner
         Smearer.cc)
 
 target_include_directories(afterburner SYSTEM PRIVATE ${CLHEP_INCLUDE_DIRS} ${HEPMC3_INCLUDE_DIR} ../external/json_struct/)
-target_link_libraries(afterburner ${CLHEP_LIBRARIES} ${HEPMC3_LIBRARIES})
+target_link_libraries(afterburner ${CLHEP_LIBRARIES} ${HEPMC3_LIBRARIES} CLHEP)
 target_compile_features(afterburner
         PUBLIC
         cxx_alignas

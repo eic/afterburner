@@ -73,6 +73,7 @@ endif()
 
 # add_subdirectory(json_struct)
 add_subdirectory(afterburner)
+add_subdirectory(benchmark)
 add_subdirectory(convert)
 add_subdirectory(test)
 
