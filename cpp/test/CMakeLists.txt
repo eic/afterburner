@@ -4,7 +4,7 @@ project(Catch2Examples LANGUAGES CXX)
 
 message(STATUS "Catch2 unit testing" )
 
-add_executable(tests test_catch.cpp test_config.cpp catch.cc)
+add_executable(tests test_catch.hh test_config.hh catch.cc)
 target_compile_features(tests
         PUBLIC
         cxx_alignas
@@ -30,7 +30,7 @@ target_compile_features(tests
         )
 
 target_link_libraries(tests afterburner)
-target_include_directories(tests PRIVATE ../thors_serializer ../)
+target_include_directories(tests PRIVATE ../external/)
 add_compile_definitions(AB_TEST_DIRECTORY="${CMAKE_CURRENT_LIST_DIR}")
 add_compile_definitions(HAVE_YAML=1)
 

@@ -9,7 +9,7 @@
 #include <CLHEP/Vector/Rotation.h>
 #include <CLHEP/Vector/ThreeVector.h>
 
-#include "Afterburner.h"
+#include "Afterburner.hh"
 
 ab::Afterburner::Afterburner() : _smearer(1) {
 

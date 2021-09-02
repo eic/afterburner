@@ -112,7 +112,7 @@ int main(int argc, char** argv)
         }
         break;
     case hepmc2:
-        input_file=(input_is_stdin?std::make_shared<ReaderAsciiHepMC2>(std::cin):std::make_shared<ReaderAsciiHepMC2>(ai.inputs[0]));
+        input_file=(input_is_stdin ? std::make_shared<ReaderAsciiHepMC2>(std::cin) : std::make_shared<ReaderAsciiHepMC2>(ai.inputs[0]));
         break;
     case hepmc3:
         input_file=(input_is_stdin?std::make_shared<ReaderAscii>(std::cin):std::make_shared<ReaderAscii>(ai.inputs[0]));
@@ -223,10 +223,10 @@ int main(int argc, char** argv)
         if (output_file->failed()) { printf("Plugin initialization failed\n"); exit(2);}
         break;
     case dump:
-        output_file=NULL;
+        output_file=nullptr;
         break;
     case none:
-        output_file=NULL;
+        output_file=nullptr;
         ignore_writer=true;
         break;
     default:
@@ -249,7 +249,7 @@ int main(int argc, char** argv)
         //Note the difference between ROOT and Ascii readers.
         // The former read GenRunInfo before first event and the later at the same time as first event.
         if (!ignore_writer)
-        { 
+        {
             if (output_file)
             {
                 output_file->write_event(evt);

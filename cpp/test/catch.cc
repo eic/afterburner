@@ -12,7 +12,7 @@
 //  You probably shouldn't edit it directly.
 //  ----------------------------------------------------------
 
-#include "catch.hpp"
+#include "catch.hh"
 
 
 // Adapted from donated nonius code.

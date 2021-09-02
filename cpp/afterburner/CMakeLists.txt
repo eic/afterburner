@@ -11,7 +11,7 @@ add_library(afterburner
         AfterburnerConfig.cc
         Smearer.cc)
 
-target_include_directories(afterburner SYSTEM PRIVATE ${CLHEP_INCLUDE_DIRS} ${HEPMC3_INCLUDE_DIR} ../json_struct/)
+target_include_directories(afterburner SYSTEM PRIVATE ${CLHEP_INCLUDE_DIRS} ${HEPMC3_INCLUDE_DIR} ../external/json_struct/)
 target_link_libraries(afterburner ${CLHEP_LIBRARIES} ${HEPMC3_LIBRARIES})
 target_compile_features(afterburner
         PUBLIC

@@ -34,10 +34,11 @@ if(ROOT_FOUND)
 	set(basic_libdir "${basic_libdir}:${ROOT_LIBRARY_DIR}")
 endif()
 
+find_package(HepMC3)
 
 add_executable(convert_example.exe  ${basic_sources} )
 add_library(Analysis SHARED AnalysisExample.cc)
-target_link_libraries(Analysis HepMC3 )
+target_link_libraries(Analysis ${HEPMC3_LIBRARIES} )
 
 if (MSVC)
 	set(MSVCLINKFLAGS "/WHOLEARCHIVE:${PROJECT_BINARY_DIR}/outputs/${CMAKE_INSTALL_LIBDIR}/HepMC3-static.lib")
