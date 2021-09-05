@@ -22,15 +22,33 @@
 
 #include "ArgumentProcessor.hh"
 
+#include <afterburner/Afterburner.hh>
+#include <afterburner/AfterburnerConfig.hh>
+
+
 int main(int argc, char** argv)
 {
     using namespace HepMC3;
-    
+
+    // Process user inputs
     ArgumentProcessor arg_processor;
     auto arguments = arg_processor.Process(argc, argv);
+
+    // Afterburner instance
+    ab::Afterburner afterburner;
+    afterburner.print();
+
+    int first_event_number = 0;     // TODO move to arguments
+    int last_event_number = 0;      // TODO move to arguments
+    int events_parsed = 0;
+    int print_each_events_parsed = 100;
+    int events_limit = 0;
+    
+    // HepMC files open
     auto input_file = std::make_shared<ReaderAscii>(arguments.AllFileNames[0]);
     auto output_file=std::make_shared<WriterAscii>(arguments.OutputBaseName + ".hepmc");
 
+    // Event loop
     while( !input_file->failed() )
     {
         GenEvent evt(Units::GEV,Units::MM);
@@ -40,26 +58,17 @@ int main(int argc, char** argv)
             break;
         }
         if (evt.event_number()<first_event_number) continue;
-        if (evt.event_number()>last_event_number) continue;
+        if (last_event_number && evt.event_number()>last_event_number) continue;
         evt.set_run_info(input_file->run_info());
 
         //Note the difference between ROOT and Ascii readers.
         // The former read GenRunInfo before first event and the later at the same time as first event.
-        if (!ignore_writer)
-        {
-            if (output_file)
-            {
-                output_file->write_event(evt);
-            }
-            else
-            {
-                Print::content(evt);
-            }
-        }
+        output_file->write_event(evt);
+
         evt.clear();
         ++events_parsed;
         if( events_parsed%print_each_events_parsed == 0 ) printf("Events parsed: %li\n",events_parsed);
-        if( events_parsed >= events_limit ) {
+        if( events_limit && events_parsed >= events_limit ) {
             printf("Event limit reached:->events_parsed(%li) >= events_limit(%li)<-. Exit.\n",events_parsed , events_limit);
             break;
         }

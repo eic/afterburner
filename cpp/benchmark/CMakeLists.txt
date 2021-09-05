@@ -30,5 +30,5 @@ target_compile_features(benchmark
         )
 
 target_link_libraries(benchmark afterburner)
-target_include_directories(benchmark PRIVATE ../external/)
+target_include_directories(benchmark PRIVATE ../external/ ../)
 

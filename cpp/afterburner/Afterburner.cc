@@ -13,6 +13,68 @@
 
 ab::Afterburner::Afterburner() : _smearer(1) {
 
+    // Default configuration for IP6 From Jin:
+    // https://github.com/eic/fun4all_macros/blob/3678b50f3d739aa4db08d69b0afb0177380adb9c/common/G4_Input.C#L116
+
+    //25mrad x-ing as in EIC CDR
+    const double EIC_hadron_crossing_angle = 25e-3;
+
+    _cfg.beam_one.direction_theta = EIC_hadron_crossing_angle;   // beamA_theta
+    _cfg.beam_one.direction_phi = 0;                             // beamA_phi
+    _cfg.beam_two.direction_theta = M_PI;                        // beamB_theta
+    _cfg.beam_two.direction_phi = 0;                             // beamB_phi
+
+    // proton beam divergence horizontal & vertical, as in EIC CDR Table 1.1
+    _cfg.beam_one.divergence_hor = 119e-6;
+    _cfg.beam_one.divergence_ver = 119e-6;
+
+    // electron beam divergence horizontal & vertical, as in EIC CDR Table 1.1
+    _cfg.beam_two.divergence_hor = 211e-6;
+    _cfg.beam_two.divergence_ver = 152e-6;
+
+    // angular kick within a bunch as result of crab cavity
+    // using an naive assumption of transfer matrix from the cavity to IP,
+    // which is NOT yet validated with accelerator optics simulations!
+    const double z_hadron_cavity = 52e2;  // CDR Fig 3.3
+    const double z_e_cavity = 38e2;       // CDR Fig 3.2
+    _cfg.beam_one.z_shift_hor = -EIC_hadron_crossing_angle / 2. / z_hadron_cavity;
+    _cfg.beam_one.z_shift_ver = 0;
+    _cfg.beam_two.z_shift_hor = -EIC_hadron_crossing_angle / 2. / z_e_cavity;
+    _cfg.beam_two.z_shift_ver = 0;
+
+    // calculate beam sigma width at IP  as in EIC CDR table 1.1
+    const double sigma_p_h = sqrt(80 * 11.3e-7);
+    const double sigma_p_v = sqrt(7.2 * 1.0e-7);
+    const double sigma_p_l = 6;
+    const double sigma_e_h = sqrt(45 * 20.0e-7);
+    const double sigma_e_v = sqrt(5.6 * 1.3e-7);
+    const double sigma_e_l = 2;
+
+    // combine two beam gives the collision sigma in z
+    const double collision_sigma_x = sigma_p_h * sigma_e_h / sqrt(sigma_p_h * sigma_p_h + sigma_e_h * sigma_e_h);   // x
+    const double collision_sigma_y = sigma_p_v * sigma_e_v / sqrt(sigma_p_v * sigma_p_v + sigma_e_v * sigma_e_v);   // y
+    const double collision_sigma_z = sqrt(sigma_p_l * sigma_p_l + sigma_e_l * sigma_e_l) / 2;
+    const double collision_sigma_t = collision_sigma_z / 29.9792;  // speed of light in cm/ns
+
+    _cfg.vertex_smear_width_x = collision_sigma_x;
+    _cfg.vertex_smear_width_y = collision_sigma_y;
+    _cfg.vertex_smear_width_z = collision_sigma_z;
+    _cfg.vertex_smear_width_t = collision_sigma_t;
+
+    /*
+     * This configuration gives the next values:
+     * AFTERBURNER CONFIGURATION
+     * =========================
+     * Vertex distribution width  x: 0.00671564, y: 0.000601655, z: 3.16228, t: 0.105482
+     * Vertex distribution function  x: Gauss, y: Gauss, z: Gauss, t: Gauss
+     * Beam direction: A  theta-phi = 0.025, 0
+     * Beam direction: B  theta-phi = 3.14159, 0
+     * Beam divergence: A X-Y = 0.000119, 0.000119
+     * Beam divergence: B X-Y = 0.000211, 0.000152
+     * Beam angle shift as linear function of longitudinal vertex position : A X-Y = -2.40385e-06, 0
+     * Beam angle shift as linear function of longitudinal vertex position: B X-Y = -3.28947e-06, 0
+     * =========================
+     */
 }
 
 CLHEP::HepLorentzVector ab::Afterburner::move_vertex(const CLHEP::HepLorentzVector &init_vtx) {
@@ -236,7 +298,9 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
 
 void ab::Afterburner::print() const {
     using namespace std;
-    static std::map <SmearFuncs, string> vtxfunc = {{ab::SmearFuncs::Uniform, "Uniform"}, {ab::SmearFuncs::Gauss, "Gauss"}};
+
+    cout << "AFTERBURNER CONFIGURATION\n";
+    cout << "=========================\n";
 
     cout << "Vertex distribution width"
             "  x: " << _cfg.vertex_smear_width_x
@@ -246,10 +310,10 @@ void ab::Afterburner::print() const {
          << endl;
 
     cout << "Vertex distribution function"
-            "  x: " << vtxfunc[_cfg.vertex_smear_func_x]
-         << ", y: " << vtxfunc[_cfg.vertex_smear_func_y]
-         << ", z: " << vtxfunc[_cfg.vertex_smear_func_z]
-         << ", t: " << vtxfunc[_cfg.vertex_smear_func_t]
+            "  x: " << smear_func_to_str(_cfg.vertex_smear_func_x)
+         << ", y: " << smear_func_to_str(_cfg.vertex_smear_func_y)
+         << ", z: " << smear_func_to_str(_cfg.vertex_smear_func_z)
+         << ", t: " << smear_func_to_str(_cfg.vertex_smear_func_t)
          << endl;
 
     cout << "Beam direction: A  theta-phi = " << _cfg.beam_one.direction_theta
@@ -268,4 +332,5 @@ void ab::Afterburner::print() const {
     cout << "Beam angle shift as linear function of longitudinal vertex position: B X-Y = "
          << _cfg.beam_two.z_shift_hor
          << ", " << _cfg.beam_two.z_shift_ver << endl;
+    cout << "=========================\n";
 }

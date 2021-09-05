@@ -25,15 +25,16 @@ namespace ab {
 
     public:
 
-
         explicit Smearer(unsigned int seed);
-
 
         double smear(double position, double width, SmearFuncs dist) const;
 
     private:
         std::unique_ptr<gsl_rng> m_generator;
     };
+
+    /// SmearFunc-s to std::string conversion
+    std::string smear_func_to_str(ab::SmearFuncs smear_func);
 }
 
 

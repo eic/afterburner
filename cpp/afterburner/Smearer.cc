@@ -1,6 +1,7 @@
 #include <string>
 #include <cassert>
 #include <stdexcept>
+#include <map>
 
 #include "Smearer.hh"
 
@@ -31,3 +32,7 @@ double ab::Smearer::smear(const double position, const double width, SmearFuncs 
 }
 
 
+std::string ab::smear_func_to_str(ab::SmearFuncs smear_func) {
+    static std::map <SmearFuncs, std::string> funcs_str_map = {{ab::SmearFuncs::Uniform, "Uniform"}, {ab::SmearFuncs::Gauss, "Gauss"}};
+    return funcs_str_map[smear_func];
+}
