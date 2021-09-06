@@ -112,6 +112,13 @@ CLHEP::Hep3Vector ab::Afterburner::smear_beam_divergence(const CLHEP::Hep3Vector
 
     // Resulting
     return y_smear_out_accelerator_plane * x_smear_in_accelerator_plane * beam_dir;
+
+
+}
+
+
+ab::AfterburnerEventResult ab::Afterburner::process_event() {
+    return process_event(CLHEP::HepLorentzVector(0,0,0,0));
 }
 
 //! move vertex in translation,boost,rotation according to vertex settings
@@ -229,7 +236,7 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     } else {
         // need a rotation
         CLHEP::Hep3Vector rotation_axis = (beamA_vec - beamB_vec).cross(z_axis);
-        const double rotation_angle_to_z = -acos(cos_rotation_angle_to_z);
+        const double rotation_angle_to_z = acos(cos_rotation_angle_to_z);   // TODO back to -acos? 
 
         result.rotation = CLHEP::HepRotation(rotation_axis, rotation_angle_to_z);
 
@@ -334,3 +341,4 @@ void ab::Afterburner::print() const {
          << ", " << _cfg.beam_two.z_shift_ver << endl;
     cout << "=========================\n";
 }
+

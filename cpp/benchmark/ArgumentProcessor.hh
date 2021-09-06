@@ -25,9 +25,9 @@
 /// environment variables provided by users
 struct UserArguments
 {
-    std::vector<std::string> AllFileNames;          /// List of all arguments which are not flags=values (macro file names, input file names, etc.)
-    std::string SourceGenerator;                    /// The generator to use
-    std::string OutputBaseName;                     /// Desired output file(s) name (without suffix and extension)
+    std::string InputFileName;          /// List of all arguments which are not flags=values (macro file names, input file names, etc.)
+    std::string OutputFileName;                     /// Desired output file(s) name (without suffix and extension)
+    std::string BenchmarkName;                      /// Benchmark name
 };
 
 
@@ -40,7 +40,8 @@ public:
 private:
 
     /// Processes both program arguments and environment variables to build the right ProgramArguments
-    static std::string mAppDescription;
+
+    static std::string get_description();
 };
 
 

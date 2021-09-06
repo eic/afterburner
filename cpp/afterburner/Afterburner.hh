@@ -30,6 +30,8 @@ namespace ab{
     public:
         Afterburner();
 
+        AfterburnerEventResult process_event();
+
         AfterburnerEventResult process_event(const CLHEP::HepLorentzVector &init_vtx);
 
         void print() const;

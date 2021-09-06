@@ -13,10 +13,10 @@ def create_zonly_event(file_name):
     v1 = hm.GenVertex(hm.FourVector(1, 2, 3, 4))
     evt.add_vertex(v1)
 
-    p1 = hm.GenParticle(hm.FourVector(0, 0, 90, 90), 2212, 1)
+    p1 = hm.GenParticle(hm.FourVector(0, 0, 1000, 1000), 2212, 1)
     evt.add_particle(p1)
 
-    p2 = hm.GenParticle(hm.FourVector(0, 0, 7, 7), 11, 1)
+    p2 = hm.GenParticle(hm.FourVector(0, 0, 100, 100), 11, 1)
     evt.add_particle(p2)
 
     v1.add_particle_in(p1)
@@ -33,7 +33,7 @@ def read_events(file_name):
         raise "test_create_save_load.failed()"
 
     while True:
-        evt = hm.GenEvent()
+        evt = hm.GenEvent(hm.Units.GEV, hm.Units.CM)
         input_file.read_event(evt)
         if input_file.failed():
             break

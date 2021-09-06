@@ -9,30 +9,39 @@
 UserArguments ArgumentProcessor::Process(int argc, char **argv)
 {
     UserArguments result;                                          // This function result
-    CLI::App app{mAppDescription};
+    CLI::App app{get_description()};
 
-    std::string optOutputName("g4e_output");
+    std::string optOutputName("ab_output.hepmc");
     std::vector<std::string> optAllFiles;
+    std::string benchmarkName("default");
+
     app.add_option("-o,--output", optOutputName, "Base name for Output files");
-    app.add_option("files", optAllFiles, "Input files. ");
+    app.add_option("-b,--benchmark", benchmarkName, "Benchmark name: default, crossing");
+    app.add_option("input file", optAllFiles, "Input file");
 
     // Parse everything
     try {
         app.parse(argc, argv);
+        if(optAllFiles.empty()) {
+            throw std::runtime_error("Please, provide an input file");
+        }
     } catch(const CLI::ParseError &e) {
         app.exit(e);
         throw;
     }
 
     // Input files (macros and data files)
-    result.AllFileNames = optAllFiles;
+    result.InputFileName = optAllFiles[0];
 
      // Output file name:
-    result.OutputBaseName = optOutputName;
+    result.OutputFileName = optOutputName;
 
+    result.BenchmarkName = benchmarkName;
     return result;
 }
 
-std::string ArgumentProcessor::mAppDescription =
-        "EIC Afterburner benchmarks";
+std::string ArgumentProcessor::get_description() {
+    return "EIC Afterburner benchmarks";
+}
+
 

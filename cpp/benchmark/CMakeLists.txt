@@ -7,6 +7,13 @@ find_package(HepMC3 REQUIRED)
 message(STATUS "BENCHMARKS HEPMC3_LIBRARIES ${HEPMC3_LIBRARIES}")
 message(STATUS "BENCHMARKS HEPMC3_INCLUDE_DIR ${HEPMC3_INCLUDE_DIR}")
 
+find_package(CLHEP)
+if(NOT CLHEP_FOUND)
+    set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Modules ${CMAKE_MODULE_PATH} )
+    find_package(CLHEP REQUIRED)
+endif()
+
+
 add_executable(benchmark ArgumentProcessor.hh ArgumentProcessor.cc main.cc)
 target_compile_features(benchmark
         PUBLIC
