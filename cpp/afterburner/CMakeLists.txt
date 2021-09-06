@@ -2,6 +2,10 @@ cmake_minimum_required( VERSION 3.5 )
 set(CMAKE_CXX_STANDARD 17)
 project(EICAfterburnerLibrary LANGUAGES CXX)
 
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Modules ${CMAKE_MODULE_PATH} )
+
+#include(../cmake/FindCLHEP.cmake)
+
 message(STATUS "EIC Afterburner library" )
 
 find_package(CLHEP REQUIRED)

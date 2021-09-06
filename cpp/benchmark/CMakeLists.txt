@@ -2,7 +2,10 @@ cmake_minimum_required( VERSION 3.5 )
 set(CMAKE_CXX_STANDARD 17)
 project(Catch2Examples LANGUAGES CXX)
 
-message(STATUS "Catch2 unit testing" )
+message(STATUS "BENCHMARKS" )
+find_package(HepMC3 REQUIRED)
+message(STATUS "BENCHMARKS HEPMC3_LIBRARIES ${HEPMC3_LIBRARIES}")
+message(STATUS "BENCHMARKS HEPMC3_INCLUDE_DIR ${HEPMC3_INCLUDE_DIR}")
 
 add_executable(benchmark ArgumentProcessor.hh ArgumentProcessor.cc main.cc)
 target_compile_features(benchmark
@@ -29,6 +32,5 @@ target_compile_features(benchmark
         cxx_variadic_macros
         )
 
-target_link_libraries(benchmark afterburner)
-target_include_directories(benchmark PRIVATE ../external/ ../)
-
+target_include_directories(benchmark PRIVATE ../external/ ../ ${HEPMC3_INCLUDE_DIR})
+target_link_libraries(benchmark afterburner ${HEPMC3_LIBRARIES} HepMC3)

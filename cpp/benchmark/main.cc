@@ -7,17 +7,11 @@
 /// @brief Utility to convert between different types of event records
 ///
 #include "HepMC3/Print.h"
-#include "HepMC3/GenEvent.h"
 #include "HepMC3/Reader.h"
-#include "HepMC3/ReaderAsciiHepMC2.h"
 #include "HepMC3/WriterAsciiHepMC2.h"
 #include "HepMC3/ReaderAscii.h"
 #include "HepMC3/WriterAscii.h"
 #include "HepMC3/WriterHEPEVT.h"
-#include "HepMC3/WriterPlugin.h"
-#include "HepMC3/ReaderHEPEVT.h"
-#include "HepMC3/ReaderLHEF.h"
-#include "HepMC3/ReaderPlugin.h"
 #include "HepMC3/ReaderFactory.h"
 
 #include "ArgumentProcessor.hh"
@@ -25,28 +19,19 @@
 #include <afterburner/Afterburner.hh>
 #include <afterburner/AfterburnerConfig.hh>
 
-
-int main(int argc, char** argv)
+void convert_hepmc3_file(const std::string &input_file_name, const std::string &output_file_name, const ab::Afterburner &afterburner)
 {
     using namespace HepMC3;
-
-    // Process user inputs
-    ArgumentProcessor arg_processor;
-    auto arguments = arg_processor.Process(argc, argv);
-
-    // Afterburner instance
-    ab::Afterburner afterburner;
-    afterburner.print();
 
     int first_event_number = 0;     // TODO move to arguments
     int last_event_number = 0;      // TODO move to arguments
     int events_parsed = 0;
     int print_each_events_parsed = 100;
     int events_limit = 0;
-    
+
     // HepMC files open
-    auto input_file = std::make_shared<ReaderAscii>(arguments.AllFileNames[0]);
-    auto output_file=std::make_shared<WriterAscii>(arguments.OutputBaseName + ".hepmc");
+    auto input_file = std::make_shared<ReaderAscii>(input_file_name);
+    auto output_file=std::make_shared<WriterAscii>(output_file_name);
 
     // Event loop
     while( !input_file->failed() )
@@ -76,5 +61,22 @@ int main(int argc, char** argv)
 
     if (input_file)   input_file->close();
     if (output_file)  output_file->close();
+
+}
+
+int main(int argc, char** argv)
+{
+    using namespace HepMC3;
+
+    // Process user inputs
+    ArgumentProcessor arg_processor;
+    auto arguments = arg_processor.Process(argc, argv);
+
+    // Afterburner instance
+    ab::Afterburner afterburner;
+    afterburner.print();
+
+    convert_hepmc3_file(arguments.AllFileNames[0], arguments.OutputBaseName + ".hepmc", afterburner);
+
     return EXIT_SUCCESS;
 }
