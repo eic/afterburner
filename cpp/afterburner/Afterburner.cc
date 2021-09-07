@@ -236,7 +236,7 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     } else {
         // need a rotation
         CLHEP::Hep3Vector rotation_axis = (beamA_vec - beamB_vec).cross(z_axis);
-        const double rotation_angle_to_z = acos(cos_rotation_angle_to_z);   // TODO back to -acos? 
+        const double rotation_angle_to_z = acos(cos_rotation_angle_to_z);   // TODO back to -acos?
 
         result.rotation = CLHEP::HepRotation(rotation_axis, rotation_angle_to_z);
 
