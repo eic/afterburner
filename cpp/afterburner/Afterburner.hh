@@ -22,6 +22,13 @@ namespace ab{
         CLHEP::HepLorentzVector vertex;
     };
 
+    /// This class sole function is to be returned from generate_vertx_with_bunch_interaction
+    struct BunchInteractionResult {
+        CLHEP::HepLorentzVector vertex;
+        double bunch_one_z;
+        double bunch_two_z;
+    };
+
     /*!
      * \brief Afterburner provides service of DST upload of HepMC subevent, vertex assignment and random generator
      */
@@ -62,6 +69,10 @@ namespace ab{
         CLHEP::Hep3Vector smear_beam_divergence(const CLHEP::Hep3Vector &beam_dir, const BeamConfig &beam_cfg, double vtx_z);
 
         CLHEP::HepLorentzVector move_vertex(const CLHEP::HepLorentzVector &init_vtx);
+
+        double get_collision_width(const double widthA, const double widthB);
+
+        ab::BunchInteractionResult generate_vertx_with_bunch_interaction(BeamConfig beam_one, BeamConfig beam_two);
     };
 }
 

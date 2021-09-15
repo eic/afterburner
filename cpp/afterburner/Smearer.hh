@@ -27,7 +27,7 @@ namespace ab {
 
         explicit Smearer(unsigned int seed);
 
-        double smear(double position, double width, SmearFuncs dist) const;
+        double smear(double position, double width, SmearFuncs dist=SmearFuncs::Gauss) const;
 
     private:
         std::unique_ptr<gsl_rng> m_generator;

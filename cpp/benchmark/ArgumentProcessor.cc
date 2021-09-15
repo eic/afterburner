@@ -14,9 +14,11 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     std::string optOutputName("ab_output.hepmc");
     std::vector<std::string> optAllFiles;
     std::string benchmarkName("default");
+    std::string config_file("");
 
     app.add_option("-o,--output", optOutputName, "Base name for Output files");
     app.add_option("-b,--benchmark", benchmarkName, "Benchmark name: default, crossing");
+    app.add_option("-c,--config", config_file, "Beams configuration file");
     app.add_option("input file", optAllFiles, "Input file");
 
     // Parse everything

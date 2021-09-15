@@ -19,11 +19,13 @@
 #include <CLHEP/Vector/Rotation.h>
 #include <CLHEP/Vector/EulerAngles.h>
 
-
 #include "ArgumentProcessor.hh"
 
 #include <afterburner/Afterburner.hh>
 #include <afterburner/AfterburnerConfig.hh>
+
+#include "yaml-cpp/yaml.h"
+
 
 void convert_hepmc3_file(const std::string &input_file_name, const std::string &output_file_name, ab::Afterburner& afterburner)
 {
@@ -55,6 +57,15 @@ void convert_hepmc3_file(const std::string &input_file_name, const std::string &
         cout<<fixed;
         std::cout<<"************\nORIGIN EVENT\n************\n";
         Print::content(cout, evt);
+
+        YAML::Node config = YAML::LoadFile("config.yaml");
+
+//        if (config["lastLogin"]) {
+//            std::cout << "Last logged in: " << config["lastLogin"].as<DateTime>() << "\n";
+//        }
+
+        const std::string username = config["username"].as<std::string>();
+        const std::string password = config["password"].as<std::string>();
 
 
         // Run afterburner calculation

@@ -24,11 +24,11 @@ ab::Afterburner::Afterburner() : _smearer(1) {
     _cfg.beam_two.direction_theta = M_PI;                        // beamB_theta
     _cfg.beam_two.direction_phi = 0;                             // beamB_phi
 
-    // proton beam divergence horizontal & vertical, as in EIC CDR Table 1.1
+    // [mrad] proton beam divergence horizontal & vertical, as in EIC CDR Table 1.1
     _cfg.beam_one.divergence_hor = 119e-6;
     _cfg.beam_one.divergence_ver = 119e-6;
 
-    // electron beam divergence horizontal & vertical, as in EIC CDR Table 1.1
+    // [mrad] electron beam divergence horizontal & vertical, as in EIC CDR Table 1.1
     _cfg.beam_two.divergence_hor = 211e-6;
     _cfg.beam_two.divergence_ver = 152e-6;
 
@@ -50,7 +50,17 @@ ab::Afterburner::Afterburner() : _smearer(1) {
     const double sigma_e_v = sqrt(5.6 * 1.3e-7);
     const double sigma_e_l = 2;
 
+    // bunch crossing parameters
+    _cfg.beam_one.bunch_sigma_x = sigma_p_h;
+    _cfg.beam_one.bunch_sigma_y = sigma_p_v;
+    _cfg.beam_one.bunch_sigma_z = sigma_p_l;
+
+    _cfg.beam_two.bunch_sigma_x = sigma_e_h;
+    _cfg.beam_two.bunch_sigma_y = sigma_e_v;
+    _cfg.beam_two.bunch_sigma_z = sigma_e_l;
+
     // combine two beam gives the collision sigma in z
+    // (!) This piece is relevant only if bunch crossing simulation is off
     const double collision_sigma_x = sigma_p_h * sigma_e_h / sqrt(sigma_p_h * sigma_p_h + sigma_e_h * sigma_e_h);   // x
     const double collision_sigma_y = sigma_p_v * sigma_e_v / sqrt(sigma_p_v * sigma_p_v + sigma_e_v * sigma_e_v);   // y
     const double collision_sigma_z = sqrt(sigma_p_l * sigma_p_l + sigma_e_l * sigma_e_l) / 2;
@@ -60,6 +70,8 @@ ab::Afterburner::Afterburner() : _smearer(1) {
     _cfg.vertex_smear_width_y = collision_sigma_y;
     _cfg.vertex_smear_width_z = collision_sigma_z;
     _cfg.vertex_smear_width_t = collision_sigma_t;
+
+    //
 
     /*
      * This configuration gives the next values:
@@ -79,11 +91,100 @@ ab::Afterburner::Afterburner() : _smearer(1) {
 
 CLHEP::HepLorentzVector ab::Afterburner::move_vertex(const CLHEP::HepLorentzVector &init_vtx) {
 
-    double x = init_vtx.x() + _smearer.smear(_cfg.vertex_shift_x, _cfg.vertex_smear_width_x, _cfg.vertex_smear_func_x);
-    double y = init_vtx.y() + _smearer.smear(_cfg.vertex_shift_y, _cfg.vertex_smear_width_y, _cfg.vertex_smear_func_y);
-    double z = init_vtx.z() + _smearer.smear(_cfg.vertex_shift_z, _cfg.vertex_smear_width_z, _cfg.vertex_smear_func_z);
-    double t = init_vtx.t() + _smearer.smear(_cfg.vertex_shift_t, _cfg.vertex_smear_width_t, _cfg.vertex_smear_func_t);
+    double x = init_vtx.x() + _smearer.smear(_cfg.vertex_shift_x, _cfg.vertex_smear_width_x, _cfg.vertex_smear_func);
+    double y = init_vtx.y() + _smearer.smear(_cfg.vertex_shift_y, _cfg.vertex_smear_width_y, _cfg.vertex_smear_func);
+    double z = init_vtx.z() + _smearer.smear(_cfg.vertex_shift_z, _cfg.vertex_smear_width_z, _cfg.vertex_smear_func);
+    double t = init_vtx.t() + _smearer.smear(_cfg.vertex_shift_t, _cfg.vertex_smear_width_t, _cfg.vertex_smear_func);
     return CLHEP::HepLorentzVector {x, y, z, t};
+}
+
+//! use m_beam_bunch_width to calculate horizontal and vertical collision width
+//! \param[in] hv_index 0: horizontal. 1: vertical
+//! https://github.com/eic/documents/blob/d06b5597a0a89dcad215bab50fe3eefa17a097a5/reports/general/Note-Simulations-BeamEffects.pdf
+double ab::Afterburner::get_collision_width(const double widthA, const double widthB)
+{
+    return widthA * widthB / sqrt(widthA * widthA + widthB * widthB);
+}
+
+
+//! generate vertx with bunch interaction according to
+//! https://github.com/eic/documents/blob/d06b5597a0a89dcad215bab50fe3eefa17a097a5/reports/general/Note-Simulations-BeamEffects.pdf
+//! \return pair of bunch local z position for beam A and beam B
+ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interaction(ab::BeamConfig beam_one, ab::BeamConfig beam_two)
+{
+    using namespace std;
+
+    double bunch_one_z = _smearer.smear(0, beam_one.bunch_sigma_z, SmearFuncs::Gauss);
+    double bunch_two_z = _smearer.smear(0, beam_two.bunch_sigma_z, SmearFuncs::Gauss);
+
+    CLHEP::Hep3Vector beamA_center = spherical_to_cartesian(_cfg.beam_one.direction_theta, _cfg.beam_one.direction_phi);
+    CLHEP::Hep3Vector beamB_center = spherical_to_cartesian(_cfg.beam_two.direction_theta, _cfg.beam_two.direction_phi);
+
+    //  const static CLHEP::Hep3Vector z_axis(0, 0, 1);
+    const static CLHEP::Hep3Vector y_axis(0, 1, 0);
+
+    // the final longitudinal vertex smear axis
+    CLHEP::Hep3Vector beamCenterDiffAxis = (beamA_center - beamB_center);
+    assert(beamCenterDiffAxis.mag() > CLHEP::Hep3Vector::getTolerance());
+    beamCenterDiffAxis = beamCenterDiffAxis / beamCenterDiffAxis.mag();
+
+    CLHEP::Hep3Vector vec_crossing = beamA_center - 0.5 * (beamA_center - beamB_center);
+
+    CLHEP::Hep3Vector vec_longitudinal_collision = beamCenterDiffAxis * (bunch_one_z + bunch_two_z) / 2.;
+    double ct_collision = 0.5 * (-bunch_one_z + bunch_two_z) / beamCenterDiffAxis.dot(beamA_center);
+    double t_collision = ct_collision * CLHEP::cm / CLHEP::c_light / CLHEP::ns;
+    CLHEP::Hep3Vector vec_crossing_collision = ct_collision * vec_crossing;  // shift of collision to crossing dierction
+
+    CLHEP::Hep3Vector horizontal_axis = y_axis.cross(beamCenterDiffAxis);
+    assert(horizontal_axis.mag() > CLHEP::Hep3Vector::getTolerance());
+    horizontal_axis = horizontal_axis / horizontal_axis.mag();
+
+    CLHEP::Hep3Vector vertical_axis = beamCenterDiffAxis.cross(horizontal_axis);
+    assert(vertical_axis.mag() > CLHEP::Hep3Vector::getTolerance());
+    vertical_axis = vertical_axis / vertical_axis.mag();
+
+    double bunch_x = _smearer.smear(0, get_collision_width(beam_one.bunch_sigma_x, beam_two.bunch_sigma_x));
+    CLHEP::Hep3Vector vec_horizontal_collision_vertex_smear = horizontal_axis * bunch_x;
+
+    double bunch_y = _smearer.smear(0, get_collision_width(beam_one.bunch_sigma_y, beam_two.bunch_sigma_y));
+    CLHEP::Hep3Vector vec_vertical_collision_vertex_smear = vertical_axis * bunch_y;
+
+    CLHEP::Hep3Vector vec_collision_vertex =
+            vec_horizontal_collision_vertex_smear +
+            vec_vertical_collision_vertex_smear +  //
+            vec_crossing_collision + vec_longitudinal_collision;
+
+    ab::BunchInteractionResult result;
+    result.vertex.set(vec_collision_vertex, t_collision);
+    result.bunch_one_z = bunch_one_z;
+    result.bunch_two_z = bunch_two_z;
+
+    if (m_verbosity)
+    {
+        cout << __PRETTY_FUNCTION__
+             << ":\n  "
+             << "bunch_one_z = " << result.bunch_one_z << ", "
+             << "bunch_two_z = " << result.bunch_two_z<< ", "
+             << "cos(theta/2) = " << beamCenterDiffAxis.dot(beamA_center) << ",\n  "
+
+             << "beamCenterDiffAxis = " << beamCenterDiffAxis << ", "
+             << "vec_crossing = " << vec_crossing << ", "
+             << "horizontal_axis = " << horizontal_axis << ", "
+             << "vertical_axis = " << vertical_axis << ",\n  "
+
+             << "vec_longitudinal_collision = " << vec_longitudinal_collision << ", "
+             << "vec_crossing_collision = " << vec_crossing_collision << ", "
+             << "vec_vertical_collision_vertex_smear = " << vec_vertical_collision_vertex_smear << ", "
+             << "vec_horizontal_collision_vertex_smear = " << vec_horizontal_collision_vertex_smear << ",\n "
+
+             << "vec_collision_vertex = " << vec_collision_vertex << ",\n  "
+
+             << "ct_collision = " << ct_collision << ", "
+             << "t_collision = " << t_collision << ", "
+             << endl;
+    }
+
+    return result;
 }
 
 /// function to convert spherical coordinate to Hep3Vector in x-y-z
@@ -131,15 +232,31 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
 
     AfterburnerEventResult result;
 
+
+
     // now handle the collision vertex first, in the head-on collision frame
     // this is used as input to the Crab angle correction
-    result.vertex = move_vertex(init_vtx);
-    const double init_vertex_z = result.vertex.z();
+    double bunch_one_z;
+    double bunch_two_z;
+    if (_cfg.use_beam_bunch_sim)
+    {
+        // bunch interaction simulation
+        auto bunch_interaction = generate_vertx_with_bunch_interaction(_cfg.beam_one, _cfg.beam_two);
+        result.vertex = bunch_interaction.vertex;
+        bunch_one_z = bunch_interaction.bunch_one_z;
+        bunch_two_z = bunch_interaction.bunch_two_z;
+    }
+    else
+    {
+        // vertex distribution simulation
+        // now handle the collision vertex first, in the head-on collision frame
+        // this is used as input to the Crab angle correction
+        result.vertex = move_vertex(init_vtx);
+        bunch_one_z = bunch_two_z = result.vertex.z();
+    }
 
     // boost-rotation from beam angles
     const static CLHEP::Hep3Vector z_axis(0, 0, 1);
-
-
 
     CLHEP::Hep3Vector beamA_center = spherical_to_cartesian(_cfg.beam_one.direction_theta, _cfg.beam_one.direction_phi);
     CLHEP::Hep3Vector beamB_center = spherical_to_cartesian(_cfg.beam_two.direction_theta, _cfg.beam_two.direction_phi);
@@ -166,8 +283,8 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
 
 
 
-    CLHEP::Hep3Vector beamA_vec = smear_beam_divergence(beamA_center, _cfg.beam_one, init_vertex_z);
-    CLHEP::Hep3Vector beamB_vec = smear_beam_divergence(beamB_center, _cfg.beam_two, init_vertex_z);
+    CLHEP::Hep3Vector beamA_vec = smear_beam_divergence(beamA_center, _cfg.beam_one, bunch_one_z);
+    CLHEP::Hep3Vector beamB_vec = smear_beam_divergence(beamB_center, _cfg.beam_two, bunch_two_z);
 
     if (m_verbosity) {
         cout << __PRETTY_FUNCTION__ << ": " << endl;
@@ -316,12 +433,7 @@ void ab::Afterburner::print() const {
          << ", t: " << _cfg.vertex_smear_width_t
          << endl;
 
-    cout << "Vertex distribution function"
-            "  x: " << smear_func_to_str(_cfg.vertex_smear_func_x)
-         << ", y: " << smear_func_to_str(_cfg.vertex_smear_func_y)
-         << ", z: " << smear_func_to_str(_cfg.vertex_smear_func_z)
-         << ", t: " << smear_func_to_str(_cfg.vertex_smear_func_t)
-         << endl;
+    cout << "Vertex distribution function: "<< smear_func_to_str(_cfg.vertex_smear_func) << endl;
 
     cout << "Beam direction: A  theta-phi = " << _cfg.beam_one.direction_theta
          << ", " << _cfg.beam_one.direction_phi << endl;

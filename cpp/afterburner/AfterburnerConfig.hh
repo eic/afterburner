@@ -23,18 +23,27 @@ namespace ab {
         //! Second element is beamB, in pair of dh/dz, dv/dz. BeamA is aimed to -z direction in the HepMC event generator's coordinate
         double z_shift_hor = 0;
         double z_shift_ver = 0;
+
+        // Bunch shape x, y, z
+        double bunch_sigma_x = 0;
+        double bunch_sigma_y = 0;
+        double bunch_sigma_z = 0;
     };
 
     struct AfterburnerConfig {
         unsigned int random_seed = 1;
 
-        /** Smearing function to use for initial vertex  smearing*/
-        SmearFuncs vertex_smear_func_x = SmearFuncs::Gauss;
-        SmearFuncs vertex_smear_func_y = SmearFuncs::Gauss;
-        SmearFuncs vertex_smear_func_z = SmearFuncs::Gauss;
-        SmearFuncs vertex_smear_func_t = SmearFuncs::Gauss;
+        // Use beam bunch simulation
+        bool use_beam_bunch_sim = true;
 
-        /** Smearing width (be it Gauss or Flat) */
+        /** Smearing function to use for initial vertex  smearing
+         * (!) These fields relevant only if use_beam_bunch_sim = FALSE
+         * */
+        SmearFuncs vertex_smear_func = SmearFuncs::Gauss;
+
+        /** Smearing width (be it Gauss or Flat)
+         *  (!) These fields relevant only if use_beam_bunch_sim = FALSE
+         * */
         double vertex_smear_width_x = 0;
         double vertex_smear_width_y = 0;
         double vertex_smear_width_z = 0;

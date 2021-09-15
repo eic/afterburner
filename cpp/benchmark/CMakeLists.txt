@@ -4,6 +4,7 @@ project(Catch2Examples LANGUAGES CXX)
 
 message(STATUS "BENCHMARKS" )
 find_package(HepMC3 REQUIRED)
+find_package(yaml-cpp REQUIRED)
 message(STATUS "BENCHMARKS HEPMC3_LIBRARIES ${HEPMC3_LIBRARIES}")
 message(STATUS "BENCHMARKS HEPMC3_INCLUDE_DIR ${HEPMC3_INCLUDE_DIR}")
 
@@ -39,5 +40,5 @@ target_compile_features(benchmark
         cxx_variadic_macros
         )
 
-target_include_directories(benchmark PRIVATE ../external/ ../ ${HEPMC3_INCLUDE_DIR})
-target_link_libraries(benchmark afterburner ${HEPMC3_LIBRARIES} HepMC3)
+target_include_directories(benchmark PRIVATE ../external/ ../ ${HEPMC3_INCLUDE_DIR} ${YAML_CPP_INCLUDE_DIRS})
+target_link_libraries(benchmark afterburner ${HEPMC3_LIBRARIES} ${YAML_CPP_LIBRARIES} HepMC3)
