@@ -15,10 +15,15 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     std::vector<std::string> optAllFiles;
     std::string benchmarkName("default");
     std::string config_file("");
+    bool no_afterburner = false;
+    ulong process_limit = 0;
 
     app.add_option("-o,--output", optOutputName, "Base name for Output files");
     app.add_option("-b,--benchmark", benchmarkName, "Benchmark name: default, crossing");
     app.add_option("-c,--config", config_file, "Beams configuration file");
+    app.add_option("-l, --limit", process_limit, "Limit number of events to process. (Shutdown after this number of processed events).");
+    app.add_flag("--ab-off", no_afterburner, "No afterburner");
+
     app.add_option("input file", optAllFiles, "Input file");
 
     // Parse everything
@@ -39,6 +44,10 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     result.OutputFileName = optOutputName;
 
     result.BenchmarkName = benchmarkName;
+
+    result.NoAfterburner = no_afterburner;
+
+    result.EventProcessLimit = process_limit;
     return result;
 }
 

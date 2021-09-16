@@ -22,6 +22,10 @@ def create_zonly_event(file_name):
     v1.add_particle_in(p1)
     v1.add_particle_out(p2)
 
+    hm.Print.listing(evt)
+    evt.set_units(hm.Units.GEV,hm.Units.CM)
+    hm.Print.listing(evt)
+
     hepmc3_out.write_event(evt)
     hepmc3_out.close()
 

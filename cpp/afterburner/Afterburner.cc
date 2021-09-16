@@ -50,6 +50,8 @@ ab::Afterburner::Afterburner() : _smearer(1) {
     const double sigma_e_v = sqrt(5.6 * 1.3e-7);
     const double sigma_e_l = 2;
 
+    _cfg.use_beam_bunch_sim = true;
+
     // bunch crossing parameters
     _cfg.beam_one.bunch_sigma_x = sigma_p_h;
     _cfg.beam_one.bunch_sigma_y = sigma_p_v;

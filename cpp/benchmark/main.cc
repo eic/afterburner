@@ -8,15 +8,12 @@
 ///
 #include "HepMC3/Print.h"
 #include "HepMC3/Reader.h"
-#include "HepMC3/WriterAsciiHepMC2.h"
 #include "HepMC3/ReaderAscii.h"
+#include "HepMC3/ReaderAsciiHepMC2.h"
 #include "HepMC3/WriterAscii.h"
 #include "HepMC3/WriterHEPEVT.h"
-#include "HepMC3/ReaderFactory.h"
 
 #include <CLHEP/Vector/LorentzVector.h>
-#include <CLHEP/Vector/Boost.h>
-#include <CLHEP/Vector/Rotation.h>
 #include <CLHEP/Vector/EulerAngles.h>
 
 #include "ArgumentProcessor.hh"
@@ -25,90 +22,95 @@
 #include <afterburner/AfterburnerConfig.hh>
 
 #include "yaml-cpp/yaml.h"
+#include "Histogrammer.hh"
 
 
-void convert_hepmc3_file(const std::string &input_file_name, const std::string &output_file_name, ab::Afterburner& afterburner)
+void convert_hepmc3_file(const std::string &input_file_name,
+                         const std::string &output_file_name,
+                         ab::Afterburner& afterburner,
+                         const std::function<void(HepMC3::GenEvent&)>& callback=nullptr,
+                         ulong events_limit = 0,
+                         bool ab_off = false,
+                         int verbosity = 0,
+                         int first_event_number = 0,
+                         int last_event_number = 0,
+                         int print_each_events_parsed = 1000)
 {
     using namespace HepMC3;
 
-    int first_event_number = 0;     // TODO move to arguments
-    int last_event_number = 0;      // TODO move to arguments
-    int events_parsed = 0;
-    int print_each_events_parsed = 100;
-    int events_limit = 0;
+    long int events_parsed = 0;
 
     // HepMC files open
-    auto input_file = std::make_shared<ReaderAscii>(input_file_name);
+    auto input_file = std::make_shared<ReaderAsciiHepMC2>(input_file_name);
     auto output_file=std::make_shared<WriterAscii>(output_file_name);
 
     // Event loop
-    while( !input_file->failed() )
-    {
-        GenEvent evt(Units::GEV,Units::MM);
+    while( !input_file->failed() ) {
+        GenEvent evt(Units::GEV, Units::MM);
         input_file->read_event(evt);
-        if( input_file->failed() )  {
-            printf("End of file reached. Exit.\n");
+        if (input_file->failed()) {
+            printf("End of file reached. events_parsed: %i Exit.\n", events_parsed);
             break;
         }
-        if (evt.event_number()<first_event_number) continue;
-        if (last_event_number && evt.event_number()>last_event_number) continue;
+        if (evt.event_number() < first_event_number) continue;
+        if (last_event_number && evt.event_number() > last_event_number) continue;
         evt.set_run_info(input_file->run_info());
 
-        cout<<fixed;
-        std::cout<<"************\nORIGIN EVENT\n************\n";
-        Print::content(cout, evt);
-
-        YAML::Node config = YAML::LoadFile("config.yaml");
-
-//        if (config["lastLogin"]) {
-//            std::cout << "Last logged in: " << config["lastLogin"].as<DateTime>() << "\n";
-//        }
-
-        const std::string username = config["username"].as<std::string>();
-        const std::string password = config["password"].as<std::string>();
-
-
-        // Run afterburner calculation
-        auto ab_result = afterburner.process_event();
-
-        // Rotate
-        auto axis = ab_result.rotation.axis();
-        auto delta = ab_result.rotation.delta();
-        auto euler = ab_result.rotation.eulerAngles();
-        auto theta = ab_result.rotation.theta();
-        auto psi = ab_result.rotation.psi();
-        auto phi = ab_result.rotation.phi();
-
-        // Instead of using HepMC rotate, we just rotate particle momentums (vertex rotation is done in the AB)
-        for ( auto p: evt.particles())
-        {
-            FourVector mom=p->momentum();
-            long double tempX=mom.x();
-            long double tempY=mom.y();
-            long double tempZ=mom.z();
-
-            CLHEP::Hep3Vector tmp(tempX, tempY, tempZ);
-            tmp = tmp.rotate(ab_result.rotation.eulerAngles());
-
-            FourVector temp(tmp.x(),tmp.y(),tmp.z(),mom.e());
-            p->set_momentum(temp);
+        if (verbosity) {
+            cout << fixed;
+            std::cout << "************\nORIGIN EVENT\n************\n";
+            Print::content(cout, evt);
         }
-        std::cout<<"************\nAFTER ROTATION\n************\n";
-        Print::content(evt);
 
-        // Boost
-        auto boost = ab_result.boost.boostVector();
-        evt.boost(FourVector(boost.x(), boost.y(), boost.z(), 0));
-        std::cout<<"************\nAFTER BOOST\n************\n";
-        Print::content(evt);
+        evt.set_units(Units::GEV, Units::CM);
+
+        if (!ab_off)
+        {
+            // Run afterburner calculation
+            auto ab_result = afterburner.process_event();
+
+            // Rotate
+            auto axis = ab_result.rotation.axis();
+            auto euler = ab_result.rotation.eulerAngles();
+
+            // Instead of using HepMC rotate, we just rotate particle momentum-s (vertex rotation is done in the AB)
+            for (const auto& p: evt.particles())
+            {
+                FourVector mom=p->momentum();
+
+                CLHEP::Hep3Vector tmp(mom.x(), mom.y(), mom.z());
+                tmp = tmp.rotate(ab_result.rotation.eulerAngles());
+
+                FourVector temp(tmp.x(),tmp.y(),tmp.z(),mom.e());
+                p->set_momentum(temp);
+            }
+            if(verbosity) {
+                std::cout << "************\nAFTER ROTATION\n************\n";
+                Print::content(evt);
+            }
+
+            // Boost
+            auto boost = ab_result.boost.boostVector();
+            evt.boost(FourVector(boost.x(), boost.y(), boost.z(), 0));
+
+            if(verbosity) {
+                std::cout << "************\nAFTER BOOST\n************\n";
+                Print::content(evt);
+            }
 
 
-        // Translate
-        auto vtx = ab_result.vertex;
-        evt.shift_position_to(FourVector(vtx.x(), vtx.y(), vtx.z(), vtx.t()));
-        std::cout<<"************\nAFTER TRANSLATION\n************\n";
-        Print::content(evt);
+            // Translate
+            auto vtx = ab_result.vertex;
+            evt.shift_position_to(FourVector(vtx.x(), vtx.y(), vtx.z(), vtx.t()));
+            if(verbosity) {
+                std::cout << "************\nAFTER TRANSLATION\n************\n";
+                Print::content(evt);
+            }
+        }
 
+        if(callback) {
+            callback(evt);
+        }
 
         //Note the difference between ROOT and Ascii readers.
         // The former read GenRunInfo before first event and the later at the same time as first event.
@@ -116,17 +118,15 @@ void convert_hepmc3_file(const std::string &input_file_name, const std::string &
 
         evt.clear();
         ++events_parsed;
-        if(events_parsed%print_each_events_parsed == 0 ) printf("Events parsed: %li\n",events_parsed);
+        if(events_parsed%print_each_events_parsed == 0 ) printf("Events parsed: %li\n", events_parsed);
         if(events_limit && events_parsed >= events_limit ) {
             printf("Event limit reached:->events_parsed(%li) >= events_limit(%li)<-. Exit.\n",events_parsed , events_limit);
             break;
         }
-
     }
 
     if (input_file)   input_file->close();
     if (output_file)  output_file->close();
-
 }
 
 int main(int argc, char** argv)
@@ -167,7 +167,12 @@ int main(int argc, char** argv)
         cfg.vertex_smear_width_z = 0;
         cfg.vertex_smear_width_t = 0;
 
+        cfg.use_beam_bunch_sim = false;
+
         afterburner.set_config(cfg);
+    }
+    else if(arguments.BenchmarkName == "plots") {
+
     }
     else
     {
@@ -175,8 +180,17 @@ int main(int argc, char** argv)
         // Nothing is here as everything is setup by default
     }
 
+    Histogrammer hst(arguments.OutputFileName + ".root");
+    hst.initialize();
+
     afterburner.print();
-    convert_hepmc3_file(arguments.InputFileName, arguments.OutputFileName, afterburner);
+    convert_hepmc3_file(arguments.InputFileName,
+                        arguments.OutputFileName,
+                        afterburner,
+                        [&hst](HepMC3::GenEvent &event) {hst.process_event(event);},
+                        arguments.EventProcessLimit,
+                        arguments.NoAfterburner);
+    hst.finalize();
 
     return EXIT_SUCCESS;
 }

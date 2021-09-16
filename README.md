@@ -8,3 +8,7 @@ The converter and benchmark require libyaml-cpp. Those are available in package 
 apt install libyaml-cpp-dev     # Debian/Ubuntu/Mint
 yum install yaml-cpp-devel      # RHEL/CentOS/Fedora
 ```
+
+To apply benchmarks one could go 
+
+https://dtn01.sdcc.bnl.gov:9000/minio/eictest/ATHENA/WG/BeamEffects/
