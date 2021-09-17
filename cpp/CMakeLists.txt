@@ -75,15 +75,6 @@ endif()
 
 add_subdirectory(afterburner)
 add_subdirectory(benchmark)
-add_subdirectory(convert)
+add_subdirectory(abconvert)
 add_subdirectory(test)
-
-#if(ROOT_FOUND)
-#    add_subdirectory(RootIOExample)
-#    add_subdirectory(RootIOExample2)
-#    add_subdirectory(RootIOExample3)
-#    add_subdirectory(ViewerExample)
-#else()
-#    message(STATUS "HepMC3 examples: ROOT package not found, rootIO_examples disabled.")
-#endif()
 

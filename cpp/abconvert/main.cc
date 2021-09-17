@@ -24,6 +24,8 @@
 #include "yaml-cpp/yaml.h"
 #include "Histogrammer.hh"
 
+#include <functional>
+
 
 void convert_hepmc3_file(const std::string &input_file_name,
                          const std::string &output_file_name,

@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.5 )
 set(CMAKE_CXX_STANDARD 17)
-project(Catch2Examples LANGUAGES CXX)
+project(AfterburnerBenchmarks LANGUAGES CXX)
 
 message(STATUS "BENCHMARKS" )
 find_package(HepMC3 REQUIRED)
@@ -23,12 +23,9 @@ message(STATUS "ROOT_USE_FILE ${ROOT_USE_FILE}")
 message(STATUS "ROOT_INCLUDE_DIRS:  ${ROOT_INCLUDE_DIRS}")
 
 
-add_executable(benchmark
-        ArgumentProcessor.hh
-        ArgumentProcessor.cc
+add_library(benchmark STATIC
         Histogrammer.hh
-        Histogrammer.cc
-        main.cc)
+        Histogrammer.cc)
 
 target_compile_features(benchmark
         PUBLIC
