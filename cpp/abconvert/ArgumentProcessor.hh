@@ -26,10 +26,17 @@
 struct UserArguments
 {
     std::string InputFileName;          /// List of all arguments which are not flags=values (macro file names, input file names, etc.)
-    std::string OutputFileName;         /// Desired output file(s) name (without suffix and extension)
-    std::string BenchmarkName;          /// Benchmark name
-    bool NoAfterburner;                 /// Switch off afterburner
+    std::string InputFormat;            /// One of: hepmc2, hepmc3, hpe, lhef, gz, treeroot, root
+    std::string OutputBaseName;         /// Desired output file(s) name (without suffix and extension)
+    std::string OutputFormat;           /// Output format, one of:
+    std::string OutputEventFileName;    /// hepmc2, hepmc3, dot, none
+    std::string OutputHistFileName;     /// Exact file name for histograms file
+    bool PlottingEnabled;                       /// Don't produce validation plots
+    bool AfterburnerEnabled;                 /// Switch off afterburner
     ulong EventProcessLimit;            /// Limit on processed events. Will shut down after this number of events processed
+
+    long StartEventIndex;               /// Start event index (all skipped before that)
+    long EndEventIndex;                 /// End event index (stop after that)
 };
 
 

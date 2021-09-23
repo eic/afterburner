@@ -31,7 +31,8 @@ std::shared_ptr<HepMC3::Reader> ab::convert::generate_reader(FileFormats format,
 
     switch (format)
     {
-
+        case FileFormats::autodetect:
+            return HepMC3::deduce_reader(file_name);
         case FileFormats::hepmc2:
             return std::make_shared<ReaderAsciiHepMC2>(file_name);
         case FileFormats::hepmc3:
@@ -94,7 +95,19 @@ std::shared_ptr<HepMC3::Writer> ab::convert::generate_writer(FileFormats format,
             return std::make_shared<WriterAscii>(file_name);
         case FileFormats::dot:
             return std::make_shared<WriterDOT>(file_name);
+        case FileFormats::none:
+            return nullptr;
         default:
             throw std::runtime_error("Unable to create HepMC3::Writer for the given format");
     }
+}
+
+std::shared_ptr<HepMC3::Reader> ab::convert::generate_reader(const string &str_format, const string &file_name) {
+    auto format = parse_file_format(str_format);
+    return generate_reader(format, file_name);
+}
+
+std::shared_ptr<HepMC3::Writer> ab::convert::generate_writer(const string &str_format, const string &file_name) {
+    auto format = parse_file_format(str_format);
+    return generate_writer(format, file_name);
 }

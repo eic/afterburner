@@ -3,6 +3,11 @@
 
 #include <unordered_map>
 
+namespace HepMC3 {
+    class Reader;
+    class Writer;
+}
+
 namespace ab{
     namespace convert{
         enum class FileFormats{
@@ -27,9 +32,11 @@ namespace ab{
         /// Creates the correct HepMC3::Reader out of FileFormats::format and file name
         std::shared_ptr<HepMC3::Reader> generate_reader(FileFormats format, const std::string &file_name);
 
+        std::shared_ptr<HepMC3::Reader> generate_reader(const std::string &format, const std::string &file_name);
+
         std::shared_ptr<HepMC3::Writer> generate_writer(FileFormats format, const std::string &file_name);
 
-
+        std::shared_ptr<HepMC3::Writer> generate_writer(const std::string &format, const std::string &file_name);
     }
 }
 #endif //EICAFTERBURNER_FILEFORMATS_HH

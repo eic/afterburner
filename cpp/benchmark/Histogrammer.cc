@@ -74,8 +74,6 @@ void Histogrammer::finalize() {
     if(_file) {
         _file->Write();
     }
-
-
 }
 
 Histogrammer::~Histogrammer() {
