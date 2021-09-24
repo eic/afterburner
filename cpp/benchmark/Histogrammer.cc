@@ -18,6 +18,7 @@ Histogrammer::Histogrammer(std::string output_file):
 }
 
 void Histogrammer::initialize() {
+    # creates ROOT file to write things to
     _file = std::make_unique<TFile>(_output_file_path.c_str(), "RECREATE");
     _file->cd();
     // Particle Quantities
