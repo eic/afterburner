@@ -30,13 +30,51 @@ cmake --build ../cpp --target all
 cmake --build ../cpp --target install -- -j 8
 ```
 
+## CLI command
+
+### Examples:
+
+```bash
+# Process my whole file, add crossing angle, beam effects, do validation plots
+abconv my.hepmc
+
+# Same, but limit the number of events to 1000 and set the output name as 'test'
+abconv my.hepmc -o test -l 1000
+
+# Just convert hepmc3 to hepmc2 don't use afterburner, don't create plots
+abconv my.hepmc -f hepmc2 --ab-off --plot-off 
+```
+
+### Options:
+
+| Flag                 | Description                               |
+|----------------------|-------------------------------------------|
+| -h,--help            | Print this help message and exit|
+| -o,--output TEXT     | Base name for Output files ((!) no extension)|
+| -c,--config TEXT     | Beams configuration file|
+| -i,--in-format TEXT  | Input format: auto [default], hepmc2, hepmc3, hpe, lhef, gz, treeroot, root|
+| -f,--out-format TEXT | Output format: hepmc3 [default], hepmc2, dot, none (no events file is saved)|
+| -s,--ev-start INT    | Start event index (all previous are skipped)|
+| -e,--ev-end INT      | End event index (end processing after this event)|
+| -l,--limit UINT      | Limit number of events to process. (Shutdown after this number of parsed events)|
+| --ab-off             | No afterburner is applied|
+| --plot-off           | Don't produce validation plots|
+
 ## Validation
 
 The validation plots are generated and can be viewed in [python/comparison.ipynb](python/comparison.ipynb)
 
-<img src="python/pics/eta_comparison.png" title="Eta comparison" width="800px"/><br/>
-<img src='python/pics/phi_comparison.png' title="Phi comparison" style='width:800px'/><br/>
-<img src='python/pics/phi_vs_eta_comparison.png' style='width:800px'/><br/>
-<img src='python/pics/pt_vs_eta_comparison.png' style='width:800px'/><br/>
+Essential plots from the latest validation run: 
 
-
+<table>
+  <tr>
+    <td><img src="python/pics/eta_comparison.png" alt="Eta comparison"/></td>
+    <td><img src='python/pics/phi_comparison.png' alt="Phi comparison"/></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src='python/pics/phi_vs_eta_comparison.png' alt="Phi vs Eta comparison"/></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src='python/pics/pt_vs_eta_comparison.png' alt="Pt vs Eta comparison"/></td>
+  </tr>
+</table>
