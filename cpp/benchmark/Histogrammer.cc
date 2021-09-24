@@ -9,6 +9,10 @@
 #include <TMath.h>
 
 #include <HepMC3/GenParticle.h>
+#include <HepMC3/GenVertex.h>
+
+extern double vertex_x, vertex_y, vertex_z, vertex_t;
+
 
 Histogrammer::Histogrammer(std::string output_file):
         _output_file_path(std::move(output_file)),
@@ -18,7 +22,7 @@ Histogrammer::Histogrammer(std::string output_file):
 }
 
 void Histogrammer::initialize() {
-    # creates ROOT file to write things to
+    // creates ROOT file to write things to
     _file = std::make_unique<TFile>(_output_file_path.c_str(), "RECREATE");
     _file->cd();
     // Particle Quantities
@@ -43,26 +47,36 @@ void Histogrammer::initialize() {
   //TH1D *atan2PxPz1Hist = new TH1D("atan2PxPz1","",500,0.24,0.26);
   TH1D *atan2PyPz1Hist = new TH1D("atan2PyPz1","",2500,-0.01,0.01);
   TH1D *atan2PyPtot1Hist = new TH1D("atan2PyPtot1","",500,-0.001,0.001);
-
-  TH1D *vtxX = new TH1D("vtxX","Vertex x;[mm]",5000,-5.0,5.0);
-  TH1D *vtxY = new TH1D("vtxY","Vertex y;[mm]",5000,-5.0,5.0);
-  TH1D *vtxZ = new TH1D("vtxZ","Vertex z;[mm]",5000,-500.0,500.0);
-  TH1D *vtxT = new TH1D("vtxT","Time;[mm]",5000,-500.0,500.0);
-  TH2D *vtxYvsX = new TH2D("vtxYvsX","Vertex Y vs X;X [mm];Y [mm]",5000,-5.0,5.0,5000,-5.0,5.0);
-  TH2D *vtxXvsT = new TH2D("vtxXvsT","Vertex X vs T;T [mm];X [mm]",5000,-500.0,500.0,5000,-5.0,5.0);
-  TH2D *vtxXvsZ = new TH2D("vtxXvsZ","Vertex X vs Z;Z [mm];X [mm]",5000,-500.0,500.0,5000,-5.0,5.0);
-  TH2D *vtxYvsZ = new TH2D("vtxYvsZ","Vertex Y vs Z;Z [mm];Y [mm]",5000,-500.0,500.0,5000,-5.0,5.0);
-  TH2D *vtxTvsZ = new TH2D("vtxTvsZ","Interaction Time Vs Z-vertex;Z [mm];T [mm]",5000,-500.0,500.0,5000,-500.0,500.0);
-  TH2D *vtxXvsTZSum = new TH2D("vtxXvsTZSum","Vertex X vs T+Z;T+Z [mm];X [mm]",5000,-500.,500.,5000,-5.,5.);
-  TH2D *vtxXvsTZDiff = new TH2D("vtxXvsTZDiff","Vertex X vs T-Z;T-Z [mm];X [mm]",5000,-500.,500.,5000,-5.,5.);
-  
-  TH2D *lepVsHadPartZ = new TH2D("lepVsHadPartZ","Intrabunch Z Positions of Colliding Leptons Vs Hadrons",5000,-500.0,500.0,5000,-500.0,500.0);
+     TH2D *lepVsHadPartZ = new TH2D("lepVsHadPartZ","Intrabunch Z Positions of Colliding Leptons Vs Hadrons",5000,-500.0,500.0,5000,-500.0,500.0);
 */
+  vtxX = new TH1D("vtxX","Vertex x;[mm]",500,-5.0,5.0);
+  vtxY = new TH1D("vtxY","Vertex y;[mm]",500,-5.0,5.0);
+  vtxZ = new TH1D("vtxZ","Vertex z;[mm]",500,-500.0,500.0);
+  vtxT = new TH1D("vtxT","Time;[mm]",500,-500.0,500.0);
+  vtx2X = new TH1D("vtx2X","Vertex x;[mm]",500,-5.0,5.0);
+  vtx2Y = new TH1D("vtx2Y","Vertex y;[mm]",500,-5.0,5.0);
+  vtx2Z = new TH1D("vtx2Z","Vertex z;[mm]",500,-500.0,500.0);
+  vtx2T = new TH1D("vtx2T","Time;[mm]",500,-500.0,500.0);
+  vtxYvsX = new TH2D("vtxYvsX","Vertex Y vs X;X [mm];Y [mm]",5000,-5.0,5.0,5000,-5.0,5.0);
+  vtxXvsT = new TH2D("vtxXvsT","Vertex X vs T;T [mm];X [mm]",5000,-500.0,500.0,5000,-5.0,5.0);
+  vtxXvsZ = new TH2D("vtxXvsZ","Vertex X vs Z;Z [mm];X [mm]",5000,-500.0,500.0,5000,-5.0,5.0);
+  vtxYvsZ = new TH2D("vtxYvsZ","Vertex Y vs Z;Z [mm];Y [mm]",5000,-500.0,500.0,5000,-5.0,5.0);
+  vtxTvsZ = new TH2D("vtxTvsZ","Interaction Time Vs Z-vertex;Z [mm];T [mm]",5000,-500.0,500.0,5000,-500.0,500.0);
+  vtxXvsTZSum = new TH2D("vtxXvsTZSum","Vertex X vs T+Z;T+Z [mm];X [mm]",5000,-500.,500.,5000,-5.,5.);
+  vtxXvsTZDiff = new TH2D("vtxXvsTZDiff","Vertex X vs T-Z;T-Z [mm];X [mm]",5000,-500.,500.,5000,-5.,5.);
 }
 
 
 void Histogrammer::process_event(HepMC3::GenEvent &event) {
+
+    std::vector<std::shared_ptr<const HepMC3::GenParticle>> beam_particles;
+
     for(auto& prt: event.particles()) {
+        // Select beam particles for further analysis
+        if(prt->status() == 4) {
+            beam_particles.push_back(prt);
+        }
+
         bool partFin = prt->status() == 1;
         double partPt = prt->momentum().pt();
         double partEta = prt->momentum().eta();
@@ -98,6 +112,56 @@ void Histogrammer::process_event(HepMC3::GenEvent &event) {
 //            }
         }
     }
+
+    // Beam effects plots
+
+
+
+    // Check particles
+    if(beam_particles.size() != 2) {
+        std::stringstream msg("Input file should have exactly 2 beam particles (status code = 4). File has ");
+        msg<<beam_particles.size();
+        throw std::runtime_error(msg.str());
+    }
+
+    auto mom_one = beam_particles[0]->momentum();
+    auto mom_two = beam_particles[1]->momentum();
+    auto pdg_one = beam_particles[0]->pdg_id();
+    auto pdg_two = beam_particles[1]->pdg_id();
+    auto vtx_one = beam_particles[0]->end_vertex();
+    auto vtx_two = beam_particles[1]->end_vertex();
+    // Note here, for many HepMC3 files these vtx_one and vtx_two might be 2 different objects.
+    // We assume here that their x,y,z are identical
+
+    if(_verbose) {
+        printf("vtx1 %7.1f %7.1f %7.1f    vtx2 %7.1f %7.1f %7.1f\n",
+               vtx_one->position().x(), vtx_one->position().y(), vtx_one->position().z(),
+               vtx_two->position().x(), vtx_two->position().y(), vtx_two->position().z());
+
+    }
+
+    vtxX->Fill(vertex_x);
+    vtxY->Fill(vertex_y);
+    vtxZ->Fill(vertex_z);
+    vtxT->Fill(vertex_t);
+
+    vtx2X->Fill(vtx_two->position().x());
+    vtx2Y->Fill(vtx_two->position().y());
+    vtx2Z->Fill(vtx_two->position().z());
+    vtx2T->Fill(vtx_two->position().t());
+
+//    vtxYvsX->Fill(p8.process[0].xProd(),p8.process[0].yProd());
+//    vtxXvsT->Fill(p8.process[0].tProd(),p8.process[0].xProd());
+//    vtxXvsZ->Fill(p8.process[0].zProd(),p8.process[0].xProd());
+//    vtxYvsZ->Fill(p8.process[0].zProd(),p8.process[0].yProd());
+//    vtxTvsZ->Fill(p8.process[0].zProd(),p8.process[0].tProd());
+//
+//    vtxXvsTZSum->Fill(p8.process[0].tProd()+p8.process[0].zProd(),p8.process[0].xProd());
+//    vtxXvsTZDiff->Fill(p8.process[0].tProd()-p8.process[0].zProd(),p8.process[0].xProd());
+//
+//    double hadZ = p8.process[0].zProd() - TMath::Cos(0.0125)*p8.process[0].tProd();
+//    double lepZ = p8.process[0].zProd() + TMath::Cos(0.0125)*p8.process[0].tProd();
+//    lepVsHadPartZ->Fill(hadZ,lepZ);
 }
 
 void Histogrammer::finalize() {

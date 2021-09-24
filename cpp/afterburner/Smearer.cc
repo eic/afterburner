@@ -31,6 +31,14 @@ double ab::Smearer::smear(const double position, const double width, SmearFuncs 
     throw std::runtime_error(err_msg);
 }
 
+double ab::Smearer::gauss(double position, double width) const {
+    return position + gsl_ran_gaussian(m_generator.get(), width);
+}
+
+double ab::Smearer::gauss(double width) const {
+    return gsl_ran_gaussian(m_generator.get(), width);
+}
+
 
 std::string ab::smear_func_to_str(ab::SmearFuncs smear_func) {
     static std::map <SmearFuncs, std::string> funcs_str_map = {{ab::SmearFuncs::Uniform, "Uniform"}, {ab::SmearFuncs::Gauss, "Gauss"}};

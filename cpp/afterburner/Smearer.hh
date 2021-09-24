@@ -29,6 +29,10 @@ namespace ab {
 
         double smear(double position, double width, SmearFuncs dist=SmearFuncs::Gauss) const;
 
+        double gauss(double position, double width) const;
+
+        double gauss(double width) const;
+
     private:
         std::unique_ptr<gsl_rng> m_generator;
     };

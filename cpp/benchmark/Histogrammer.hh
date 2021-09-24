@@ -32,6 +32,23 @@ private:
 
     TH2D *partPtVsEtaHist;
     TH2D *partPhiVsEtaHist;
+
+    TH1D *vtxX;
+    TH1D *vtxY;
+    TH1D *vtxZ;
+    TH1D *vtxT;
+    TH1D *vtx2X;
+    TH1D *vtx2Y;
+    TH1D *vtx2Z;
+    TH1D *vtx2T;
+    TH2D *vtxYvsX;
+    TH2D *vtxXvsT;
+    TH2D *vtxXvsZ;
+    TH2D *vtxYvsZ;
+    TH2D *vtxTvsZ;
+    TH2D *vtxXvsTZSum;
+    TH2D *vtxXvsTZDiff;
+    int _verbose = 0;
 };
 
 
