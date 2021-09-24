@@ -75,6 +75,6 @@ endif()
 
 add_subdirectory(afterburner)
 add_subdirectory(benchmark)
-add_subdirectory(abconvert)
+add_subdirectory(abconv)
 add_subdirectory(test)
 

@@ -123,8 +123,9 @@ void ab::abconv::Converter::print_processed_events(long count) {
 
     long div = 10000;
     if(!count) return;
-    if(count < 1000) div = 100;
-    if(count < 10000) div = 1000;
+    if(count < 20000) div = 5000;
+    if(count < 5000) div = 1000;
+
 
     if(count % div == 0 ) printf("Events parsed: %li\n", count);
 }

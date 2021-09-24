@@ -16,7 +16,7 @@ if(NOT CLHEP_FOUND)
 endif()
 find_package(GSL REQUIRED)
 
-add_library(afterburner
+add_library(afterburner STATIC
         Afterburner.cc
         AfterburnerConfig.cc
         Smearer.cc)

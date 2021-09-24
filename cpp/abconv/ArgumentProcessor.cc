@@ -28,8 +28,8 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     app.add_option("-i, --in-format", input_format, "Input format: auto [default], hepmc2, hepmc3, hpe, lhef, gz, treeroot, root");
     app.add_option("-f, --out-format", output_format, "Output format: hepmc3 [default], hepmc2, dot, none (no events file is saved)");
 
-    app.add_option("-s, --ev-start", ev_start, "Start event index to process");
-    app.add_option("-e, --ev-end", ev_end, "End event index to process");
+    app.add_option("-s, --ev-start", ev_start, "Start event index (all previous are skipped)");
+    app.add_option("-e, --ev-end", ev_end, "End event index (end processing after this event)");
     app.add_option("-l, --limit", process_limit, "Limit number of events to process. (Shutdown after this number of parsed events).");
 
     app.add_flag("--ab-off", ab_off, "No afterburner is applied");
@@ -50,6 +50,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
 
     // Input files (macros and data files)
     result.InputFileName = optAllFiles[0];
+    result.InputFormat = input_format;
 
      // Output file name:
     result.OutputBaseName = output_base_name;
