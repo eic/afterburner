@@ -59,6 +59,7 @@ int main(int argc, char** argv)
     conv.set_first_event_number(arg.StartEventIndex);
     conv.set_last_event_number(arg.EndEventIndex);
     conv.set_after_process_callback(plotting_callback);
+    conv.set_exit_on_ca(arg.ExitOnCrossingAngle);
 
     // CONVERT!!!
     conv.convert();

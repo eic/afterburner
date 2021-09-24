@@ -11,8 +11,6 @@
 #include <HepMC3/GenParticle.h>
 #include <HepMC3/GenVertex.h>
 
-extern double vertex_x, vertex_y, vertex_z, vertex_t;
-
 
 Histogrammer::Histogrammer(std::string output_file):
         _output_file_path(std::move(output_file)),
@@ -140,10 +138,10 @@ void Histogrammer::process_event(HepMC3::GenEvent &event) {
 
     }
 
-    vtxX->Fill(vertex_x);
-    vtxY->Fill(vertex_y);
-    vtxZ->Fill(vertex_z);
-    vtxT->Fill(vertex_t);
+    vtxX->Fill(vtx_one->position().x());
+    vtxY->Fill(vtx_one->position().y());
+    vtxZ->Fill(vtx_one->position().z());
+    vtxT->Fill(vtx_one->position().t());
 
     vtx2X->Fill(vtx_two->position().x());
     vtx2Y->Fill(vtx_two->position().y());

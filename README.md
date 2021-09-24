@@ -59,6 +59,13 @@ abconv my.hepmc -f hepmc2 --ab-off --plot-off
 | -l,--limit UINT      | Limit number of events to process. (Shutdown after this number of parsed events)|
 | --ab-off             | No afterburner is applied|
 | --plot-off           | Don't produce validation plots|
+|--exit-ca             | Check existing crossing angle and exit if CA>1mrad (1) |
+
+> (1) How `--exit-ca` works exactly: when afterburner processes the first event it checks if 
+> it has 2 beam particles (fails with non zero code if not) and then calculates their crossing angle
+> with the `--exit-ca` is set and crossing angle absolute value is > 1mrad program ends with 0 code.
+> This method is very coarse as if in a source file the crossing angle is 0 but all beam effects do exist,
+> beam effects will be applied twice
 
 ## Validation
 

@@ -16,12 +16,12 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     std::string config_file;
     bool ab_off = false;
     bool plot_off = false;
+    bool check_ca = false;
     ulong process_limit = 0;
     std::string input_format = "auto";
     std::string output_format = "hepmc3";
     long ev_start = 0;
     long ev_end = 0;
-
 
     app.add_option("-o,--output", output_base_name, "Base name for Output files ((!) no extension)");
     app.add_option("-c,--config", config_file, "Beams configuration file");
@@ -34,6 +34,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
 
     app.add_flag("--ab-off", ab_off, "No afterburner is applied");
     app.add_flag("--plot-off", plot_off, "Don't produce validation plots");
+    app.add_flag("--exit-ca", check_ca, "Check existing crossing angle and exit if CA>1mrad");
 
     app.add_option("input file", optAllFiles, "Input file");
 
@@ -74,6 +75,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     result.EventProcessLimit = process_limit;
     result.StartEventIndex = ev_start;
     result.EndEventIndex = ev_end;
+    result.ExitOnCrossingAngle = check_ca;
     return result;
 }
 

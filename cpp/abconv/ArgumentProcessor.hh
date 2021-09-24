@@ -37,6 +37,7 @@ struct UserArguments
 
     long StartEventIndex;               /// Start event index (all skipped before that)
     long EndEventIndex;                 /// End event index (stop after that)
+    bool ExitOnCrossingAngle;           /// Check existing crossing angle and exit if CA>1mrad
 };
 
 

@@ -40,6 +40,11 @@ namespace ab{
                 this->_ap_callback = std::move(after_callback);
             }
 
+            void set_exit_on_ca(bool b) {
+                _exit_on_ca = b;
+            }
+
+
         private:
             std::shared_ptr<HepMC3::Reader> _reader;
             std::shared_ptr<HepMC3::Writer> _writer;
@@ -48,10 +53,13 @@ namespace ab{
             uint64_t _first_event_number=0;
             uint64_t _last_event_number=0;
             uint64_t _events_limit=0;
+            bool _exit_on_ca=false;
+
             std::function<void(HepMC3::GenEvent&)> _ap_callback=nullptr;
             static void print_processed_events(long count);
 
-            void get_beams_setup(const HepMC3::GenEvent& event);
+            bool check_beams_setup(const HepMC3::GenEvent& event);
+
         };
     }
 }

@@ -35,7 +35,8 @@ void ab::abconv::Converter::convert() {
 
         if(0 == events_processed) {
             // The first event, determine beams configuration
-            get_beams_setup(evt);
+            bool must_exit = check_beams_setup(evt);
+            if(must_exit) return;
 
         }
 
@@ -130,7 +131,7 @@ void ab::abconv::Converter::print_processed_events(long count) {
     if(count % div == 0 ) printf("Events parsed: %li\n", count);
 }
 
-void ab::abconv::Converter::get_beams_setup(const HepMC3::GenEvent& event) {
+bool ab::abconv::Converter::check_beams_setup(const HepMC3::GenEvent& event) {
 
     std::vector<std::shared_ptr<const HepMC3::GenParticle>> beam_particles;
 
@@ -160,9 +161,13 @@ void ab::abconv::Converter::get_beams_setup(const HepMC3::GenEvent& event) {
     printf("   pdg: %d   p: %.1f, %.1f, %.1f   e:%.1f\n", pdg_one, mom_one.x(), mom_one.y(), mom_one.z(), mom_one.e());
     printf("   pdg: %d   p: %.1f, %.1f, %.1f   e:%.1f\n", pdg_two, mom_two.x(), mom_two.y(), mom_two.z(), mom_two.e());
     double one_dot_two = mom_one.x()*mom_two.x() + mom_one.y()*mom_two.y() + mom_one.z()*mom_two.z();
-    double cangle = std::acos(one_dot_two/(mom_one.length()*mom_two.length())) - M_PI;
-    printf("   crossing angle: %.0f [mrad]\n", cangle*1000);
+    double crossing_angle = std::acos(one_dot_two / (mom_one.length() * mom_two.length())) - M_PI;
+    printf("   crossing angle: %.0f [mrad]\n", crossing_angle * 1000);
     printf("=========================\n");
+
+    if(_exit_on_ca && fabs(crossing_angle)>0.001) {
+        printf("(!) Existing crossing angle > 1mrad and --exit-ca flag is used. Exiting\n");
+        return true;
+    }
+    return false;
 }
-
-
