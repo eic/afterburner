@@ -78,3 +78,9 @@ Essential plots from the latest validation run:
     <td colspan="2"><img src='python/pics/pt_vs_eta_comparison.png' alt="Pt vs Eta comparison"/></td>
   </tr>
 </table>
+
+## References
+
+- [Accelerator and beam conditions critical for physics and detector simulations for the Electron-Ion Collider](https://github.com/eic/documents/blob/master/reports/general/Note-Simulations-BeamEffects.pdf)
+- [Pythia8 beam effects](https://github.com/bspage912/eicSimuBeamEffects/blob/headonTestJin/Pythia8/PythiaBeamShape.cxx)
+- [Fun4All code](https://github.com/sPHENIX-Collaboration/coresoftware/pull/1251)
