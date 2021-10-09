@@ -12,17 +12,18 @@
 #include <HepMC3/GenVertex.h>
 
 
-Histogrammer::Histogrammer(std::string output_file):
-        _output_file_path(std::move(output_file)),
-        _is_finalized(false)
+Histogrammer::Histogrammer(std::shared_ptr<TFile> file, std::string dir_name):
+        _file(file),
+        _dirname(dir_name)
 {
-
 }
 
 void Histogrammer::initialize() {
     // creates ROOT file to write things to
-    _file = std::make_unique<TFile>(_output_file_path.c_str(), "RECREATE");
+    //_file = std::make_shared<TFile>(_output_file_path.c_str(), "RECREATE");
     _file->cd();
+    auto dir = _file->mkdir(_dirname.c_str());
+    dir->cd();
     // Particle Quantities
     partPtHist = new TH1D("partPt","Final State Particle Pt",500,0.,50.);
     partEtaHist = new TH1D("partEta","Final State Particle Eta",400,-10.,10.);
@@ -162,17 +163,8 @@ void Histogrammer::process_event(HepMC3::GenEvent &event) {
 //    lepVsHadPartZ->Fill(hadZ,lepZ);
 }
 
-void Histogrammer::finalize() {
-    _is_finalized = true;
-
-    if(_file) {
-        _file->Write();
-    }
-}
 
 Histogrammer::~Histogrammer() {
-    if(!_is_finalized) {
-        finalize();
-    }
+
 }
 

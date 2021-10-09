@@ -19,6 +19,7 @@ find_package(GSL REQUIRED)
 add_library(afterburner STATIC
         Afterburner.cc
         AfterburnerConfig.cc
+        EicConfigurator.cc
         Smearer.cc)
 
 target_include_directories(afterburner SYSTEM PRIVATE ${CLHEP_INCLUDE_DIRS} ${HEPMC3_INCLUDE_DIR} ../external/json_struct/)

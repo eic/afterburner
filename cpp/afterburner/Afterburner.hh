@@ -66,13 +66,20 @@ namespace ab{
         static CLHEP::Hep3Vector spherical_to_cartesian(double theta, double phi);
 
         /** Adds divergense and z kick smearing to a beam */
-        CLHEP::Hep3Vector smear_beam_divergence(const CLHEP::Hep3Vector &beam_dir, const BeamConfig &beam_cfg, double vtx_z);
+
 
         CLHEP::HepLorentzVector move_vertex(const CLHEP::HepLorentzVector &init_vtx);
 
-        double get_collision_width(const double widthA, const double widthB);
+        double get_collision_width(double widthA, double widthB);
 
         ab::BunchInteractionResult generate_vertx_with_bunch_interaction(BeamConfig beam_one, BeamConfig beam_two);
+
+        CLHEP::Hep3Vector
+        smear_beam_divergence(const CLHEP::Hep3Vector &beam_dir,
+                              const BeamConfig &beam_cfg,
+                              const double vtx_z,
+                              const double crab_hor,
+                              const double crab_ver);
     };
 }
 

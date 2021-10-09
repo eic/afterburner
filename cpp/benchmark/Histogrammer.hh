@@ -12,7 +12,13 @@ class TH2D;
 
 class Histogrammer {
 public:
-    Histogrammer(std::string output_file);
+    /**
+     * Constructor
+     * @param file - TFile to write to
+     * @param dir_name - TDirectory name to write histograms to
+     */
+    Histogrammer(std::shared_ptr<TFile> file, std::string dir_name);
+
     ~Histogrammer();
 
     void initialize();
@@ -22,9 +28,8 @@ public:
     void finalize();
 
 private:
-    bool _is_finalized = false;
-    std::string _output_file_path;
-    std::unique_ptr<TFile> _file;
+
+    std::shared_ptr<TFile> _file;
 
     TH1D *partPtHist;
     TH1D *partEtaHist;
@@ -49,6 +54,7 @@ private:
     TH2D *vtxXvsTZSum;
     TH2D *vtxXvsTZDiff;
     int _verbose = 0;
+    string _dirname;
 };
 
 

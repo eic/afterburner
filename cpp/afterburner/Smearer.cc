@@ -31,8 +31,8 @@ double ab::Smearer::smear(const double position, const double width, SmearFuncs 
     throw std::runtime_error(err_msg);
 }
 
-double ab::Smearer::gauss(double position, double width) const {
-    return position + gsl_ran_gaussian(m_generator.get(), width);
+double ab::Smearer::gauss(double mean, double width) const {
+    return mean + gsl_ran_gaussian(m_generator.get(), width);
 }
 
 double ab::Smearer::gauss(double width) const {

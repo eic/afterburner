@@ -29,10 +29,16 @@
 std::shared_ptr<HepMC3::Reader> ab::convert::generate_reader(FileFormats format, const std::string &file_name) {
     using namespace HepMC3;
 
+    if(FileFormats::autodetect == format) {
+        auto reader = HepMC3::deduce_reader(file_name);
+        if(!reader) {
+            throw std::runtime_error("Unable to create HepMC3Reader. Probably no file exists or it is not accessible.");
+        }
+        return reader;
+    }
+
     switch (format)
     {
-        case FileFormats::autodetect:
-            return HepMC3::deduce_reader(file_name);
         case FileFormats::hepmc2:
             return std::make_shared<ReaderAsciiHepMC2>(file_name);
         case FileFormats::hepmc3:

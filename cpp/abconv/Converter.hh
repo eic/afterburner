@@ -36,14 +36,17 @@ namespace ab{
                 this->_events_limit = events_limit;
             }
 
+            void set_prior_process_callback(std::function<void(HepMC3::GenEvent&)> after_callback) {
+                this->_prior_process_callback = std::move(after_callback);
+            }
+
             void set_after_process_callback(std::function<void(HepMC3::GenEvent&)> after_callback) {
-                this->_ap_callback = std::move(after_callback);
+                this->_after_process_callback = std::move(after_callback);
             }
 
             void set_exit_on_ca(bool b) {
                 _exit_on_ca = b;
             }
-
 
         private:
             std::shared_ptr<HepMC3::Reader> _reader;
@@ -55,11 +58,15 @@ namespace ab{
             uint64_t _events_limit=0;
             bool _exit_on_ca=false;
 
-            std::function<void(HepMC3::GenEvent&)> _ap_callback=nullptr;
+            std::function<void(HepMC3::GenEvent&)> _after_process_callback=nullptr;
+            std::function<void(HepMC3::GenEvent&)> _prior_process_callback=nullptr;
             static void print_processed_events(long count);
 
             bool check_beams_setup(const HepMC3::GenEvent& event);
 
+            HepMC3::ConstGenParticles get_beam_particles(const HepMC3::GenEvent &event) const;
+
+            AfterburnerConfig get_ab_config(HepMC3::ConstGenParticles beam_particles);
         };
     }
 }

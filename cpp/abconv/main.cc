@@ -4,6 +4,8 @@
 
 #include <HepMC3/Print.h>
 
+#include <TFile.h>
+
 #include <yaml-cpp/yaml.h>
 
 // Afterburner and benchmarks
@@ -35,12 +37,19 @@ int main(int argc, char** argv)
     auto reader = ab::convert::generate_reader(arg.InputFormat, arg.InputFileName);
     auto writer = ab::convert::generate_writer(arg.OutputFormat, arg.OutputEventFileName);
 
+
     // Histogram creating tool
-    Histogrammer hst(arg.OutputHistFileName);
-    std::function<void(HepMC3::GenEvent&)> plotting_callback = nullptr;
+    auto root_file = std::make_shared<TFile>(arg.OutputHistFileName.c_str(), "RECREATE");
+
+    Histogrammer before_hst(root_file, "before");
+    Histogrammer after_hst(root_file, "after");
+    std::function<void(HepMC3::GenEvent&)> plot_prior_callback = nullptr;
+    std::function<void(HepMC3::GenEvent&)> plot_after_callback = nullptr;
     if(arg.PlottingEnabled) {
-        hst.initialize();
-        plotting_callback = [&hst](HepMC3::GenEvent &event) {hst.process_event(event);};  // This is called each event
+        before_hst.initialize();
+        after_hst.initialize();
+        plot_prior_callback = [&before_hst](HepMC3::GenEvent &event) {before_hst.process_event(event);};  // This is called each event
+        plot_after_callback = [&after_hst](HepMC3::GenEvent &event) {after_hst.process_event(event);};  // This is called each event
     }
 
     // Afterburner instance
@@ -48,7 +57,6 @@ int main(int argc, char** argv)
     if(arg.AfterburnerEnabled) {
         std::cout<<"Afterburner is ENABLED\n";
         afterburner = std::make_shared<ab::Afterburner>();
-        afterburner->print();                                       // Print afterburner configuation
     } else {
         std::cout<<"Afterburner is DISABLED\n";
     }
@@ -58,7 +66,8 @@ int main(int argc, char** argv)
     conv.set_events_limit(arg.EventProcessLimit);
     conv.set_first_event_number(arg.StartEventIndex);
     conv.set_last_event_number(arg.EndEventIndex);
-    conv.set_after_process_callback(plotting_callback);
+    conv.set_prior_process_callback(plot_prior_callback);
+    conv.set_after_process_callback(plot_after_callback);
     conv.set_exit_on_ca(arg.ExitOnCrossingAngle);
 
     // CONVERT!!!
@@ -68,6 +77,10 @@ int main(int argc, char** argv)
     // should be autohandled if(arg.PlottingEnabled) hst.finalize();
     if (reader)  reader->close();
     if (writer)  writer->close();
+    if(root_file) {
+        root_file->Write();
+        root_file->Close();
+    }
 
     return EXIT_SUCCESS;
 }

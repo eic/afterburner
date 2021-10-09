@@ -9,9 +9,7 @@ apt install libyaml-cpp-dev     # Debian/Ubuntu/Mint
 yum install yaml-cpp-devel      # RHEL/CentOS/Fedora
 ```
 
-To apply benchmarks one could go 
 
-https://dtn01.sdcc.bnl.gov:9000/minio/eictest/ATHENA/WG/BeamEffects/
 
 ## Building
 
@@ -68,6 +66,18 @@ abconv my.hepmc -f hepmc2 --ab-off --plot-off
 > beam effects will be applied twice
 
 ## Validation
+
+To apply benchmarks. Head-on data (no crossing angle nor effects) is located:
+
+```
+https://dtn01.sdcc.bnl.gov:9000/minio/eictest/ATHENA/WG/BeamEffects/
+```
+
+Pythia8 generated data with crossing angle and full effects is located:
+
+```
+https://dtn01.sdcc.bnl.gov:9000/minio/eictest/ATHENA/EVGEN/DIS/NC/
+```
 
 The validation plots are generated and can be viewed in [python/comparison.ipynb](python/comparison.ipynb)
 

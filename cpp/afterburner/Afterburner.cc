@@ -17,30 +17,30 @@ ab::Afterburner::Afterburner() : _smearer(1) {
     // https://github.com/eic/fun4all_macros/blob/3678b50f3d739aa4db08d69b0afb0177380adb9c/common/G4_Input.C#L116
 
     //25mrad x-ing as in EIC CDR
-    const double EIC_hadron_crossing_angle = 25e-3;
+    const double crossing_angle = 25e-3;
 
-    _cfg.beam_one.direction_theta = EIC_hadron_crossing_angle;   // beamA_theta
-    _cfg.beam_one.direction_phi = 0;                             // beamA_phi
-    _cfg.beam_two.direction_theta = M_PI;                        // beamB_theta
-    _cfg.beam_two.direction_phi = 0;                             // beamB_phi
+    _cfg.hadron_beam.direction_theta = crossing_angle;   // beamA_theta
+    _cfg.hadron_beam.direction_phi = 0;                             // beamA_phi
+    _cfg.lepton_beam.direction_theta = M_PI;                        // beamB_theta
+    _cfg.lepton_beam.direction_phi = 0;                             // beamB_phi
 
     // [mrad] proton beam divergence horizontal & vertical, as in EIC CDR Table 1.1
-    _cfg.beam_one.divergence_hor = 119e-6;
-    _cfg.beam_one.divergence_ver = 119e-6;
+    _cfg.hadron_beam.divergence_hor = 119e-6;
+    _cfg.hadron_beam.divergence_ver = 119e-6;
 
     // [mrad] electron beam divergence horizontal & vertical, as in EIC CDR Table 1.1
-    _cfg.beam_two.divergence_hor = 211e-6;
-    _cfg.beam_two.divergence_ver = 152e-6;
+    _cfg.lepton_beam.divergence_hor = 211e-6;
+    _cfg.lepton_beam.divergence_ver = 152e-6;
 
     // angular kick within a bunch as result of crab cavity
     // using an naive assumption of transfer matrix from the cavity to IP,
     // which is NOT yet validated with accelerator optics simulations!
-    const double z_hadron_cavity = 52e2;  // CDR Fig 3.3
-    const double z_e_cavity = 38e2;       // CDR Fig 3.2
-    _cfg.beam_one.z_shift_hor = -EIC_hadron_crossing_angle / 2. / z_hadron_cavity;
-    _cfg.beam_one.z_shift_ver = 0;
-    _cfg.beam_two.z_shift_hor = -EIC_hadron_crossing_angle / 2. / z_e_cavity;
-    _cfg.beam_two.z_shift_ver = 0;
+//    const double z_hadron_cavity = 52e2;  // CDR Fig 3.3
+//    const double z_e_cavity = 38e2;       // CDR Fig 3.2
+//    _cfg.hadron_beam.z_shift_hor = -crossing_angle / 2. / z_hadron_cavity;
+//    _cfg.hadron_beam.z_shift_ver = 0;double lepton_beta_crab_hor = 150000.0;
+//    _cfg.lepton_beam.z_shift_hor = -crossing_angle / 2. / z_e_cavity;
+//    _cfg.lepton_beam.z_shift_ver = 0;
 
     // calculate beam sigma width at IP  as in EIC CDR table 1.1
     const double sigma_p_h = sqrt(80 * 11.3e-7);
@@ -53,13 +53,21 @@ ab::Afterburner::Afterburner() : _smearer(1) {
     _cfg.use_beam_bunch_sim = true;
 
     // bunch crossing parameters
-    _cfg.beam_one.bunch_sigma_x = sigma_p_h;
-    _cfg.beam_one.bunch_sigma_y = sigma_p_v;
-    _cfg.beam_one.bunch_sigma_z = sigma_p_l;
+    _cfg.hadron_beam.rms_emittance_hor = 11.3e-6;
+    _cfg.hadron_beam.rms_emittance_ver = 1e-6;
+    _cfg.hadron_beam.beta_star_hor = 800;
+    _cfg.hadron_beam.beta_star_ver = 72;
+    _cfg.hadron_beam.rms_bunch_length = 60;
 
-    _cfg.beam_two.bunch_sigma_x = sigma_e_h;
-    _cfg.beam_two.bunch_sigma_y = sigma_e_v;
-    _cfg.beam_two.bunch_sigma_z = sigma_e_l;
+
+
+//    _cfg.hadron_beam.bunch_sigma_hor = sigma_p_h;
+//    _cfg.hadron_beam.bunch_sigma_ver = sigma_p_v;
+//    _cfg.hadron_beam.bunch_sigma_lng = sigma_p_l;
+//
+//    _cfg.lepton_beam.bunch_sigma_hor = sigma_e_h;
+//    _cfg.lepton_beam.bunch_sigma_ver = sigma_e_v;
+//    _cfg.lepton_beam.bunch_sigma_lng = sigma_e_l;
 
     // combine two beam gives the collision sigma in z
     // (!) This piece is relevant only if bunch crossing simulation is off
@@ -116,11 +124,11 @@ ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interactio
 {
     using namespace std;
 
-    double bunch_one_z = _smearer.smear(0, beam_one.bunch_sigma_z, SmearFuncs::Gauss);
-    double bunch_two_z = _smearer.smear(0, beam_two.bunch_sigma_z, SmearFuncs::Gauss);
+    double bunch_one_z = _smearer.smear(0, beam_one.rms_bunch_length, SmearFuncs::Gauss);
+    double bunch_two_z = _smearer.smear(0, beam_two.rms_bunch_length, SmearFuncs::Gauss);
 
-    CLHEP::Hep3Vector beamA_center = spherical_to_cartesian(_cfg.beam_one.direction_theta, _cfg.beam_one.direction_phi);
-    CLHEP::Hep3Vector beamB_center = spherical_to_cartesian(_cfg.beam_two.direction_theta, _cfg.beam_two.direction_phi);
+    CLHEP::Hep3Vector beamA_center = spherical_to_cartesian(_cfg.hadron_beam.direction_theta, _cfg.hadron_beam.direction_phi);
+    CLHEP::Hep3Vector beamB_center = spherical_to_cartesian(_cfg.lepton_beam.direction_theta, _cfg.lepton_beam.direction_phi);
 
     //  const static CLHEP::Hep3Vector z_axis(0, 0, 1);
     const static CLHEP::Hep3Vector y_axis(0, 1, 0);
@@ -134,21 +142,28 @@ ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interactio
 
     CLHEP::Hep3Vector vec_longitudinal_collision = beamCenterDiffAxis * (bunch_one_z + bunch_two_z) / 2.;
     double ct_collision = 0.5 * (-bunch_one_z + bunch_two_z) / beamCenterDiffAxis.dot(beamA_center);
-    double t_collision = ct_collision * CLHEP::cm / CLHEP::c_light / CLHEP::ns;
+    double t_collision = ct_collision * CLHEP::mm / CLHEP::c_light / CLHEP::ns;
     CLHEP::Hep3Vector vec_crossing_collision = ct_collision * vec_crossing;  // shift of collision to crossing dierction
 
     CLHEP::Hep3Vector horizontal_axis = y_axis.cross(beamCenterDiffAxis);
     assert(horizontal_axis.mag() > CLHEP::Hep3Vector::getTolerance());
-    horizontal_axis = horizontal_axis / horizontal_axis.mag();
+    horizontal_axis = horizontal_axis.unit();
 
     CLHEP::Hep3Vector vertical_axis = beamCenterDiffAxis.cross(horizontal_axis);
     assert(vertical_axis.mag() > CLHEP::Hep3Vector::getTolerance());
-    vertical_axis = vertical_axis / vertical_axis.mag();
+    vertical_axis = vertical_axis.unit();
 
-    double bunch_x = _smearer.smear(0, get_collision_width(beam_one.bunch_sigma_x, beam_two.bunch_sigma_x));
+
+    double had_bunch_rms_hor = sqrt(beam_one.beta_star_hor * beam_one.rms_emittance_hor);
+    double had_bunch_rms_ver = sqrt(beam_one.beta_star_ver * beam_one.rms_emittance_ver);
+    double lep_bunch_rms_hor = sqrt(beam_two.beta_star_hor * beam_two.rms_emittance_hor);
+    double lep_bunch_rms_ver = sqrt(beam_two.beta_star_ver * beam_two.rms_emittance_ver);
+
+
+    double bunch_x = _smearer.smear(0, get_collision_width(had_bunch_rms_hor, lep_bunch_rms_hor));
     CLHEP::Hep3Vector vec_horizontal_collision_vertex_smear = horizontal_axis * bunch_x;
 
-    double bunch_y = _smearer.smear(0, get_collision_width(beam_one.bunch_sigma_y, beam_two.bunch_sigma_y));
+    double bunch_y = _smearer.smear(0, get_collision_width(had_bunch_rms_ver, lep_bunch_rms_ver));
     CLHEP::Hep3Vector vec_vertical_collision_vertex_smear = vertical_axis * bunch_y;
 
     CLHEP::Hep3Vector vec_collision_vertex =
@@ -197,18 +212,36 @@ CLHEP::Hep3Vector ab::Afterburner::spherical_to_cartesian(const double theta, co
 }
 
 // function to do angular shifts relative to central beam angle
-CLHEP::Hep3Vector ab::Afterburner::smear_beam_divergence(const CLHEP::Hep3Vector &beam_dir, const ab::BeamConfig& beam_cfg, const double vtx_z) {
+CLHEP::Hep3Vector ab::Afterburner::smear_beam_divergence(const CLHEP::Hep3Vector &beam_dir, const ab::BeamConfig& beam_cfg, const double vtx_z, const double crab_hor, const double crab_ver) {
 
     // y direction in accelerator
     static const CLHEP::Hep3Vector accelerator_plane(0, 1, 0);
 
     // Horizontal
-    double horizontal_angle = vtx_z * beam_cfg.z_shift_hor;                                     // horizontal angle 0
+    double horizontal_angle = -vtx_z * crab_hor;                                     // horizontal angle 0
     horizontal_angle = _smearer.smear(horizontal_angle, beam_cfg.divergence_hor, SmearFuncs::Gauss);    // smear horizontal angle
     CLHEP::HepRotation x_smear_in_accelerator_plane(accelerator_plane, horizontal_angle);      // central horizontal angle shift
 
     // Vertical
-    double vertical_angle =  vtx_z * beam_cfg.z_shift_ver;                                             // vertical angle 0
+    /*
+    // Calculate angular deflection
+    double crabAngHad = ((mXAngle/2.0)*hadronPartPos)/(TMath::Sqrt(betaCrabHad*betaStarHad));
+    double crabAngLep = ((mXAngle/2.0)*leptonPartPos)/(TMath::Sqrt(betaCrabLep*betaStarLep));
+
+    // Calculate Magnitude of Px kick
+    double crabKickHad = (mIonBeamEnergy + tmpPzA)*TMath::Sin(crabAngHad);
+    double crabKickLep = (-1.0)*(mLeptonBeamEnergy + tmpPzB)*TMath::Sin(crabAngLep); //
+
+    // Rotate Momentum Kick into Detector Frame
+    double tmpVertPxA, tmpVertPyA, tmpVertPzA;
+    double tmpVertPxB, tmpVertPyB, tmpVertPzB;
+    tmpVertPxA = tmpVertPyA = tmpVertPzA = tmpVertPxB = tmpVertPyB = tmpVertPzB = 0.;
+
+    RotY(mXAngle/2.0,crabKickHad,0.,0.,&tmpVertPxA,&tmpVertPyA,&tmpVertPzA);
+    RotY(mXAngle/2.0,crabKickLep,0.,0.,&tmpVertPxB,&tmpVertPyB,&tmpVertPzB)
+    */
+
+    double vertical_angle =  -vtx_z * crab_ver;                                             // vertical angle 0
     vertical_angle = _smearer.smear(vertical_angle, beam_cfg.divergence_ver, SmearFuncs::Gauss);   // smear vertical angle
     auto out_accelerator_plane = accelerator_plane.cross(beam_dir);                             // vertical out acc plane
     CLHEP::HepRotation y_smear_out_accelerator_plane(out_accelerator_plane, vertical_angle);    // central vertical angle shift
@@ -234,8 +267,6 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
 
     AfterburnerEventResult result;
 
-
-
     // now handle the collision vertex first, in the head-on collision frame
     // this is used as input to the Crab angle correction
     double bunch_one_z;
@@ -243,7 +274,7 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     if (_cfg.use_beam_bunch_sim)
     {
         // bunch interaction simulation
-        auto bunch_interaction = generate_vertx_with_bunch_interaction(_cfg.beam_one, _cfg.beam_two);
+        auto bunch_interaction = generate_vertx_with_bunch_interaction(_cfg.hadron_beam, _cfg.lepton_beam);
         result.vertex = bunch_interaction.vertex;
         bunch_one_z = bunch_interaction.bunch_one_z;
         bunch_two_z = bunch_interaction.bunch_two_z;
@@ -260,45 +291,54 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     // boost-rotation from beam angles
     const static CLHEP::Hep3Vector z_axis(0, 0, 1);
 
-    CLHEP::Hep3Vector beamA_center = spherical_to_cartesian(_cfg.beam_one.direction_theta, _cfg.beam_one.direction_phi);
-    CLHEP::Hep3Vector beamB_center = spherical_to_cartesian(_cfg.beam_two.direction_theta, _cfg.beam_two.direction_phi);
+    CLHEP::Hep3Vector ideal_hadron_dir = spherical_to_cartesian(_cfg.hadron_beam.direction_theta, _cfg.hadron_beam.direction_phi);
+    CLHEP::Hep3Vector ideal_lepton_dir = spherical_to_cartesian(_cfg.lepton_beam.direction_theta, _cfg.lepton_beam.direction_phi);
+    double crossing_angle = acos(ideal_hadron_dir.unit().dot(-ideal_lepton_dir.unit()));
 
     if (m_verbosity) {
         cout << __PRETTY_FUNCTION__ << ": " << endl;
-        cout << "beamA_center = " << beamA_center << endl;
-        cout << "beamB_center = " << beamB_center << endl;
+        cout << "ideal_hadron_dir = " << ideal_hadron_dir << endl;
+        cout << "ideal_lepton_dir = " << ideal_lepton_dir << endl;
+        cout << "crossing_angle   = " << crossing_angle << endl;
     }
 
-    assert(fabs(beamB_center.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
-    assert(fabs(beamB_center.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
+    assert(fabs(ideal_hadron_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
+    assert(fabs(ideal_lepton_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
 
-    if (beamA_center.dot(beamB_center) > -0.5) {
+    if (ideal_hadron_dir.dot(ideal_lepton_dir) > -0.5) {
         cout << "PHHepMCGenHelper::process_event - WARNING -"
              << "Beam A and Beam B are not near back to back. "
              << "Please double check beam direction setting at set_beam_direction_theta_phi()."
-             << "beamA_center = " << beamA_center << ","
-             << "beamB_center = " << beamB_center << ","
+             << "beamA_center = " << ideal_hadron_dir << ","
+             << "beamB_center = " << ideal_lepton_dir << ","
              << " Current setting:";
 
         print();
     }
 
+    // Calculate angular deflection
 
 
-    CLHEP::Hep3Vector beamA_vec = smear_beam_divergence(beamA_center, _cfg.beam_one, bunch_one_z);
-    CLHEP::Hep3Vector beamB_vec = smear_beam_divergence(beamB_center, _cfg.beam_two, bunch_two_z);
+    double hadron_crab_hor = crossing_angle/2.0/sqrt(_cfg.hadron_beam.beta_crab_hor * _cfg.hadron_beam.beta_star_hor);
+    double hadron_crab_ver = 0;
+
+    double lepton_crab_hor = crossing_angle/2.0/sqrt(_cfg.lepton_beam.beta_crab_hor * _cfg.lepton_beam.beta_star_hor);
+    double lepton_crab_ver = 0;
+
+    CLHEP::Hep3Vector real_hadron_dir = smear_beam_divergence(ideal_hadron_dir, _cfg.hadron_beam, bunch_one_z, hadron_crab_hor, hadron_crab_ver);
+    CLHEP::Hep3Vector real_lepton_dir = smear_beam_divergence(ideal_lepton_dir, _cfg.lepton_beam, bunch_two_z, lepton_crab_hor, lepton_crab_ver);
 
     if (m_verbosity) {
         cout << __PRETTY_FUNCTION__ << ": " << endl;
-        cout << "beamA_vec = " << beamA_vec << endl;
-        cout << "beamB_vec = " << beamB_vec << endl;
+        cout << "beamA_vec = " << real_hadron_dir << endl;
+        cout << "beamB_vec = " << real_lepton_dir << endl;
     }
 
-    assert(fabs(beamA_vec.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
-    assert(fabs(beamB_vec.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
+    assert(fabs(real_hadron_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
+    assert(fabs(real_lepton_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
 
     // apply minimal beam energy shift rotation and boost
-    CLHEP::Hep3Vector boost_axis = beamA_vec + beamB_vec;
+    CLHEP::Hep3Vector boost_axis = real_hadron_dir + real_lepton_dir;
     if (boost_axis.mag2() > CLHEP::Hep3Vector::getTolerance()) {
         //non-zero boost
 
@@ -317,13 +357,13 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     }
 
     //rotation to collision to along z-axis with beamA pointing to +z
-    CLHEP::Hep3Vector beamDiffAxis = (beamA_vec - beamB_vec);
+    CLHEP::Hep3Vector beamDiffAxis = (real_hadron_dir - real_lepton_dir);
     if (beamDiffAxis.mag2() < CLHEP::Hep3Vector::getTolerance()) {
         cout << "PHHepMCGenHelper::process_event - Fatal error -"
              << "Beam A and Beam B are too close to each other in direction "
              << "Please double check beam direction and divergence setting. "
-             << "beamA_vec = " << beamA_vec << ","
-             << "beamB_vec = " << beamB_vec << ","
+             << "real_hadron_dir = " << real_hadron_dir << ","
+             << "real_lepton_dir = " << real_lepton_dir << ","
              << " Current setting:";
 
         print();
@@ -354,7 +394,7 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
         }
     } else {
         // need a rotation
-        CLHEP::Hep3Vector rotation_axis = (beamA_vec - beamB_vec).cross(z_axis);
+        CLHEP::Hep3Vector rotation_axis = (real_hadron_dir - real_lepton_dir).cross(z_axis);
         const double rotation_angle_to_z = acos(cos_rotation_angle_to_z);   // TODO back to -acos?
 
         result.rotation = CLHEP::HepRotation(rotation_axis, rotation_angle_to_z);
@@ -367,7 +407,7 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     // rotate the collision vertex z direction to middle of the beam angles
 
     // the final longitudinal vertex smear axis
-    CLHEP::Hep3Vector beamCenterDiffAxis = (beamA_center - beamB_center);
+    CLHEP::Hep3Vector beamCenterDiffAxis = (ideal_hadron_dir - ideal_lepton_dir);
     beamCenterDiffAxis = beamCenterDiffAxis / beamCenterDiffAxis.mag();
 
     double cos_rotation_center_angle_to_z = beamCenterDiffAxis.dot(z_axis);
@@ -435,24 +475,24 @@ void ab::Afterburner::print() const {
          << ", t: " << _cfg.vertex_smear_width_t
          << endl;
 
-    cout << "Vertex distribution function: "<< smear_func_to_str(_cfg.vertex_smear_func) << endl;
+    cout << "Vertex distribution function: " << smear_func_to_str(_cfg.vertex_smear_func) << endl;
+    cout << "Vertex simulation is: " << (_cfg.use_beam_bunch_sim ? string("on") : std::string("off")) << endl;
+    cout << "Hadron beam:\n";
+    cout << "   direction       : theta = " << _cfg.hadron_beam.direction_theta << ", phi = " << _cfg.hadron_beam.direction_phi << endl;
+    cout << "   divergence      : hor = " << _cfg.hadron_beam.divergence_hor << ", ver = " << _cfg.hadron_beam.divergence_ver << endl;
+    cout << "   rms emittance   : hor = " << _cfg.hadron_beam.rms_emittance_hor << ", ver = " << _cfg.hadron_beam.rms_emittance_ver << endl;
+    cout << "   beta star       : hor = " << _cfg.hadron_beam.beta_star_hor << ", ver = " << _cfg.hadron_beam.beta_star_ver << endl;
+    cout << "   beta crab       : hor = " << _cfg.hadron_beam.beta_crab_hor << endl;
+    cout << "   rms bunch length: " << _cfg.hadron_beam.rms_bunch_length << endl;
 
-    cout << "Beam direction: A  theta-phi = " << _cfg.beam_one.direction_theta
-         << ", " << _cfg.beam_one.direction_phi << endl;
-    cout << "Beam direction: B  theta-phi = " << _cfg.beam_two.direction_theta
-         << ", " << _cfg.beam_two.direction_phi << endl;
+    cout << "Lepton beam:\n";
+    cout << "   direction       : theta = " << _cfg.lepton_beam.direction_theta << ", phi = " << _cfg.hadron_beam.direction_phi << endl;
+    cout << "   divergence      : hor = " << _cfg.lepton_beam.divergence_hor << ", ver = " << _cfg.hadron_beam.divergence_ver << endl;
+    cout << "   rms emittance   : hor = " << _cfg.lepton_beam.rms_emittance_hor << ", ver = " << _cfg.hadron_beam.rms_emittance_ver << endl;
+    cout << "   beta star       : hor = " << _cfg.lepton_beam.beta_star_hor << ", ver = " << _cfg.hadron_beam.beta_star_ver << endl;
+    cout << "   beta crab       : hor = " << _cfg.lepton_beam.beta_crab_hor << endl;
+    cout << "   rms bunch length: " << _cfg.lepton_beam.rms_bunch_length << endl;
 
-    cout << "Beam divergence: A X-Y = " << _cfg.beam_one.divergence_hor
-         << ", " << _cfg.beam_one.divergence_ver << endl;
-    cout << "Beam divergence: B X-Y = " << _cfg.beam_two.divergence_hor
-         << ", " << _cfg.beam_two.divergence_ver << endl;
-
-    cout << "Beam angle shift as linear function of longitudinal vertex position : A X-Y = "
-         << _cfg.beam_one.z_shift_hor
-         << ", " << _cfg.beam_one.z_shift_ver << endl;
-    cout << "Beam angle shift as linear function of longitudinal vertex position: B X-Y = "
-         << _cfg.beam_two.z_shift_hor
-         << ", " << _cfg.beam_two.z_shift_ver << endl;
     cout << "=========================\n";
 }
 

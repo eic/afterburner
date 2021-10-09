@@ -10,7 +10,14 @@
 
 #include <CLHEP/Vector/EulerAngles.h>
 #include "Converter.hh"
+#include "afterburner/EicConfigurator.hh"
 
+ab::abconv::Converter::Converter(std::shared_ptr<HepMC3::Reader> reader,
+                                 std::shared_ptr<HepMC3::Writer> writer,
+                                 std::shared_ptr<ab::Afterburner> afterburner):
+        _reader(std::move(reader)), _writer(std::move(writer)), _afterburner(std::move(afterburner))
+{
+}
 
 void ab::abconv::Converter::convert() {
     using namespace HepMC3;
@@ -38,6 +45,14 @@ void ab::abconv::Converter::convert() {
             bool must_exit = check_beams_setup(evt);
             if(must_exit) return;
 
+            // Autodetect afterburner config if we have afterburner
+            if(_afterburner) {
+                // Get AB configuration based on beam info
+                HepMC3::ConstGenParticles beam_particles = get_beam_particles(evt);
+                auto cfg = get_ab_config(beam_particles);
+                _afterburner->set_config(cfg);
+                _afterburner->print();
+            }
         }
 
         if (_verbose) {
@@ -46,7 +61,10 @@ void ab::abconv::Converter::convert() {
             Print::content(cout, evt);
         }
 
-        evt.set_units(Units::GEV, Units::CM);
+        evt.set_units(Units::GEV, Units::MM);
+        if(_prior_process_callback) {
+            _prior_process_callback(evt);
+        }
 
         if (_afterburner)
         {
@@ -91,8 +109,8 @@ void ab::abconv::Converter::convert() {
             }
         }
 
-        if(_ap_callback) {
-            _ap_callback(evt);
+        if(_after_process_callback) {
+            _after_process_callback(evt);
         }
 
         //Note the difference between ROOT and Ascii readers.
@@ -112,13 +130,7 @@ void ab::abconv::Converter::convert() {
     }
 }
 
-ab::abconv::Converter::Converter(std::shared_ptr<HepMC3::Reader> reader,
-                                 std::shared_ptr<HepMC3::Writer> writer,
-                                 std::shared_ptr<ab::Afterburner> afterburner):
-    _reader(std::move(reader)), _writer(std::move(writer)), _afterburner(std::move(afterburner))
-{
 
-}
 
 void ab::abconv::Converter::print_processed_events(long count) {
 
@@ -131,16 +143,10 @@ void ab::abconv::Converter::print_processed_events(long count) {
     if(count % div == 0 ) printf("Events parsed: %li\n", count);
 }
 
+
 bool ab::abconv::Converter::check_beams_setup(const HepMC3::GenEvent& event) {
 
-    std::vector<std::shared_ptr<const HepMC3::GenParticle>> beam_particles;
-
-    // Select beam particles
-    for(auto& prt: event.particles()) {
-        if(prt->status() == 4) {
-            beam_particles.push_back(prt);
-        }
-    }
+    HepMC3::ConstGenParticles beam_particles = get_beam_particles(event);
 
     // Check particles
     if(beam_particles.size() != 2) {
@@ -169,5 +175,36 @@ bool ab::abconv::Converter::check_beams_setup(const HepMC3::GenEvent& event) {
         printf("(!) Existing crossing angle > 1mrad and --exit-ca flag is used. Exiting\n");
         return true;
     }
+
     return false;
 }
+
+ab::AfterburnerConfig ab::abconv::Converter::get_ab_config(HepMC3::ConstGenParticles beam_particles) {
+
+    HepMC3::ConstGenParticlePtr hadron;
+    HepMC3::ConstGenParticlePtr lepton;
+    if(beam_particles[0]->momentum().e() > beam_particles[1]->momentum().e()) {
+        hadron = beam_particles[0];
+        lepton = beam_particles[1];
+    }
+    else {
+        hadron = beam_particles[1];
+        lepton = beam_particles[0];
+    }
+
+    return ab::EicConfigurator::config_hi_div_18x275();
+
+}
+
+HepMC3::ConstGenParticles ab::abconv::Converter::get_beam_particles(const HepMC3::GenEvent &event) const {
+    HepMC3::ConstGenParticles beam_particles;
+
+    // Select beam particles
+    for(auto& prt: event.particles()) {
+        if(prt->status() == 4) {
+            beam_particles.push_back(prt);
+        }
+    }
+    return beam_particles;
+}
+

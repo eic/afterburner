@@ -7,7 +7,7 @@
 namespace ab {
 
     struct BeamConfig {
-        /// Beam direction theta phi
+        /// Beam direction theta phi (direction_theta = crossing_angle)
         double direction_theta = 0;
         double direction_phi = 0;
 
@@ -21,13 +21,22 @@ namespace ab {
         //! which is used to represent leading order effect of crab cavity momentum kick on the beam bunch
         //! First element is beamA, in pair of dh/dz, dv/dz. BeamA is aimed to +z direction in the HepMC event generator's coordinate
         //! Second element is beamB, in pair of dh/dz, dv/dz. BeamA is aimed to -z direction in the HepMC event generator's coordinate
-        double z_shift_hor = 0;
-        double z_shift_ver = 0;
+        // double z_shift_hor() {return };
+        // double z_shift_ver = 0;
+
+        double beta_star_hor = 0;
+        double beta_star_ver = 0;
+
+        double beta_crab_hor = 0;
+
+        double rms_emittance_hor = 0;
+        double rms_emittance_ver = 0;
+        double rms_bunch_length = 0;
 
         // Bunch shape x, y, z
-        double bunch_sigma_x = 0;
-        double bunch_sigma_y = 0;
-        double bunch_sigma_z = 0;
+        //double bunch_sigma_hor = 0;
+        //double bunch_sigma_ver = 0;
+        //double bunch_sigma_lng = 0;
     };
 
     struct AfterburnerConfig {
@@ -56,10 +65,10 @@ namespace ab {
         double vertex_shift_t = 0;
 
         /// Beam A (one) configuration
-        BeamConfig beam_one;
+        BeamConfig hadron_beam;
 
         /// Beam B (two) configuration
-        BeamConfig beam_two;
+        BeamConfig lepton_beam;
 
         /// Load config from JSON file
         static AfterburnerConfig load(const std::string &file_name);
