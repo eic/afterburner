@@ -42,27 +42,29 @@ void Histogrammer::initialize() {
   TH1D *pZ1 = new TH1D("pZ1","Hadron Beam Pz",10000,0.0,280.0);
   TH1D *pZ2 = new TH1D("pZ2","Lepton Beam Pz",10000,-20.,0.);
 
-  TH1D *atan2PxPz1Hist = new TH1D("atan2PxPz1","",2500,0.0,0.05);
-  //TH1D *atan2PxPz1Hist = new TH1D("atan2PxPz1","",500,0.24,0.26);
-  TH1D *atan2PyPz1Hist = new TH1D("atan2PyPz1","",2500,-0.01,0.01);
-  TH1D *atan2PyPtot1Hist = new TH1D("atan2PyPtot1","",500,-0.001,0.001);
      TH2D *lepVsHadPartZ = new TH2D("lepVsHadPartZ","Intrabunch Z Positions of Colliding Leptons Vs Hadrons",5000,-500.0,500.0,5000,-500.0,500.0);
 */
-  vtxX = new TH1D("vtxX","Vertex x;[mm]",500,-5.0,5.0);
-  vtxY = new TH1D("vtxY","Vertex y;[mm]",500,-5.0,5.0);
-  vtxZ = new TH1D("vtxZ","Vertex z;[mm]",500,-500.0,500.0);
-  vtxT = new TH1D("vtxT","Time;[mm]",500,-500.0,500.0);
-  vtx2X = new TH1D("vtx2X","Vertex x;[mm]",500,-5.0,5.0);
-  vtx2Y = new TH1D("vtx2Y","Vertex y;[mm]",500,-5.0,5.0);
-  vtx2Z = new TH1D("vtx2Z","Vertex z;[mm]",500,-500.0,500.0);
-  vtx2T = new TH1D("vtx2T","Time;[mm]",500,-500.0,500.0);
-  vtxYvsX = new TH2D("vtxYvsX","Vertex Y vs X;X [mm];Y [mm]",5000,-5.0,5.0,5000,-5.0,5.0);
-  vtxXvsT = new TH2D("vtxXvsT","Vertex X vs T;T [mm];X [mm]",5000,-500.0,500.0,5000,-5.0,5.0);
-  vtxXvsZ = new TH2D("vtxXvsZ","Vertex X vs Z;Z [mm];X [mm]",5000,-500.0,500.0,5000,-5.0,5.0);
-  vtxYvsZ = new TH2D("vtxYvsZ","Vertex Y vs Z;Z [mm];Y [mm]",5000,-500.0,500.0,5000,-5.0,5.0);
-  vtxTvsZ = new TH2D("vtxTvsZ","Interaction Time Vs Z-vertex;Z [mm];T [mm]",5000,-500.0,500.0,5000,-500.0,500.0);
-  vtxXvsTZSum = new TH2D("vtxXvsTZSum","Vertex X vs T+Z;T+Z [mm];X [mm]",5000,-500.,500.,5000,-5.,5.);
-  vtxXvsTZDiff = new TH2D("vtxXvsTZDiff","Vertex X vs T-Z;T-Z [mm];X [mm]",5000,-500.,500.,5000,-5.,5.);
+    vtxX = new TH1D("vtxX","Vertex x;[mm]",100,-5.0,5.0);
+    vtxY = new TH1D("vtxY","Vertex y;[mm]",100,-.05,.05);
+    vtxZ = new TH1D("vtxZ","Vertex z;[mm]",100,-400.0,400.0);
+    vtxT = new TH1D("vtxT","Time;[mm]",100,-400.0,400.0);
+    vtx2X = new TH1D("vtx2X","Vertex x;[mm]",500,-5.0,5.0);
+    vtx2Y = new TH1D("vtx2Y","Vertex y;[mm]",500,-5.0,5.0);
+    vtx2Z = new TH1D("vtx2Z","Vertex z;[mm]",500,-500.0,500.0);
+    vtx2T = new TH1D("vtx2T","Time;[mm]",500,-500.0,500.0);
+    vtxYvsX = new TH2D("vtxYvsX","Vertex Y vs X;X [mm];Y [mm]",5000,-5.0,5.0,5000,-5.0,5.0);
+    vtxXvsT = new TH2D("vtxXvsT","Vertex X vs T;T [mm];X [mm]",5000,-500.0,500.0,5000,-5.0,5.0);
+    vtxXvsZ = new TH2D("vtxXvsZ","Vertex X vs Z;Z [mm];X [mm]",5000,-500.0,500.0,5000,-5.0,5.0);
+    vtxYvsZ = new TH2D("vtxYvsZ","Vertex Y vs Z;Z [mm];Y [mm]",5000,-500.0,500.0,5000,-5.0,5.0);
+    vtxTvsZ = new TH2D("vtxTvsZ","Interaction Time Vs Z-vertex;Z [mm];T [mm]",5000,-500.0,500.0,5000,-500.0,500.0);
+    vtxXvsTZSum = new TH2D("vtxXvsTZSum","Vertex X vs T+Z;T+Z [mm];X [mm]",5000,-500.,500.,5000,-5.,5.);
+    vtxXvsTZDiff = new TH2D("vtxXvsTZDiff","Vertex X vs T-Z;T-Z [mm];X [mm]",5000,-500.,500.,5000,-5.,5.);
+
+    atan2PxPz1Hist = new TH1D("atan2PxPz1","",2500,-0.027,-0.023);
+    atan2PyPz1Hist = new TH1D("atan2PyPz1","",2500,-0.01,0.01);
+    atan2PyPtot1Hist = new TH1D("atan2PyPtot1","",500,-0.001,0.001);
+    atan2PxPz2Hist = new TH1D("atan2PxPz2","",2500,-0.01,0.01);
+    atan2PyPz2Hist = new TH1D("atan2PyPz2","",2500,-0.01,0.01);
 }
 
 
@@ -148,6 +150,13 @@ void Histogrammer::process_event(HepMC3::GenEvent &event) {
     vtx2Y->Fill(vtx_two->position().y());
     vtx2Z->Fill(vtx_two->position().z());
     vtx2T->Fill(vtx_two->position().t());
+
+    atan2PxPz1Hist->Fill(TMath::ATan2(mom_one.px(),mom_one.pz()));
+    atan2PyPz1Hist->Fill(TMath::ATan2(mom_one.py(),mom_one.pz()));
+    atan2PyPtot1Hist->Fill(TMath::ATan2(mom_one.py(), mom_one.length()));
+
+    atan2PxPz2Hist->Fill(TMath::ATan2(mom_two.px(),(-1.0)*mom_two.pz()));
+    atan2PyPz2Hist->Fill(TMath::ATan2(mom_two.py(),(-1.0)*mom_two.pz()));
 
 //    vtxYvsX->Fill(p8.process[0].xProd(),p8.process[0].yProd());
 //    vtxXvsT->Fill(p8.process[0].tProd(),p8.process[0].xProd());

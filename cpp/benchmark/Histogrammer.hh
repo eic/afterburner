@@ -38,6 +38,12 @@ private:
     TH2D *partPtVsEtaHist;
     TH2D *partPhiVsEtaHist;
 
+    TH1D *atan2PxPz1Hist;
+    TH1D *atan2PyPz1Hist;
+    TH1D *atan2PyPtot1Hist;
+    TH1D *atan2PxPz2Hist;
+    TH1D *atan2PyPz2Hist;
+
     TH1D *vtxX;
     TH1D *vtxY;
     TH1D *vtxZ;

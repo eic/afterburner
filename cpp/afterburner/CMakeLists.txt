@@ -18,7 +18,6 @@ find_package(GSL REQUIRED)
 
 add_library(afterburner STATIC
         Afterburner.cc
-        AfterburnerConfig.cc
         EicConfigurator.cc
         Smearer.cc)
 

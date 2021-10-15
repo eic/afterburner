@@ -60,7 +60,7 @@ namespace ab{
         int m_verbosity = 0;
 
         AfterburnerConfig _cfg;
-        Smearer _smearer;
+        Smearer _smear;
 
         /** Converts from spherical theta-phi to cartesian vector */
         static CLHEP::Hep3Vector spherical_to_cartesian(double theta, double phi);
@@ -72,7 +72,7 @@ namespace ab{
 
         double get_collision_width(double widthA, double widthB);
 
-        ab::BunchInteractionResult generate_vertx_with_bunch_interaction(BeamConfig beam_one, BeamConfig beam_two);
+
 
         CLHEP::Hep3Vector
         smear_beam_divergence(const CLHEP::Hep3Vector &beam_dir,
@@ -80,6 +80,8 @@ namespace ab{
                               const double vtx_z,
                               const double crab_hor,
                               const double crab_ver);
+
+        BunchInteractionResult generate_vertx_with_bunch_interaction();
     };
 }
 

@@ -7,9 +7,6 @@
 namespace ab {
 
     struct BeamConfig {
-        /// Beam direction theta phi (direction_theta = crossing_angle)
-        double direction_theta = 0;
-        double direction_phi = 0;
 
         //! Beam angle divergence in accelerator beam coordinate.
         //! First element is beamA, in pair of Gaussian Sigma_H Sigma_V. BeamA is aimed to +z direction in the HepMC event generator's coordinate
@@ -21,25 +18,24 @@ namespace ab {
         //! which is used to represent leading order effect of crab cavity momentum kick on the beam bunch
         //! First element is beamA, in pair of dh/dz, dv/dz. BeamA is aimed to +z direction in the HepMC event generator's coordinate
         //! Second element is beamB, in pair of dh/dz, dv/dz. BeamA is aimed to -z direction in the HepMC event generator's coordinate
-        // double z_shift_hor() {return };
         // double z_shift_ver = 0;
+        double beta_crab_hor = 0;
 
         double beta_star_hor = 0;
         double beta_star_ver = 0;
 
-        double beta_crab_hor = 0;
-
         double rms_emittance_hor = 0;
         double rms_emittance_ver = 0;
         double rms_bunch_length = 0;
-
-        // Bunch shape x, y, z
-        //double bunch_sigma_hor = 0;
-        //double bunch_sigma_ver = 0;
-        //double bunch_sigma_lng = 0;
     };
 
     struct AfterburnerConfig {
+
+        /**
+         * Crossing angle [rad]
+         */
+        double crossing_angle = 25e-3;
+
         unsigned int random_seed = 1;
 
         // Use beam bunch simulation
@@ -69,12 +65,6 @@ namespace ab {
 
         /// Beam B (two) configuration
         BeamConfig lepton_beam;
-
-        /// Load config from JSON file
-        static AfterburnerConfig load(const std::string &file_name);
-
-        /// Save config to JSON file
-        static void save(const std::string &file_name,  const AfterburnerConfig &config);
     };
 }
 #endif //EICAFTERBURNER_AFTERBURNERCONFIG_HH

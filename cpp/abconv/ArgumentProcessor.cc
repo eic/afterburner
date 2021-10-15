@@ -4,6 +4,7 @@
 #include <CLI/CLI.hpp>
 
 #include "ArgumentProcessor.hh"
+#include "afterburner/EicConfigurator.hh"
 
 
 UserArguments ArgumentProcessor::Process(int argc, char **argv)
@@ -13,7 +14,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
 
     std::string output_base_name("ab_output.hepmc");
     std::vector<std::string> optAllFiles;
-    std::string config_file;
+    std::string config_file="0";
     bool ab_off = false;
     bool plot_off = false;
     bool check_ca = false;
@@ -24,7 +25,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     long ev_end = 0;
 
     app.add_option("-o,--output", output_base_name, "Base name for Output files ((!) no extension)");
-    app.add_option("-c,--config", config_file, "Beams configuration file");
+    app.add_option("-c,--config", config_file, "0: High divergence[default], 1: High acceptance, 2: eAu");
     app.add_option("-i, --in-format", input_format, "Input format: auto [default], hepmc2, hepmc3, hpe, lhef, gz, treeroot, root");
     app.add_option("-f, --out-format", output_format, "Output format: hepmc3 [default], hepmc2, dot, none (no events file is saved)");
 
@@ -35,6 +36,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     app.add_flag("--ab-off", ab_off, "No afterburner is applied");
     app.add_flag("--plot-off", plot_off, "Don't produce validation plots");
     app.add_flag("--exit-ca", check_ca, "Check existing crossing angle and exit if CA>1mrad");
+    app.set_version_flag("-v, --version", "0.1.0");
 
     app.add_option("input file", optAllFiles, "Input file");
 
@@ -45,9 +47,10 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
             throw std::runtime_error("Please, provide an input file");
         }
     } catch(const CLI::ParseError &e) {
-        app.exit(e);
-        throw;
+        exit(app.exit(e));
     }
+
+
 
     // Input files (macros and data files)
     result.InputFileName = optAllFiles[0];
@@ -76,6 +79,24 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     result.StartEventIndex = ev_start;
     result.EndEventIndex = ev_end;
     result.ExitOnCrossingAngle = check_ca;
+
+    ab::EicBeamConfigs config;
+    bool is_predefined_config=false;
+    if(config_file == "0") {
+        config = ab::EicBeamConfigs::HighDivergence;
+        is_predefined_config= true;
+    }
+    if(config_file == "1") {
+        config = ab::EicBeamConfigs::HighAcceptance;
+        is_predefined_config=true;
+    }
+    if(config_file == "2") {
+        config = ab::EicBeamConfigs::ElectronAurum;
+        is_predefined_config=true;
+    }
+    result.IsPredefinedConfig=is_predefined_config;
+    result.PredefinedConfig=config;
+
     return result;
 }
 

@@ -5,13 +5,13 @@
 
 namespace ab {
     enum class EicBeamConfigs {
-        HiDivergence=1, // High Divergence Config - CDR Table 3.3
-        HiAcceptance=2, // High Acceptance Config - CDR Table 3.4
-        ElectronAurum=3 // eA Config - CDR Table 3.5
+        HighDivergence=1, // High Divergence Config - CDR Table 3.3
+        HighAcceptance=2, // High Acceptance Config - CDR Table 3.4
+        ElectronAurum=3   // eA Config - CDR Table 3.5
     };
 
     enum class EicBeamEnergies {
-        E_5_GeV = 5,
+        E5GeV = 5,
         E10GeV = 10,
         E18GeV = 18,
         E41GeV = 41,
@@ -22,26 +22,26 @@ namespace ab {
 
     class EicConfigurator {
     public:
-        static AfterburnerConfig config_ea_5x41();
-        static AfterburnerConfig config_ea_5x110();
-        static AfterburnerConfig config_ea_10x110();
-        static AfterburnerConfig config_ea_18x110();
-        static AfterburnerConfig config_hi_acc_5x41();
-        static AfterburnerConfig config_hi_acc_5x100();
-        static AfterburnerConfig config_hi_acc_10x100();
-        static AfterburnerConfig config_hi_acc_10x275();
-        static AfterburnerConfig config_hi_acc_18x275();
-        static AfterburnerConfig config_hi_div_5x41();
-        static AfterburnerConfig config_hi_div_5x100();
-        static AfterburnerConfig config_hi_div_10x100();
-        static AfterburnerConfig config_hi_div_10x275();
-        static AfterburnerConfig config_hi_div_18x275();
+        static AfterburnerConfig config_eau_41x5();
+        static AfterburnerConfig config_eau_110x5();
+        static AfterburnerConfig config_eau_110x10();
+        static AfterburnerConfig config_eau_110x18();
+        static AfterburnerConfig config_hiacc_41x5();
+        static AfterburnerConfig config_hiacc_100x5();
+        static AfterburnerConfig config_hiacc_100x10();
+        static AfterburnerConfig config_hiacc_275x10();
+        static AfterburnerConfig config_hiacc_275x18();
+        static AfterburnerConfig config_hidiv_41x5();
+        static AfterburnerConfig config_hidiv_100x5();
+        static AfterburnerConfig config_hidiv_100x10();
+        static AfterburnerConfig config_hidiv_275x10();
+        static AfterburnerConfig config_hidiv_275x18();
+
+        static AfterburnerConfig config(double hadron_energy, double lepton_energy, EicBeamConfigs beam_preset);
+        static AfterburnerConfig config(EicBeamEnergies hadron, EicBeamEnergies lepton, EicBeamConfigs beam_preset);
 
     private:
-        void validate_config(EicBeamEnergies ion_energy, EicBeamEnergies lepton_energy, EicBeamConfigs config);
-        AfterburnerConfig config(EicBeamEnergies hadron_energy, EicBeamEnergies lepton_energy, EicBeamConfigs config);
 
-        static void set_beam_direction(AfterburnerConfig &config, double crossing_angle);
     };
 }
 

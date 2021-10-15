@@ -8,6 +8,7 @@
 #include <afterburner/Afterburner.hh>
 #include <functional>
 #include <utility>
+#include <afterburner/EicConfigurator.hh>
 
 
 namespace ab{
@@ -48,6 +49,8 @@ namespace ab{
                 _exit_on_ca = b;
             }
 
+            void set_predefined_config(ab::EicBeamConfigs config) {_config=config;}
+
         private:
             std::shared_ptr<HepMC3::Reader> _reader;
             std::shared_ptr<HepMC3::Writer> _writer;
@@ -57,6 +60,7 @@ namespace ab{
             uint64_t _last_event_number=0;
             uint64_t _events_limit=0;
             bool _exit_on_ca=false;
+            ab::EicBeamConfigs _config = ab::EicBeamConfigs::HighDivergence;
 
             std::function<void(HepMC3::GenEvent&)> _after_process_callback=nullptr;
             std::function<void(HepMC3::GenEvent&)> _prior_process_callback=nullptr;
@@ -67,6 +71,8 @@ namespace ab{
             HepMC3::ConstGenParticles get_beam_particles(const HepMC3::GenEvent &event) const;
 
             AfterburnerConfig get_ab_config(HepMC3::ConstGenParticles beam_particles);
+
+            void ab_config_to_run_info(const std::shared_ptr<HepMC3::GenRunInfo>& sharedPtr, AfterburnerConfig config);
         };
     }
 }

@@ -69,6 +69,7 @@ int main(int argc, char** argv)
     conv.set_prior_process_callback(plot_prior_callback);
     conv.set_after_process_callback(plot_after_callback);
     conv.set_exit_on_ca(arg.ExitOnCrossingAngle);
+    if(arg.IsPredefinedConfig) conv.set_predefined_config(arg.PredefinedConfig);
 
     // CONVERT!!!
     conv.convert();

@@ -32,18 +32,20 @@ void ab::abconv::Converter::convert() {
         GenEvent evt;
         _reader->read_event(evt);
         if (_reader->failed()) {
-            printf("End of file reached. Events processed: %i Exit.\n", events_processed);
+            printf("End of file reached. Events processed: %li Exit.\n", events_processed);
             break;
         }
         if (evt.event_number() < _first_event_number) continue;
 
         if (_last_event_number && evt.event_number() > _last_event_number) continue;
-        evt.set_run_info(_reader->run_info());
 
         if(0 == events_processed) {
             // The first event, determine beams configuration
             bool must_exit = check_beams_setup(evt);
             if(must_exit) return;
+
+            // Have to copy run info from existing hepmc
+            auto run_info = _reader->run_info();
 
             // Autodetect afterburner config if we have afterburner
             if(_afterburner) {
@@ -52,7 +54,17 @@ void ab::abconv::Converter::convert() {
                 auto cfg = get_ab_config(beam_particles);
                 _afterburner->set_config(cfg);
                 _afterburner->print();
+
+                // Copy afterburner data to run info
+                ab_config_to_run_info(run_info, cfg);
             }
+            else {
+                // set afterburner is not used to run info
+                run_info->add_attribute("ab_afterburner_is_used", std::make_shared<BoolAttribute>(false));
+            }
+
+            // save updated run info
+            evt.set_run_info(run_info);
         }
 
         if (_verbose) {
@@ -192,8 +204,7 @@ ab::AfterburnerConfig ab::abconv::Converter::get_ab_config(HepMC3::ConstGenParti
         lepton = beam_particles[0];
     }
 
-    return ab::EicConfigurator::config_hi_div_18x275();
-
+    return ab::EicConfigurator::config(hadron->momentum().e(), lepton->momentum().e(), _config);
 }
 
 HepMC3::ConstGenParticles ab::abconv::Converter::get_beam_particles(const HepMC3::GenEvent &event) const {
@@ -206,5 +217,30 @@ HepMC3::ConstGenParticles ab::abconv::Converter::get_beam_particles(const HepMC3
         }
     }
     return beam_particles;
+}
+
+void ab::abconv::Converter::ab_config_to_run_info(const std::shared_ptr<HepMC3::GenRunInfo>& run_info, ab::AfterburnerConfig cfg) {
+    using namespace HepMC3;
+    run_info->add_attribute("ab_afterburner_is_used", std::make_shared<BoolAttribute>(true));
+    run_info->add_attribute("ab_crossing_angle", std::make_shared<DoubleAttribute>(cfg.crossing_angle));
+    run_info->add_attribute("ab_use_beam_bunch_sim", std::make_shared<BoolAttribute>(cfg.use_beam_bunch_sim));
+
+    run_info->add_attribute("ab_hadron_divergence_hor",    std::make_shared<DoubleAttribute>(cfg.hadron_beam.divergence_hor));
+    run_info->add_attribute("ab_hadron_divergence_ver",    std::make_shared<DoubleAttribute>(cfg.hadron_beam.divergence_ver));
+    run_info->add_attribute("ab_hadron_beta_crab_hor",     std::make_shared<DoubleAttribute>(cfg.hadron_beam.beta_crab_hor));
+    run_info->add_attribute("ab_hadron_beta_star_hor",     std::make_shared<DoubleAttribute>(cfg.hadron_beam.beta_star_hor));
+    run_info->add_attribute("ab_hadron_beta_star_ver",     std::make_shared<DoubleAttribute>(cfg.hadron_beam.beta_star_ver));
+    run_info->add_attribute("ab_hadron_rms_emittance_hor", std::make_shared<DoubleAttribute>(cfg.hadron_beam.rms_emittance_hor));
+    run_info->add_attribute("ab_hadron_rms_emittance_ver", std::make_shared<DoubleAttribute>(cfg.hadron_beam.rms_emittance_ver));
+    run_info->add_attribute("ab_hadron_rms_bunch_length",  std::make_shared<DoubleAttribute>(cfg.hadron_beam.rms_bunch_length));
+
+    run_info->add_attribute("ab_lepton_divergence_hor",    std::make_shared<DoubleAttribute>(cfg.lepton_beam.divergence_hor));
+    run_info->add_attribute("ab_lepton_divergence_ver",    std::make_shared<DoubleAttribute>(cfg.lepton_beam.divergence_ver));
+    run_info->add_attribute("ab_lepton_beta_crab_hor",     std::make_shared<DoubleAttribute>(cfg.lepton_beam.beta_crab_hor));
+    run_info->add_attribute("ab_lepton_beta_star_hor",     std::make_shared<DoubleAttribute>(cfg.lepton_beam.beta_star_hor));
+    run_info->add_attribute("ab_lepton_beta_star_ver",     std::make_shared<DoubleAttribute>(cfg.lepton_beam.beta_star_ver));
+    run_info->add_attribute("ab_lepton_rms_emittance_hor", std::make_shared<DoubleAttribute>(cfg.lepton_beam.rms_emittance_hor));
+    run_info->add_attribute("ab_lepton_rms_emittance_ver", std::make_shared<DoubleAttribute>(cfg.lepton_beam.rms_emittance_ver));
+    run_info->add_attribute("ab_lepton_rms_bunch_length",  std::make_shared<DoubleAttribute>(cfg.lepton_beam.rms_bunch_length));
 }
 
