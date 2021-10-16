@@ -1,6 +1,20 @@
 # afterburner
 
-EIC MC afterburner.
+EIC MC afterburner. Software package to provide framework independent
+well validated crossing angle and beam effects C++ library and HepMC file converter (abconv) 
+for Electron Ion Collider. 
+
+**Physics simulated:**
+- Crossing angle
+- Beam effects (divergence, crabbing kick, etc.)
+- Vertex spread (position, time)
+
+
+**Software:**
+- Standalone framework independent code
+- Clean C++ API to embed in analysis scripts and/or frameworks
+- Convenient Command Line Interface (CLI) HepMC2/3 converter, that adds crossing_angle and beam effects
+- Configurable beam parameters interface (yaml files)
 
 
 ## Installation
@@ -48,27 +62,52 @@ abconv my.hepmc -f hepmc2 --ab-off --plot-off
 
 How exactly the afterburner works illustrated by `abconv my.hepmc` command. 
 
-- AB opens *my.hepmc* file, gets beam particles and extract beam energy settings   
-  - The settings should correspond to one of EIC beam energy setups:
-    - ep \[GeV\]: 275x18, 275x10, 100x10, 100x5, 41x5
-    - eAu \[GeV\]: 110x18, 110x10, 110x5, 41x5 
-  - (!) Thus the input file must have two beam particles (marked by status code 4)
-  - One can [see available settings](https://eicweb.phy.anl.gov/monte_carlo/afterburner/-/blob/main/cpp/afterburner/EicConfigurator.cc)
-    that correspond to EIC CDR tables 3.3, 3.4, 3.5
-  - Using `-c/--config` flag one can select a profile: 
-    - 0: High Divergence (default), 
-    - 1: High Acceptance
-    - 2: eAu
-  
-- AB awaits that there is no crossing angle between beam particles. To check this 
-  AB calculates a crossing angle between beams of the first event. If the crossing angle is not zero
-  and `--exit-ca` flag is set - AB exits; without the flag a warning is issued.  
-- AB processes events applying crossing angle and beam effects for each event.
-  - `-s,--ev-start`, `-e,--ev-end`, `-l,--limit` - limits the number of events to process
-- By defaults AB also creates *.hist.root file that contains validation histograms  
-   - `--plot-off` flag can switch off histograms creation
 
-### Options:
+### Afterburner algorithm
+
+1. AB opens *my.hepmc* file, gets beam particles and extract beam energy settings. 
+   See **beam energy settings** below.
+
+2. AB awaits that there is no crossing angle between beam particles. To check this 
+   AB calculates a crossing angle between beams of the first event. If the crossing angle is not zero
+   and `--exit-ca` flag is set - AB exits; without the flag a warning is issued.
+
+3. AB processes events applying crossing angle and beam effects for each event. 
+   `-s,--ev-start`, `-e,--ev-end`, `-l,--limit` flags limit the number of events to process
+
+4. By defaults AB also creates *.hist.root file that contains validation histograms  
+   `--plot-off` flag can switch off histograms creation
+
+
+P.S. Is one needs just HepMC3->HepMC2 converter one can use `--ab-off` flag to disable 
+afterburner during conversion.
+
+
+### Beam energy settings
+
+- The input file events must have two beam particles (marked by status code 4)
+- Beam particle energies should correspond to one of EIC beam energy setups:
+  - ep \[GeV\]: 275x18, 275x10, 100x10, 100x5, 41x5
+  - eAu \[GeV\]: 110x18, 110x10, 110x5, 41x5
+- One can [the exact beam parameters](https://eicweb.phy.anl.gov/monte_carlo/afterburner/-/blob/main/cpp/afterburner/EicConfigurator.cc)
+  that correspond to EIC CDR tables 3.3, 3.4, 3.5
+- Using `-c/--config` flag one can select a profile:
+  - 0: High Divergence (higher luminosity) - default,
+  - 1: High Acceptance
+  - 2: eAu
+
+### Input file requirements
+
+- The CLI command can accept any file, that HepMC3 library can open:
+  HepMC3 ascii, HepMC2 ascii, HepMC3 ROOT, HepEvt etc. 
+- For the simplicity of MCEG file management, it is implied that the input file
+  don't have crossing angle and beam effects (that afterburner applies).
+  By default, it is not possible to apply just crossing angle or just beam effects.
+  But one can provide her own beam parameters through yaml config files in upcoming version
+- The input file events must have two beam particles (marked by status code 4)
+
+
+### All options:
 
 | Flag                 | Description                               |
 |----------------------|-------------------------------------------|
