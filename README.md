@@ -65,11 +65,11 @@ How exactly the afterburner works illustrated by `abconv my.hepmc` command.
 
 ### Afterburner algorithm
 
-1. AB opens *my.hepmc* file, gets beam particles and extract beam energy settings. 
-   See **beam energy settings** below.
+1. AB opens the input file, gets beam particles and extract beam energy settings (from the first event). 
+   See **beam energy settings** for the details below.
 
 2. AB awaits that there is no crossing angle between beam particles. To check this 
-   AB calculates a crossing angle between beams of the first event. If the crossing angle is not zero
+   AB calculates a crossing angle between the beam particles. If the crossing angle is not zero
    and `--exit-ca` flag is set - AB exits; without the flag a warning is issued.
 
 3. AB processes events applying crossing angle and beam effects for each event. 
@@ -80,7 +80,8 @@ How exactly the afterburner works illustrated by `abconv my.hepmc` command.
 
 
 P.S. Is one needs just HepMC3->HepMC2 converter one can use `--ab-off` flag to disable 
-afterburner during conversion.
+afterburner during conversion. This way **abconv** could be use as different HepMC formats
+converter.
 
 
 ### Beam energy settings
@@ -100,12 +101,11 @@ afterburner during conversion.
 
 - The CLI command can accept any file, that HepMC3 library can open:
   HepMC3 ascii, HepMC2 ascii, HepMC3 ROOT, HepEvt etc. 
-- For the simplicity of MCEG file management, it is implied that the input file
-  don't have crossing angle and beam effects (that afterburner applies).
+- The input file events must have two beam particles (marked by status code 4)
+- Input file should not have crossing angle and beam effects that AB simulates.
   **By default, it is not possible to apply just crossing angle or just beam effects.**
   **But!** in the upcoming version one can provide beam parameters through yaml config files,
   where one would be able to switch off crossing angle, beam effects, etc. 
-- The input file events must have two beam particles (marked by status code 4)
 
 
 ### All options:
