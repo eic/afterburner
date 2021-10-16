@@ -102,8 +102,9 @@ afterburner during conversion.
   HepMC3 ascii, HepMC2 ascii, HepMC3 ROOT, HepEvt etc. 
 - For the simplicity of MCEG file management, it is implied that the input file
   don't have crossing angle and beam effects (that afterburner applies).
-  By default, it is not possible to apply just crossing angle or just beam effects.
-  But one can provide her own beam parameters through yaml config files in upcoming version
+  **By default, it is not possible to apply just crossing angle or just beam effects.**
+  **But!** in the upcoming version one can provide beam parameters through yaml config files,
+  where one would be able to switch off crossing angle, beam effects, etc. 
 - The input file events must have two beam particles (marked by status code 4)
 
 
