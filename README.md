@@ -1,6 +1,9 @@
 # afterburner
 
-EIC MC afterburner
+EIC MC afterburner.
+
+
+## Installation
 
 The converter and benchmark require libyaml-cpp. Those are available in package managers for the most of systems:
 
@@ -9,9 +12,6 @@ apt install libyaml-cpp-dev     # Debian/Ubuntu/Mint
 yum install yaml-cpp-devel      # RHEL/CentOS/Fedora
 ```
 
-
-
-## Building
 
 ```bash
 git clone https://eicweb.phy.anl.gov/monte_carlo/afterburner.git
@@ -28,6 +28,9 @@ cmake --build ../cpp --target all
 cmake --build ../cpp --target install -- -j 8
 ```
 
+**Preinstalled versions** are available in [ATHENA containers](https://doc.athena-eic.org/en/latest/overview/containers.html). 
+
+
 ## CLI command
 
 ### Examples:
@@ -43,15 +46,37 @@ abconv my.hepmc -o test -l 1000
 abconv my.hepmc -f hepmc2 --ab-off --plot-off 
 ```
 
+How exactly the afterburner works illustrated by `abconv my.hepmc` command. 
+
+- AB opens *my.hepmc* file, gets beam particles and extract beam energy settings   
+  - The settings should correspond to one of EIC beam energy setups:
+    - ep \[GeV\]: 275x18, 275x10, 100x10, 100x5, 41x5
+    - eAu \[GeV\]: 110x18, 110x10, 110x5, 41x5 
+  - (!) Thus the input file must have two beam particles (marked by status code 4)
+  - One can [see available settings](https://eicweb.phy.anl.gov/monte_carlo/afterburner/-/blob/main/cpp/afterburner/EicConfigurator.cc)
+    that correspond to EIC CDR tables 3.3, 3.4, 3.5
+  - Using `-c/--config` flag one can select a profile: 
+    - 0: High Divergence (default), 
+    - 1: High Acceptance
+    - 2: eAu
+  
+- AB awaits that there is no crossing angle between beam particles. To check this 
+  AB calculates a crossing angle between beams of the first event. If the crossing angle is not zero
+  and `--exit-ca` flag is set - AB exits; without the flag a warning is issued.  
+- AB processes events applying crossing angle and beam effects for each event.
+  - `-s,--ev-start`, `-e,--ev-end`, `-l,--limit` - limits the number of events to process
+- By defaults AB also creates *.hist.root file that contains validation histograms  
+   - `--plot-off` flag can switch off histograms creation
+
 ### Options:
 
 | Flag                 | Description                               |
 |----------------------|-------------------------------------------|
 | -h,--help            | Print this help message and exit|
 | -o,--output TEXT     | Base name for Output files ((!) no extension)|
-| -c,--config TEXT     | Beams configuration file|
-| -i,--in-format TEXT  | Input format: auto [default], hepmc2, hepmc3, hpe, lhef, gz, treeroot, root|
-| -f,--out-format TEXT | Output format: hepmc3 [default], hepmc2, dot, none (no events file is saved)|
+| -c,--config TEXT     | Beams configuration 0: High divergence\[default\], 1: High acceptance, 2: eAu|
+| -i,--in-format TEXT  | Input format: auto \[default\], hepmc2, hepmc3, hpe, lhef, gz, treeroot, root|
+| -f,--out-format TEXT | Output format: hepmc3 \[default\], hepmc2, dot, none (no events file is saved)|
 | -s,--ev-start INT    | Start event index (all previous are skipped)|
 | -e,--ev-end INT      | End event index (end processing after this event)|
 | -l,--limit UINT      | Limit number of events to process. (Shutdown after this number of parsed events)|
@@ -83,16 +108,42 @@ The validation plots are generated and can be viewed in [python/comparison.ipynb
 
 Essential plots from the latest validation run: 
 
+> The discrepancy in low Eta has been explained by a slight phase space difference
+> in generated headon and full beam effects files on Pythia8 side. 
+> TL;DR; [It is Fine](https://cdn.vox-cdn.com/thumbor/qQPUPBlaiVYrsXg5QM1QQYVgH34=/0x0:900x500/1400x1400/filters:focal(378x178:522x322):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/49493993/this-is-fine.0.jpg)
+
 <table>
+  <thead>
+    <tr>
+      <th>41x5 GeV</th>
+      <th>100x10 GeV</th>
+      <th>275x18 GeV</th>
+    </tr>
+  </thead>
   <tr>
-    <td><img src="python/pics/eta_comparison.png" alt="Eta comparison"/></td>
-    <td><img src='python/pics/phi_comparison.png' alt="Phi comparison"/></td>
+    <td><img src="python/pics/41x5_eta_comparison.png" alt="Eta comparison"/></td>
+    <td><img src="python/pics/100x10_eta_comparison.png" alt="Eta comparison"/></td>
+    <td><img src='python/pics/275x18_eta_comparison.png' alt="Eta comparison"/></td>
   </tr>
   <tr>
-    <td colspan="2"><img src='python/pics/phi_vs_eta_comparison.png' alt="Phi vs Eta comparison"/></td>
+    <td><img src="python/pics/41x5_phi_comparison.png" alt="Phi comparison"/></td>
+    <td><img src="python/pics/100x10_phi_comparison.png" alt="Phi comparison"/></td>
+    <td><img src='python/pics/275x18_phi_comparison.png' alt="Phi comparison"/></td>
   </tr>
   <tr>
-    <td colspan="2"><img src='python/pics/pt_vs_eta_comparison.png' alt="Pt vs Eta comparison"/></td>
+    <td><img src="python/pics/41x5_vtx_x_comparison.png"   alt="Vertex X comparison"/></td>
+    <td><img src="python/pics/100x10_vtx_x_comparison.png" alt="Vertex X comparison"/></td>
+    <td><img src='python/pics/275x18_vtx_x_comparison.png' alt="Vertex X comparison"/></td>
+  </tr>
+  <tr>
+    <td><img src="python/pics/ 41x50_vtx_z_comparison.png" alt="Vertex Z comparison"/></td>
+    <td><img src="python/pics/100x10_vtx_z_comparison.png" alt="Vertex Z comparison"/></td>
+    <td><img src='python/pics/275x18_vtx_z_comparison.png' alt="Vertex Z comparison"/></td>
+  </tr>
+<tr>
+    <td><img src="python/pics/41x5_vtx_t_comparison.png"   alt="Vertex T comparison"/></td>
+    <td><img src="python/pics/100x10_vtx_t_comparison.png" alt="Vertex T comparison"/></td>
+    <td><img src='python/pics/275x18_vtx_t_comparison.png' alt="Vertex T comparison"/></td>
   </tr>
 </table>
 
