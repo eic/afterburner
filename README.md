@@ -177,7 +177,7 @@ Essential plots from the latest validation run:
     <td><img src='python/pics/275x18_vtx_x_comparison.png' alt="Vertex X comparison"/></td>
   </tr>
   <tr>
-    <td><img src="python/pics/41x50_vtx_z_comparison.png" alt="Vertex Z comparison"/></td>
+    <td><img src="python/pics/41x5_vtx_z_comparison.png" alt="Vertex Z comparison"/></td>
     <td><img src="python/pics/100x10_vtx_z_comparison.png" alt="Vertex Z comparison"/></td>
     <td><img src='python/pics/275x18_vtx_z_comparison.png' alt="Vertex Z comparison"/></td>
   </tr>
