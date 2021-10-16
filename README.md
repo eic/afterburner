@@ -112,6 +112,7 @@ afterburner during conversion.
 | Flag                 | Description                               |
 |----------------------|-------------------------------------------|
 | -h,--help            | Print this help message and exit|
+| -v,--version         | Shows package version number |
 | -o,--output TEXT     | Base name for Output files ((!) no extension)|
 | -c,--config TEXT     | Beams configuration 0: High divergence\[default\], 1: High acceptance, 2: eAu|
 | -i,--in-format TEXT  | Input format: auto \[default\], hepmc2, hepmc3, hpe, lhef, gz, treeroot, root|
@@ -121,7 +122,8 @@ afterburner during conversion.
 | -l,--limit UINT      | Limit number of events to process. (Shutdown after this number of parsed events)|
 | --ab-off             | No afterburner is applied|
 | --plot-off           | Don't produce validation plots|
-|--exit-ca             | Check existing crossing angle and exit if CA>1mrad (1) |
+| --exit-ca            | Check existing crossing angle and exit if CA>1mrad (1) |
+
 
 > (1) How `--exit-ca` works exactly: when afterburner processes the first event it checks if 
 > it has 2 beam particles (fails with non zero code if not) and then calculates their crossing angle
@@ -175,7 +177,7 @@ Essential plots from the latest validation run:
     <td><img src='python/pics/275x18_vtx_x_comparison.png' alt="Vertex X comparison"/></td>
   </tr>
   <tr>
-    <td><img src="python/pics/ 41x50_vtx_z_comparison.png" alt="Vertex Z comparison"/></td>
+    <td><img src="python/pics/41x50_vtx_z_comparison.png" alt="Vertex Z comparison"/></td>
     <td><img src="python/pics/100x10_vtx_z_comparison.png" alt="Vertex Z comparison"/></td>
     <td><img src='python/pics/275x18_vtx_z_comparison.png' alt="Vertex Z comparison"/></td>
   </tr>
