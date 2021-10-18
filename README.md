@@ -96,6 +96,9 @@ converter.
   - 0: High Divergence (higher luminosity) - default,
   - 1: High Acceptance
   - 2: eAu
+- Crossing angle is given in horizontal and vertical components
+  - [Afterburner configuration](https://eicweb.phy.anl.gov/monte_carlo/afterburner/-/blob/main/cpp/afterburner/AfterburnerConfig.hh)
+  
 
 ### Input file requirements
 
@@ -134,16 +137,15 @@ converter.
 
 ## Validation
 
+The validation is performed by comparison of the resulting particle distributions with
+[Pythia8 beam effects](https://github.com/bspage912/eicSimuBeamEffects) simulation. 
+The later was also validated with Fun4All afterburner implementation. 
+
+
 To apply benchmarks. Head-on data (no crossing angle nor effects) is located:
 
 ```
 https://dtn01.sdcc.bnl.gov:9000/minio/eictest/ATHENA/WG/BeamEffects/
-```
-
-Pythia8 generated data with crossing angle and full effects is located:
-
-```
-https://dtn01.sdcc.bnl.gov:9000/minio/eictest/ATHENA/EVGEN/DIS/NC/
 ```
 
 The validation plots are generated and can be viewed in [python/comparison.ipynb](python/comparison.ipynb)
