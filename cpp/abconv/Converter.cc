@@ -83,6 +83,16 @@ void ab::abconv::Converter::convert() {
             // Run afterburner calculation
             auto ab_result = _afterburner->process_event();
 
+
+            // Boost
+            auto boost = ab_result.boost.boostVector();
+            evt.boost(FourVector(boost.x(), boost.y(), boost.z(), 0));
+
+            if(_verbose) {
+                std::cout << "************\nAFTER BOOST\n************\n";
+                Print::content(evt);
+            }
+
             // Rotate
             auto axis = ab_result.rotation.axis();
             auto euler = ab_result.rotation.eulerAngles();
@@ -103,14 +113,6 @@ void ab::abconv::Converter::convert() {
                 Print::content(evt);
             }
 
-            // Boost
-            auto boost = ab_result.boost.boostVector();
-            evt.boost(FourVector(boost.x(), boost.y(), boost.z(), 0));
-
-            if(_verbose) {
-                std::cout << "************\nAFTER BOOST\n************\n";
-                Print::content(evt);
-            }
 
             // Translate
             auto vtx = ab_result.vertex;

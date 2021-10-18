@@ -32,9 +32,14 @@ namespace ab {
     struct AfterburnerConfig {
 
         /**
-         * Crossing angle [rad]
+         * Crossing angle in horizontal plane [rad]
          */
         double crossing_angle = 25e-3;
+
+        /**
+         * Crossing angle in vertical plane
+         */
+        double crossing_angle_ver = 100e-6;
 
         unsigned int random_seed = 1;
 

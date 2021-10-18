@@ -173,6 +173,26 @@ Essential plots from the latest validation run:
     <td><img src='python/pics/275x18_phi_comparison.png' alt="Phi comparison"/></td>
   </tr>
   <tr>
+    <td><img src="python/pics/41x5_atan2_pxpz_hadron.png" alt="atan2_pxpz hadron comparison"/></td>
+    <td><img src="python/pics/100x10_atan2_pxpz_hadron.png" alt="atan2_pxpz hadron comparison"/></td>
+    <td><img src='python/pics/275x18_atan2_pxpz_hadron.png' alt="atan2_pxpz hadron comparison"/></td>
+  </tr>
+  <tr>
+    <td><img src="python/pics/41x5_atan2_pypz_hadron.png" alt="atan2_pypz hadron comparison"/></td>
+    <td><img src="python/pics/100x10_atan2_pypz_hadron.png" alt="atan2_pypz hadron comparison"/></td>
+    <td><img src='python/pics/275x18_atan2_pypz_hadron.png' alt="atan2_pypz hadron comparison"/></td>
+  </tr>
+  <tr>
+    <td><img src="python/pics/41x5_atan2_pxpz_lepton.png" alt="atan2_pxpz lepton comparison"/></td>
+    <td><img src="python/pics/100x10_atan2_pxpz_lepton.png" alt="atan2_pxpz lepton comparison"/></td>
+    <td><img src='python/pics/275x18_atan2_pxpz_lepton.png' alt="atan2_pxpz lepton comparison"/></td>
+  </tr>
+  <tr>
+    <td><img src="python/pics/41x5_atan2_pypz_lepton.png" alt="atan2_pypz lepton comparison"/></td>
+    <td><img src="python/pics/100x10_atan2_pypz_lepton.png" alt="atan2_pypz lepton comparison"/></td>
+    <td><img src='python/pics/275x18_atan2_pypz_lepton.png' alt="atan2_pypz lepton comparison"/></td>
+  </tr>
+  <tr>
     <td><img src="python/pics/41x5_vtx_x_comparison.png"   alt="Vertex X comparison"/></td>
     <td><img src="python/pics/100x10_vtx_x_comparison.png" alt="Vertex X comparison"/></td>
     <td><img src='python/pics/275x18_vtx_x_comparison.png' alt="Vertex X comparison"/></td>

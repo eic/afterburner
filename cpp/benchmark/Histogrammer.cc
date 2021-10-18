@@ -13,8 +13,8 @@
 
 
 Histogrammer::Histogrammer(std::shared_ptr<TFile> file, std::string dir_name):
-        _file(file),
-        _dirname(dir_name)
+        _file(std::move(file)),
+        _dirname(std::move(dir_name))
 {
 }
 
@@ -60,11 +60,11 @@ void Histogrammer::initialize() {
     vtxXvsTZSum = new TH2D("vtxXvsTZSum","Vertex X vs T+Z;T+Z [mm];X [mm]",5000,-500.,500.,5000,-5.,5.);
     vtxXvsTZDiff = new TH2D("vtxXvsTZDiff","Vertex X vs T-Z;T-Z [mm];X [mm]",5000,-500.,500.,5000,-5.,5.);
 
-    atan2PxPz1Hist = new TH1D("atan2PxPz1","",2500,-0.027,-0.023);
-    atan2PyPz1Hist = new TH1D("atan2PyPz1","",2500,-0.01,0.01);
+    atan2PxPz1Hist = new TH1D("atan2PxPz1","",250,-0.027,-0.023);
+    atan2PyPz1Hist = new TH1D("atan2PyPz1","",500,-0.01,0.01);
     atan2PyPtot1Hist = new TH1D("atan2PyPtot1","",500,-0.001,0.001);
-    atan2PxPz2Hist = new TH1D("atan2PxPz2","",2500,-0.01,0.01);
-    atan2PyPz2Hist = new TH1D("atan2PyPz2","",2500,-0.01,0.01);
+    atan2PxPz2Hist = new TH1D("atan2PxPz2","",500,-0.01,0.01);
+    atan2PyPz2Hist = new TH1D("atan2PyPz2","",500,-0.01,0.01);
 }
 
 

@@ -28,79 +28,7 @@ static void RotXY(double theta, double phi, double xin, double yin, double zin, 
 }
 
 
-ab::Afterburner::Afterburner() : _smear(1) {
-
-    // Default configuration for IP6 From Jin:
-    // https://github.com/eic/fun4all_macros/blob/3678b50f3d739aa4db08d69b0afb0177380adb9c/common/G4_Input.C#L116
-
-    //25mrad x-ing as in EIC CDR
-    const double crossing_angle = 25e-3;
-
-
-    // angular kick within a bunch as result of crab cavity
-    // using an naive assumption of transfer matrix from the cavity to IP,
-    // which is NOT yet validated with accelerator optics simulations!
-//    const double z_hadron_cavity = 52e2;  // CDR Fig 3.3
-//    const double z_e_cavity = 38e2;       // CDR Fig 3.2
-//    _cfg.hadron_beam.z_shift_hor = -crossing_angle / 2. / z_hadron_cavity;
-//    _cfg.hadron_beam.z_shift_ver = 0;double lepton_beta_crab_hor = 150000.0;
-//    _cfg.lepton_beam.z_shift_hor = -crossing_angle / 2. / z_e_cavity;
-//    _cfg.lepton_beam.z_shift_ver = 0;
-
-    // calculate beam sigma width at IP  as in EIC CDR table 1.1
-    const double sigma_p_h = sqrt(80 * 11.3e-7);
-    const double sigma_p_v = sqrt(7.2 * 1.0e-7);
-    const double sigma_p_l = 6;
-    const double sigma_e_h = sqrt(45 * 20.0e-7);
-    const double sigma_e_v = sqrt(5.6 * 1.3e-7);
-    const double sigma_e_l = 2;
-
-    _cfg.use_beam_bunch_sim = true;
-
-    // bunch crossing parameters
-    _cfg.hadron_beam.rms_emittance_hor = 11.3e-6;
-    _cfg.hadron_beam.rms_emittance_ver = 1e-6;
-    _cfg.hadron_beam.beta_star_hor = 800;
-    _cfg.hadron_beam.beta_star_ver = 72;
-    _cfg.hadron_beam.rms_bunch_length = 60;
-
-//    _cfg.hadron_beam.bunch_sigma_hor = sigma_p_h;
-//    _cfg.hadron_beam.bunch_sigma_ver = sigma_p_v;
-//    _cfg.hadron_beam.bunch_sigma_lng = sigma_p_l;
-//
-//    _cfg.lepton_beam.bunch_sigma_hor = sigma_e_h;
-//    _cfg.lepton_beam.bunch_sigma_ver = sigma_e_v;
-//    _cfg.lepton_beam.bunch_sigma_lng = sigma_e_l;
-
-    // combine two beam gives the collision sigma in z
-    // (!) This piece is relevant only if bunch crossing simulation is off
-    const double collision_sigma_x = sigma_p_h * sigma_e_h / sqrt(sigma_p_h * sigma_p_h + sigma_e_h * sigma_e_h);   // x
-    const double collision_sigma_y = sigma_p_v * sigma_e_v / sqrt(sigma_p_v * sigma_p_v + sigma_e_v * sigma_e_v);   // y
-    const double collision_sigma_z = sqrt(sigma_p_l * sigma_p_l + sigma_e_l * sigma_e_l) / 2;
-    const double collision_sigma_t = collision_sigma_z / 29.9792;  // speed of light in cm/ns
-
-    _cfg.vertex_smear_width_x = collision_sigma_x;
-    _cfg.vertex_smear_width_y = collision_sigma_y;
-    _cfg.vertex_smear_width_z = collision_sigma_z;
-    _cfg.vertex_smear_width_t = collision_sigma_t;
-
-    //
-
-    /*
-     * This configuration gives the next values:
-     * AFTERBURNER CONFIGURATION
-     * =========================
-     * Vertex distribution width  x: 0.00671564, y: 0.000601655, z: 3.16228, t: 0.105482
-     * Vertex distribution function  x: Gauss, y: Gauss, z: Gauss, t: Gauss
-     * Beam direction: A  theta-phi = 0.025, 0
-     * Beam direction: B  theta-phi = 3.14159, 0
-     * Beam divergence: A X-Y = 0.000119, 0.000119
-     * Beam divergence: B X-Y = 0.000211, 0.000152
-     * Beam angle shift as linear function of longitudinal vertex position : A X-Y = -2.40385e-06, 0
-     * Beam angle shift as linear function of longitudinal vertex position: B X-Y = -3.28947e-06, 0
-     * =========================
-     */
-}
+ab::Afterburner::Afterburner() : _smear(1) {}
 
 CLHEP::HepLorentzVector ab::Afterburner::move_vertex(const CLHEP::HepLorentzVector &init_vtx) {
 
@@ -128,7 +56,6 @@ ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interactio
     using namespace std;
 
     // Set particle positions
-
     double hadron_z = _smear.gauss(_cfg.hadron_beam.rms_bunch_length);
     double lepton_z = _smear.gauss(_cfg.lepton_beam.rms_bunch_length);
     double crossing_angle = _cfg.crossing_angle;
@@ -271,7 +198,7 @@ CLHEP::Hep3Vector ab::Afterburner::smear_beam_divergence(const CLHEP::Hep3Vector
     static const CLHEP::Hep3Vector accelerator_plane(0, 1, 0);
 
     // Horizontal
-    double horizontal_angle = -vtx_z * crab_hor;                                     // horizontal angle 0
+    double horizontal_angle = vtx_z * crab_hor;                                     // horizontal angle 0
     horizontal_angle = _smear.smear(horizontal_angle, beam_cfg.divergence_hor, SmearFuncs::Gauss);    // smear horizontal angle
     CLHEP::HepRotation x_smear_in_accelerator_plane(accelerator_plane, horizontal_angle);      // central horizontal angle shift
 
@@ -343,12 +270,10 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     const static CLHEP::Hep3Vector z_axis(0, 0, 1);
     const static CLHEP::Hep3Vector y_axis(0, 1, 0);
 
-    double crossing_angle = _cfg.crossing_angle;
-
     //CLHEP::Hep3Vector ideal_hadron_dir = spherical_to_cartesian(_cfg.hadron_beam.direction_theta, _cfg.hadron_beam.direction_phi);
     //CLHEP::Hep3Vector ideal_lepton_dir = spherical_to_cartesian(_cfg.lepton_beam.direction_theta, _cfg.lepton_beam.direction_phi);
     CLHEP::Hep3Vector ideal_lepton_dir(0, 0, -1);
-    CLHEP::Hep3Vector ideal_hadron_dir = CLHEP::Hep3Vector(z_axis).rotateY(crossing_angle);
+    CLHEP::Hep3Vector ideal_hadron_dir = CLHEP::Hep3Vector(z_axis).rotateY(_cfg.crossing_angle).rotateX(_cfg.crossing_angle_ver);
 
     //double crossing_angle = acos(ideal_hadron_dir.unit().dot(-ideal_lepton_dir.unit()));
 
@@ -356,7 +281,8 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
         cout << __PRETTY_FUNCTION__ << ": " << endl;
         cout << "ideal_hadron_dir = " << ideal_hadron_dir << endl;
         cout << "ideal_lepton_dir = " << ideal_lepton_dir << endl;
-        cout << "crossing_angle   = " << crossing_angle << endl;
+        cout << "crossing_angle_hor   = " << _cfg.crossing_angle << endl;
+        cout << "crossing_angle_ver   = " << _cfg.crossing_angle_ver << endl;
     }
 
     assert(fabs(ideal_hadron_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
@@ -374,12 +300,10 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     }
 
     // Calculate angular deflection
-
-
-    double hadron_crab_hor = crossing_angle/2.0/sqrt(_cfg.hadron_beam.beta_crab_hor * _cfg.hadron_beam.beta_star_hor);
+    double hadron_crab_hor = _cfg.crossing_angle/2.0/sqrt(_cfg.hadron_beam.beta_crab_hor * _cfg.hadron_beam.beta_star_hor);
     double hadron_crab_ver = 0;
 
-    double lepton_crab_hor = crossing_angle/2.0/sqrt(_cfg.lepton_beam.beta_crab_hor * _cfg.lepton_beam.beta_star_hor);
+    double lepton_crab_hor = _cfg.crossing_angle/2.0/sqrt(_cfg.lepton_beam.beta_crab_hor * _cfg.lepton_beam.beta_star_hor);
     double lepton_crab_ver = 0;
 
     CLHEP::Hep3Vector real_hadron_dir = smear_beam_divergence(ideal_hadron_dir, _cfg.hadron_beam, bunch_one_z, hadron_crab_hor, hadron_crab_ver);
@@ -525,7 +449,8 @@ void ab::Afterburner::print() const {
     cout << "AFTERBURNER CONFIGURATION\n";
     cout << "=========================\n";
 
-    cout << "Crossing angle: " << _cfg.crossing_angle << endl;
+    cout << "Crossing angle hor: " << _cfg.crossing_angle << endl;
+    cout << "Crossing angle ver: " << _cfg.crossing_angle_ver << endl;
 
     cout << "Vertex distribution width"
             "  x: " << _cfg.vertex_smear_width_x
@@ -543,8 +468,8 @@ void ab::Afterburner::print() const {
     cout << "   rms bunch length: " << _cfg.hadron_beam.rms_bunch_length << endl;
 
     cout << "Lepton beam:\n";
-    cout << "   rms emittance   : hor = " << _cfg.lepton_beam.rms_emittance_hor << ", ver = " << _cfg.hadron_beam.rms_emittance_ver << endl;
-    cout << "   beta star       : hor = " << _cfg.lepton_beam.beta_star_hor << ", ver = " << _cfg.hadron_beam.beta_star_ver << endl;
+    cout << "   rms emittance   : hor = " << _cfg.lepton_beam.rms_emittance_hor << ", ver = " << _cfg.lepton_beam.rms_emittance_ver << endl;
+    cout << "   beta star       : hor = " << _cfg.lepton_beam.beta_star_hor << ", ver = " << _cfg.lepton_beam.beta_star_ver << endl;
     cout << "   beta crab       : hor = " << _cfg.lepton_beam.beta_crab_hor << endl;
     cout << "   rms bunch length: " << _cfg.lepton_beam.rms_bunch_length << endl;
 

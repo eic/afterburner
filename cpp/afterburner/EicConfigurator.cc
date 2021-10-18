@@ -421,7 +421,7 @@ ab::AfterburnerConfig ab::EicConfigurator::config_hidiv_275x18() {
 
     // Beam beta star [mm]
     cfg.hadron_beam.beta_star_hor = 800;
-    cfg.hadron_beam.beta_star_ver = 72;
+    cfg.hadron_beam.beta_star_ver = 71;
     cfg.lepton_beam.beta_star_hor = 590;
     cfg.lepton_beam.beta_star_ver = 57;
 
@@ -438,9 +438,7 @@ ab::AfterburnerConfig ab::EicConfigurator::config_hidiv_275x18() {
 }
 
 
-ab::AfterburnerConfig ab::EicConfigurator::config(double hadron_energy,
-                                                  double lepton_energy,
-                                                  ab::EicBeamConfigs beam_preset) {
+ab::AfterburnerConfig ab::EicConfigurator::config(double hadron_energy, double lepton_energy, ab::EicBeamConfigs beam_preset) {
     using namespace std;
 
     int had_e = (int)round(hadron_energy);
@@ -462,9 +460,7 @@ ab::AfterburnerConfig ab::EicConfigurator::config(double hadron_energy,
 }
 
 
-ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies hadron,
-                                          ab::EicBeamEnergies lepton,
-                                          ab::EicBeamConfigs beam_preset) {
+ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies hadron, ab::EicBeamEnergies lepton, ab::EicBeamConfigs beam_preset) {
     using namespace std;
 
     // Ensure Beam Energies Correspond to Those Presented in CDR
