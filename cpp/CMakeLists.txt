@@ -25,3 +25,5 @@ add_subdirectory(benchmark)
 add_subdirectory(abconv)
 add_subdirectory(test)
 
+enable_testing()
+

@@ -14,7 +14,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
 
     std::string output_base_name("ab_output.hepmc");
     std::vector<std::string> optAllFiles;
-    std::string config_file="0";
+    std::string preset="0";
     bool ab_off = false;
     bool plot_off = false;
     bool check_ca = false;
@@ -24,8 +24,8 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     long ev_start = 0;
     long ev_end = 0;
 
-    app.add_option("-o,--output", output_base_name, "Base name for Output files ((!) no extension)");
-    app.add_option("-c,--config", config_file, "0: High divergence[default], 1: High acceptance, 2: eAu");
+    app.add_option("-o, --output", output_base_name, "Base name for Output files ((!) no extension)");
+    app.add_option("-p, --preset", preset, "0: High divergence[default], 1: High acceptance, 2: eAu; More - see below");
     app.add_option("-i, --in-format", input_format, "Input format: auto [default], hepmc2, hepmc3, hpe, lhef, gz, treeroot, root");
     app.add_option("-f, --out-format", output_format, "Output format: hepmc3 [default], hepmc2, dot, none (no events file is saved)");
 
@@ -40,6 +40,8 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
 
     app.add_option("input file", optAllFiles, "Input file");
 
+    app.footer(get_footer());
+
     // Parse everything
     try {
         app.parse(argc, argv);
@@ -49,8 +51,6 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     } catch(const CLI::ParseError &e) {
         exit(app.exit(e));
     }
-
-
 
     // Input files (macros and data files)
     result.InputFileName = optAllFiles[0];
@@ -80,22 +80,9 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     result.EndEventIndex = ev_end;
     result.ExitOnCrossingAngle = check_ca;
 
-    ab::EicBeamConfigs config;
-    bool is_predefined_config=false;
-    if(config_file == "0") {
-        config = ab::EicBeamConfigs::HighDivergence;
-        is_predefined_config= true;
-    }
-    if(config_file == "1") {
-        config = ab::EicBeamConfigs::HighAcceptance;
-        is_predefined_config=true;
-    }
-    if(config_file == "2") {
-        config = ab::EicBeamConfigs::ElectronAurum;
-        is_predefined_config=true;
-    }
-    result.IsPredefinedConfig=is_predefined_config;
-    result.PredefinedConfig=config;
+
+    // Beam preset name
+    result.preset_name = preset;
 
     return result;
 }
@@ -104,4 +91,15 @@ std::string ArgumentProcessor::get_description() {
     return "EIC Afterburner. \n\n Process HepMC2/3 and other compatible files adding crossing angle and beam effects.\n";
 }
 
-
+std::string ArgumentProcessor::get_footer() {
+    return "-c,--config flag, values [0,1,2] set config and auto determine energy from source file: \n"
+           "  0: IP6, High divergence, auto read energy [default], \n"
+           "  1: IP6, High acceptance, auto read energy\n"
+           "  2: IP6, eAu, auto read energy\n"
+           "The other options sets energy settings manually, not checking the source file:\n"
+           "  ip6_hidiv_41x5, ip6_hidiv_100x5, ip6_hidiv_100x10, ip6_hidiv_275x10, ip6_hidiv_275x18\n"
+           "  ip6_hiacc_41x5, ip6_hiacc_100x5, ip6_hiacc_100x10, ip6_hiacc_275x10, ip6_hiacc_275x18\n"
+           "  ip6_eau_41x5,   ip6_eau_110x5,   ip6_eau_110x10,   ip6_eau_110x18\n"
+           "Example of manual configuration setting: \n"
+           "  abconv -c ip6_hidiv_100x5 source_file.hepmc\n";
+}

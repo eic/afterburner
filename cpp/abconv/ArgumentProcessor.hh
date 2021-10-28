@@ -6,6 +6,7 @@
 #include <afterburner/EicConfigurator.hh>
 
 
+
 /** \file
  *  ArgumentProcessor manage users inputs on program start.
  *  By the arguments one means:
@@ -39,8 +40,8 @@ struct UserArguments
     long StartEventIndex;                 /// Start event index (all skipped before that)
     long EndEventIndex;                   /// End event index (stop after that)
     bool ExitOnCrossingAngle;             /// Check existing crossing angle and exit if CA>1mrad
-    bool IsPredefinedConfig;              /// One of the predefined configs is used
-    ab::EicBeamConfigs PredefinedConfig;  /// Predefined config to use
+    std::string preset_name;       /// Predefined config to use
+
 };
 
 
@@ -55,6 +56,8 @@ private:
     /// Processes both program arguments and environment variables to build the right ProgramArguments
 
     static std::string get_description();
+
+    static std::string get_footer();
 };
 
 

@@ -23,9 +23,7 @@ void ab::abconv::Converter::convert() {
     using namespace HepMC3;
 
     long int events_processed = 0;
-
     // HepMC files open
-
 
     // Event loop
     while( !_reader->failed() ) {
@@ -49,14 +47,11 @@ void ab::abconv::Converter::convert() {
 
             // Autodetect afterburner config if we have afterburner
             if(_afterburner) {
-                // Get AB configuration based on beam info
-                HepMC3::ConstGenParticles beam_particles = get_beam_particles(evt);
-                auto cfg = get_ab_config(beam_particles);
-                _afterburner->set_config(cfg);
+                // Print AB configuration and add it to RunInfo
                 _afterburner->print();
 
                 // Copy afterburner data to run info
-                ab_config_to_run_info(run_info, cfg);
+                ab_config_to_run_info(run_info, _afterburner->config());
             }
             else {
                 // set afterburner is not used to run info
@@ -82,7 +77,6 @@ void ab::abconv::Converter::convert() {
         {
             // Run afterburner calculation
             auto ab_result = _afterburner->process_event();
-
 
             // Boost
             auto boost = ab_result.boost.boostVector();
@@ -193,25 +187,8 @@ bool ab::abconv::Converter::check_beams_setup(const HepMC3::GenEvent& event) {
     return false;
 }
 
-ab::AfterburnerConfig ab::abconv::Converter::get_ab_config(HepMC3::ConstGenParticles beam_particles) {
-
-    HepMC3::ConstGenParticlePtr hadron;
-    HepMC3::ConstGenParticlePtr lepton;
-    if(beam_particles[0]->momentum().e() > beam_particles[1]->momentum().e()) {
-        hadron = beam_particles[0];
-        lepton = beam_particles[1];
-    }
-    else {
-        hadron = beam_particles[1];
-        lepton = beam_particles[0];
-    }
-
-    return ab::EicConfigurator::config(hadron->momentum().e(), lepton->momentum().e(), _config);
-}
-
 HepMC3::ConstGenParticles ab::abconv::Converter::get_beam_particles(const HepMC3::GenEvent &event) const {
     HepMC3::ConstGenParticles beam_particles;
-
     // Select beam particles
     for(auto& prt: event.particles()) {
         if(prt->status() == 4) {

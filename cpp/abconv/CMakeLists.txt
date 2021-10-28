@@ -28,6 +28,9 @@ add_executable(${TARGET_NAME}
 
 		WriterDOT.cc
 		WriterDOT.h
+
+		ConfigProvider.cc
+		ConfigProvider.hh
 		)
 
 # == REQUIRED LIBRARIES ==

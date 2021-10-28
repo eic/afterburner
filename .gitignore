@@ -4,3 +4,5 @@
 cpp/cmake-build-debug/
 
 python/.ipynb_checkpoints/
+
+*.log

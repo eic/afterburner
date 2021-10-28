@@ -4,7 +4,7 @@
 #include "AfterburnerConfig.hh"
 
 namespace ab {
-    enum class EicBeamConfigs {
+    enum class EicBeamPresets {
         HighDivergence=1, // High Divergence Config - CDR Table 3.3
         HighAcceptance=2, // High Acceptance Config - CDR Table 3.4
         ElectronAurum=3   // eA Config - CDR Table 3.5
@@ -36,9 +36,10 @@ namespace ab {
         static AfterburnerConfig config_hidiv_100x10();
         static AfterburnerConfig config_hidiv_275x10();
         static AfterburnerConfig config_hidiv_275x18();
+        static AfterburnerConfig from_string(const std::string& name);
 
-        static AfterburnerConfig config(double hadron_energy, double lepton_energy, EicBeamConfigs beam_preset);
-        static AfterburnerConfig config(EicBeamEnergies hadron, EicBeamEnergies lepton, EicBeamConfigs beam_preset);
+        static AfterburnerConfig config(double hadron_energy, double lepton_energy, EicBeamPresets beam_preset);
+        static AfterburnerConfig config(EicBeamEnergies hadron, EicBeamEnergies lepton, EicBeamPresets beam_preset);
 
     private:
 

@@ -17,6 +17,7 @@
 #include "ArgumentProcessor.hh"
 #include "FileFormats.hh"
 #include "Converter.hh"
+#include "ConfigProvider.hh"
 
 
 /// Hello world!
@@ -57,6 +58,10 @@ int main(int argc, char** argv)
     if(arg.AfterburnerEnabled) {
         std::cout<<"Afterburner is ENABLED\n";
         afterburner = std::make_shared<ab::Afterburner>();
+
+        // Check how to configure the afterburner
+        auto ab_config = ab::convert::ConfigProvider::from_user_args(arg);
+        afterburner->set_config(ab_config);
     } else {
         std::cout<<"Afterburner is DISABLED\n";
     }
@@ -69,7 +74,6 @@ int main(int argc, char** argv)
     conv.set_prior_process_callback(plot_prior_callback);
     conv.set_after_process_callback(plot_after_callback);
     conv.set_exit_on_ca(arg.ExitOnCrossingAngle);
-    if(arg.IsPredefinedConfig) conv.set_predefined_config(arg.PredefinedConfig);
 
     // CONVERT!!!
     conv.convert();

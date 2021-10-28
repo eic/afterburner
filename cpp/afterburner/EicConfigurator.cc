@@ -438,11 +438,21 @@ ab::AfterburnerConfig ab::EicConfigurator::config_hidiv_275x18() {
 }
 
 
-ab::AfterburnerConfig ab::EicConfigurator::config(double hadron_energy, double lepton_energy, ab::EicBeamConfigs beam_preset) {
+ab::AfterburnerConfig ab::EicConfigurator::config(double hadron_energy, double lepton_energy, ab::EicBeamPresets beam_preset) {
     using namespace std;
 
     int had_e = (int)round(hadron_energy);
     int lep_e = (int)round(lepton_energy);
+
+    // Approximate energies so it tolerate some spread
+    if(hadron_energy > 270 && hadron_energy < 280) had_e = 275;
+    if(hadron_energy > 105 && hadron_energy < 115) had_e = 110;
+    if(hadron_energy > 95  && hadron_energy < 105) had_e = 100;
+    if(hadron_energy > 37  && hadron_energy < 44) had_e = 41;
+
+    if(lepton_energy > 15 && lepton_energy < 21) lep_e = 18;
+    if(lepton_energy > 7  && lepton_energy < 13) lep_e = 10;
+    if(lepton_energy > 3  && lepton_energy < 7) lep_e = 5;
 
     if(had_e != 275 && had_e!= 110 && had_e != 100 && had_e!=41) {
         cerr << (int)had_e << " is not a valid Hadron Beam Energy!!" << endl;
@@ -460,7 +470,7 @@ ab::AfterburnerConfig ab::EicConfigurator::config(double hadron_energy, double l
 }
 
 
-ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies hadron, ab::EicBeamEnergies lepton, ab::EicBeamConfigs beam_preset) {
+ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies hadron, ab::EicBeamEnergies lepton, ab::EicBeamPresets beam_preset) {
     using namespace std;
 
     // Ensure Beam Energies Correspond to Those Presented in CDR
@@ -477,7 +487,7 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies hadron, ab
     }
 
     // High Divergence setting
-    if(beam_preset == EicBeamConfigs::HighDivergence) {
+    if(beam_preset == EicBeamPresets::HighDivergence) {
         if(hadron == EicBeamEnergies::E275GeV && lepton == EicBeamEnergies::E18GeV) return config_hidiv_275x18();
         if(hadron == EicBeamEnergies::E275GeV && lepton == EicBeamEnergies::E10GeV) return config_hidiv_275x10();
         if(hadron == EicBeamEnergies::E100GeV && lepton == EicBeamEnergies::E10GeV) return config_hidiv_100x10();
@@ -486,7 +496,7 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies hadron, ab
     }
 
     // High acceptance settings
-    if(beam_preset == EicBeamConfigs::HighAcceptance) {
+    if(beam_preset == EicBeamPresets::HighAcceptance) {
         if(hadron == EicBeamEnergies::E275GeV && lepton == EicBeamEnergies::E18GeV) return config_hiacc_275x18();
         if(hadron == EicBeamEnergies::E275GeV && lepton == EicBeamEnergies::E10GeV) return config_hiacc_275x10();
         if(hadron == EicBeamEnergies::E100GeV && lepton == EicBeamEnergies::E10GeV) return config_hiacc_100x10();
@@ -494,7 +504,7 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies hadron, ab
         if(hadron == EicBeamEnergies::E41GeV  && lepton == EicBeamEnergies::E5GeV)  return config_hiacc_41x5();
     }
 
-    if(beam_preset == EicBeamConfigs::ElectronAurum) {
+    if(beam_preset == EicBeamPresets::ElectronAurum) {
         if(hadron == EicBeamEnergies::E110GeV && lepton == EicBeamEnergies::E18GeV) return config_eau_110x18();
         if(hadron == EicBeamEnergies::E110GeV && lepton == EicBeamEnergies::E10GeV) return config_eau_110x10();
         if(hadron == EicBeamEnergies::E110GeV && lepton == EicBeamEnergies::E5GeV)  return config_eau_110x5();
@@ -505,6 +515,26 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies hadron, ab
     cout << "Valid (ep) Combinations are 18x275, 10x275, 10x100, 5x100, and 5x41" << endl;
     cout << "Valid (eA) Combinations are 18x110, 10x110, 5x110, and 5x41" << endl;
     throw std::invalid_argument("Ion beams energy combination ");
+}
+
+ab::AfterburnerConfig ab::EicConfigurator::from_string(const std::string &name) {
+    if(name == "ip6_eau_110x18")   return config_eau_110x18();
+    if(name == "ip6_eau_110x10")   return config_eau_110x10();
+    if(name == "ip6_eau_110x5")    return config_eau_110x5();
+    if(name == "ip6_eau_41x5")     return config_eau_41x5();
+    if(name == "ip6_hiacc_41x5")   return config_hiacc_41x5();
+    if(name == "ip6_hiacc_100x5")  return config_hiacc_100x5();
+    if(name == "ip6_hiacc_100x10") return config_hiacc_100x10();
+    if(name == "ip6_hiacc_275x10") return config_hiacc_275x10();
+    if(name == "ip6_hiacc_275x18") return config_hiacc_275x18();
+    if(name == "ip6_hidiv_41x5")   return config_hidiv_41x5();
+    if(name == "ip6_hidiv_100x5")  return config_hidiv_100x5();
+    if(name == "ip6_hidiv_100x10") return config_hidiv_100x10();
+    if(name == "ip6_hidiv_275x10") return config_hidiv_275x10();
+    if(name == "ip6_hidiv_275x18") return config_hidiv_275x18();
+
+    std::string message = "Invalid configuration name. Name: '" + name + "' is not supported";
+    throw std::invalid_argument(message);
 }
 
 
