@@ -135,6 +135,27 @@ converter.
 > This method is very coarse as if in a source file the crossing angle is 0 but all beam effects do exist,
 > beam effects will be applied twice
 
+-c,--config flag, values [0,1,2] set config and auto determine energy from source file:
+
+- "0": IP6, High divergence, auto read energy [default],
+- "1": IP6, High acceptance, auto read energy
+- "2": IP6, eAu, auto read energy
+
+The other options sets energy settings manually, not checking the source file:
+
+<table>
+    <tr><td>ip6_hidiv_41x5</td><td>ip6_hidiv_100x5</td><td>ip6_hidiv_100x10</td><td>ip6_hidiv_275x10</td><td>ip6_hidiv_275x18</td></tr>
+    <tr><td>ip6_hiacc_41x5</td><td>ip6_hiacc_100x5</td><td>ip6_hiacc_100x10</td><td>ip6_hiacc_275x10</td><td>ip6_hiacc_275x18</td></tr>
+    <tr><td>ip6_eau_41x5  </td><td>ip6_eau_110x5  </td><td>ip6_eau_110x10  </td><td>ip6_eau_110x18  </td><td>-</td></tr>
+</table>
+
+Example of manual configuration setting:
+
+```bash
+abconv -c ip6_hidiv_100x5 source_file.hepmc
+``` 
+
+
 ## Validation
 
 The validation is performed by comparison of the resulting particle distributions with
