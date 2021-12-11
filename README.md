@@ -13,7 +13,7 @@ for Electron Ion Collider.
 **Software:**
 - Standalone framework independent code
 - Clean C++ API to embed in analysis scripts and/or frameworks
-- Convenient Command Line Interface (CLI) HepMC2/3 converter, that adds crossing_angle and beam effects
+- Convenient Command Line Interface (CLI) HepMC2/3 converter, that adds crossing_angle_hor and beam effects
 - Configurable beam parameters interface (yaml files)
 
 
@@ -92,13 +92,18 @@ converter.
   - eAu \[GeV\]: 110x18, 110x10, 110x5, 41x5
 - One can [the exact beam parameters](https://eicweb.phy.anl.gov/monte_carlo/afterburner/-/blob/main/cpp/afterburner/EicConfigurator.cc)
   that correspond to EIC CDR tables 3.3, 3.4, 3.5
-- Using `-c/--config` flag one can select a profile:
-  - 0: High Divergence (higher luminosity) - default,
-  - 1: High Acceptance
-  - 2: eAu
+- Using `-p/--preset` flag one can select a profile:
+  - 0: IP6 High Divergence (higher luminosity) - default,
+  - 1: IP6 High Acceptance
+  - 2: IP6 eAu
+  - 3: IP8 High Divergence (higher luminosity) - default,
+  - 4: IP8 High Acceptance
+  - 5: IP8 eAu
 - Crossing angle is given in horizontal and vertical components
   - [Afterburner configuration](https://eicweb.phy.anl.gov/monte_carlo/afterburner/-/blob/main/cpp/afterburner/AfterburnerConfig.hh)
   
+> (!) For now IP8 is a copy of IP6 parameters with 35 mrad crossing angle. It will be populated with IP8 own parameters as 
+> soon as they are officially published.
 
 ### Input file requirements
 
@@ -118,7 +123,7 @@ converter.
 | -h,--help            | Print this help message and exit|
 | -v,--version         | Shows package version number |
 | -o,--output TEXT     | Base name for Output files ((!) no extension)|
-| -c,--config TEXT     | Beams configuration 0: High divergence\[default\], 1: High acceptance, 2: eAu|
+| -p,--preset TEXT     | Beams configuration 0: IP6 High divergence\[default\], 1: IP6 High acceptance, 2: IP6 eAu|
 | -i,--in-format TEXT  | Input format: auto \[default\], hepmc2, hepmc3, hpe, lhef, gz, treeroot, root|
 | -f,--out-format TEXT | Output format: hepmc3 \[default\], hepmc2, dot, none (no events file is saved)|
 | -s,--ev-start INT    | Start event index (all previous are skipped)|
@@ -135,11 +140,14 @@ converter.
 > This method is very coarse as if in a source file the crossing angle is 0 but all beam effects do exist,
 > beam effects will be applied twice
 
--c,--config flag, values [0,1,2] set config and auto determine energy from source file:
+-p,--preset flag, values \[0,1,2,3,4,5\] set config and auto determine energy from source file:
 
 - "0": IP6, High divergence, auto read energy [default],
 - "1": IP6, High acceptance, auto read energy
 - "2": IP6, eAu, auto read energy
+- "3": IP8, High divergence, auto read energy [default],
+- "4": IP8, High acceptance, auto read energy
+- "5": IP8, eAu, auto read energy
 
 The other options sets energy settings manually, not checking the source file:
 
@@ -147,14 +155,20 @@ The other options sets energy settings manually, not checking the source file:
     <tr><td>ip6_hidiv_41x5</td><td>ip6_hidiv_100x5</td><td>ip6_hidiv_100x10</td><td>ip6_hidiv_275x10</td><td>ip6_hidiv_275x18</td></tr>
     <tr><td>ip6_hiacc_41x5</td><td>ip6_hiacc_100x5</td><td>ip6_hiacc_100x10</td><td>ip6_hiacc_275x10</td><td>ip6_hiacc_275x18</td></tr>
     <tr><td>ip6_eau_41x5  </td><td>ip6_eau_110x5  </td><td>ip6_eau_110x10  </td><td>ip6_eau_110x18  </td><td>-</td></tr>
+    <tr><td>ip8_hidiv_41x5</td><td>ip8_hidiv_100x5</td><td>ip8_hidiv_100x10</td><td>ip8_hidiv_275x10</td><td>ip8_hidiv_275x18</td></tr>
+    <tr><td>ip8_hiacc_41x5</td><td>ip8_hiacc_100x5</td><td>ip8_hiacc_100x10</td><td>ip8_hiacc_275x10</td><td>ip8_hiacc_275x18</td></tr>
+    <tr><td>ip8_eau_41x5  </td><td>ip8_eau_110x5  </td><td>ip8_eau_110x10  </td><td>ip8_eau_110x18  </td><td>-</td></tr>
 </table>
 
 Example of manual configuration setting:
 
 ```bash
-abconv -c ip6_hidiv_100x5 source_file.hepmc
+abconv -p ip6_hidiv_100x5 source_file.hepmc
 ``` 
 
+> (!) For now IP8 is a copy of IP6 parameters with 35 mrad crossing angle. It will be populated with IP8 own parameters as
+> soon as they are officially published.
+> 
 
 ## Validation
 

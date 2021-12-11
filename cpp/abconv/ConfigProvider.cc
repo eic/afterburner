@@ -45,15 +45,27 @@ ab::AfterburnerConfig ab::convert::ConfigProvider::from_user_args(UserArguments 
     auto reader = ab::convert::generate_reader(arg.InputFormat, arg.InputFileName);
 
     if(arg.preset_name == "0") {
-        return from_hepmc_file(reader, ab::EicBeamPresets::HighDivergence);
+        return from_hepmc_file(reader, ab::EicBeamPresets::Ip6HighDivergence);
     }
 
     if(arg.preset_name == "1") {
-        return from_hepmc_file(reader, ab::EicBeamPresets::HighAcceptance);
+        return from_hepmc_file(reader, ab::EicBeamPresets::Ip6HighAcceptance);
     }
 
     if(arg.preset_name == "2") {
-        return from_hepmc_file(reader, ab::EicBeamPresets::ElectronAurum);
+        return from_hepmc_file(reader, ab::EicBeamPresets::Ip6ElectronAurum);
+    }
+
+    if(arg.preset_name == "3") {
+        return from_hepmc_file(reader, ab::EicBeamPresets::Ip8HighDivergence);
+    }
+
+    if(arg.preset_name == "4") {
+        return from_hepmc_file(reader, ab::EicBeamPresets::Ip8HighAcceptance);
+    }
+
+    if(arg.preset_name == "5") {
+        return from_hepmc_file(reader, ab::EicBeamPresets::Ip8ElectronAurum);
     }
 
     // If it is not 0, 1, or 2, it is a manual config

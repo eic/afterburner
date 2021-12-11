@@ -58,7 +58,7 @@ ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interactio
     // Set particle positions
     double hadron_z = _smear.gauss(_cfg.hadron_beam.rms_bunch_length);
     double lepton_z = _smear.gauss(_cfg.lepton_beam.rms_bunch_length);
-    double crossing_angle = _cfg.crossing_angle;
+    double crossing_angle = _cfg.crossing_angle_hor;
 
     double had_bunch_rms_hor = sqrt(_cfg.hadron_beam.beta_star_hor * _cfg.hadron_beam.rms_emittance_hor);
     double had_bunch_rms_ver = sqrt(_cfg.hadron_beam.beta_star_ver * _cfg.hadron_beam.rms_emittance_ver);
@@ -274,7 +274,7 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     //CLHEP::Hep3Vector ideal_hadron_dir = spherical_to_cartesian(_cfg.hadron_beam.direction_theta, _cfg.hadron_beam.direction_phi);
     //CLHEP::Hep3Vector ideal_lepton_dir = spherical_to_cartesian(_cfg.lepton_beam.direction_theta, _cfg.lepton_beam.direction_phi);
     CLHEP::Hep3Vector ideal_lepton_dir(0, 0, -1);
-    CLHEP::Hep3Vector ideal_hadron_dir = CLHEP::Hep3Vector(z_axis).rotateY(_cfg.crossing_angle).rotateX(_cfg.crossing_angle_ver);
+    CLHEP::Hep3Vector ideal_hadron_dir = CLHEP::Hep3Vector(z_axis).rotateY(_cfg.crossing_angle_hor).rotateX(_cfg.crossing_angle_ver);
 
     //double crossing_angle = acos(ideal_hadron_dir.unit().dot(-ideal_lepton_dir.unit()));
 
@@ -282,7 +282,7 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
         cout << __PRETTY_FUNCTION__ << ": " << endl;
         cout << "ideal_hadron_dir = " << ideal_hadron_dir << endl;
         cout << "ideal_lepton_dir = " << ideal_lepton_dir << endl;
-        cout << "crossing_angle_hor   = " << _cfg.crossing_angle << endl;
+        cout << "crossing_angle_hor   = " << _cfg.crossing_angle_hor << endl;
         cout << "crossing_angle_ver   = " << _cfg.crossing_angle_ver << endl;
     }
 
@@ -301,10 +301,10 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     }
 
     // Calculate angular deflection
-    double hadron_crab_hor = _cfg.crossing_angle/2.0/sqrt(_cfg.hadron_beam.beta_crab_hor * _cfg.hadron_beam.beta_star_hor);
+    double hadron_crab_hor = _cfg.crossing_angle_hor / 2.0 / sqrt(_cfg.hadron_beam.beta_crab_hor * _cfg.hadron_beam.beta_star_hor);
     double hadron_crab_ver = 0;
 
-    double lepton_crab_hor = _cfg.crossing_angle/2.0/sqrt(_cfg.lepton_beam.beta_crab_hor * _cfg.lepton_beam.beta_star_hor);
+    double lepton_crab_hor = _cfg.crossing_angle_hor / 2.0 / sqrt(_cfg.lepton_beam.beta_crab_hor * _cfg.lepton_beam.beta_star_hor);
     double lepton_crab_ver = 0;
 
     CLHEP::Hep3Vector real_hadron_dir = smear_beam_divergence(ideal_hadron_dir, _cfg.hadron_beam, bunch_one_z, hadron_crab_hor, hadron_crab_ver);
@@ -450,7 +450,7 @@ void ab::Afterburner::print() const {
     cout << "AFTERBURNER CONFIGURATION\n";
     cout << "=========================\n";
 
-    cout << "Crossing angle hor: " << _cfg.crossing_angle << endl;
+    cout << "Crossing angle hor: " << _cfg.crossing_angle_hor << endl;
     cout << "Crossing angle ver: " << _cfg.crossing_angle_ver << endl;
 
     cout << "Vertex distribution width"

@@ -25,7 +25,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     long ev_end = 0;
 
     app.add_option("-o, --output", output_base_name, "Base name for Output files ((!) no extension)");
-    app.add_option("-p, --preset", preset, "0: High divergence[default], 1: High acceptance, 2: eAu; More - see below");
+    app.add_option("-p, --preset", preset, "0: IP6 High divergence[default], 1: IP6 High acceptance, 2: IP6 eAu; 3: IP8 Hight divergence..., More - see below");
     app.add_option("-i, --in-format", input_format, "Input format: auto [default], hepmc2, hepmc3, hpe, lhef, gz, treeroot, root");
     app.add_option("-f, --out-format", output_format, "Output format: hepmc3 [default], hepmc2, dot, none (no events file is saved)");
 
@@ -92,14 +92,20 @@ std::string ArgumentProcessor::get_description() {
 }
 
 std::string ArgumentProcessor::get_footer() {
-    return "-c,--config flag, values [0,1,2] set config and auto determine energy from source file: \n"
+    return "-p,--preset flag, values [0,1,2] set config and auto determine energy from source file: \n"
            "  0: IP6, High divergence, auto read energy [default], \n"
            "  1: IP6, High acceptance, auto read energy\n"
            "  2: IP6, eAu, auto read energy\n"
+           "  3: IP8, High divergence, auto read energy [default], \n"
+           "  4: IP8, High acceptance, auto read energy\n"
+           "  5: IP8, eAu, auto read energy\n"
            "The other options sets energy settings manually, not checking the source file:\n"
            "  ip6_hidiv_41x5, ip6_hidiv_100x5, ip6_hidiv_100x10, ip6_hidiv_275x10, ip6_hidiv_275x18\n"
            "  ip6_hiacc_41x5, ip6_hiacc_100x5, ip6_hiacc_100x10, ip6_hiacc_275x10, ip6_hiacc_275x18\n"
            "  ip6_eau_41x5,   ip6_eau_110x5,   ip6_eau_110x10,   ip6_eau_110x18\n"
+           "  ip8_hidiv_41x5, ip8_hidiv_100x5, ip8_hidiv_100x10, ip8_hidiv_275x10, ip8_hidiv_275x18\n"
+           "  ip8_hiacc_41x5, ip8_hiacc_100x5, ip8_hiacc_100x10, ip8_hiacc_275x10, ip8_hiacc_275x18\n"
+           "  ip8_eau_41x5,   ip8_eau_110x5,   ip8_eau_110x10,   ip8_eau_110x18\n"
            "Example of manual configuration setting: \n"
-           "  abconv -c ip6_hidiv_100x5 source_file.hepmc\n";
+           "  abconv -p ip6_hidiv_100x5 source_file.hepmc\n";
 }
