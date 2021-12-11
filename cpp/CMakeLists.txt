@@ -23,7 +23,7 @@ message(STATUS "CMAKE_CXX_STANDARD: ${CMAKE_CXX_STANDARD} (By Default)")
 add_subdirectory(afterburner)
 add_subdirectory(benchmark)
 add_subdirectory(abconv)
-add_subdirectory(test)
+
 
 enable_testing()
 
