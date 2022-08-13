@@ -1,7 +1,7 @@
 // 010-TestCase.cpp
 // And write tests in the same file:
-#include "catch.hh"
-#include <afterburner/AfterburnerConfig.hh>
+#include "catch2/catch.hpp"
+#include "afterburner/AfterburnerConfig.hh"
 #include <fstream>
 #include <iostream>
 

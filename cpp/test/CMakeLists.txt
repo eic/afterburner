@@ -1,10 +1,8 @@
-cmake_minimum_required( VERSION 3.5 )
-set(CMAKE_CXX_STANDARD 17)
-project(Catch2Examples LANGUAGES CXX)
-
 message(STATUS "Catch2 unit testing" )
 
-add_executable(tests test_catch.hh test_config.hh catch.cc)
+find_package(Catch2 REQUIRED)
+
+add_executable(tests test_catch.cpp test_config.cpp)
 target_compile_features(tests
         PUBLIC
         cxx_alignas
@@ -29,17 +27,7 @@ target_compile_features(tests
         cxx_variadic_macros
         )
 
-target_link_libraries(tests afterburner)
-target_include_directories(tests PRIVATE ../external/)
+target_link_libraries(tests PUBLIC afterburner PRIVATE Catch2::Catch2)
+target_include_directories(tests PRIVATE ${PROJECT_SOURCE_DIR})
 add_compile_definitions(AB_TEST_DIRECTORY="${CMAKE_CURRENT_LIST_DIR}")
 add_compile_definitions(HAVE_YAML=1)
-
-#find_package(Catch2 3 REQUIRED)
-# These tests can use the Catch2-provided main
-
-#target_link_libraries(tests PRIVATE Catch2WithMain)
-#target_include_directories(tests SYSTEM PRIVATE ../catch/src/)
-
-# These tests need their own main
-#add_executable(custom-main-tests test.cpp test-main.cpp)
-#target_link_libraries(custom-main-tests PRIVATE Catch2::Catch2)
