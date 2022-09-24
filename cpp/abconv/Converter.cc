@@ -132,7 +132,7 @@ void ab::abconv::Converter::convert() {
         print_processed_events(events_processed);
 
         if(_events_limit && events_processed >= _events_limit ) {
-            printf("Event limit reached:-> Events processed: %li >= Events_limit: %li\n", events_processed , _events_limit);
+            printf("Event limit reached:-> Events processed: %li >= Events_limit: %llu\n", events_processed , _events_limit);
             break;
         }
     }
