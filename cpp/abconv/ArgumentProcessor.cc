@@ -19,7 +19,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     bool squash_vtx = false;
     bool plot_off = false;
     bool check_ca = false;
-    ulong process_limit = 0;
+    unsigned long process_limit = 0;
     std::string input_format = "auto";
     std::string output_format = "hepmc3";
     long ev_start = 0;
