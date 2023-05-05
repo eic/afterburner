@@ -35,6 +35,7 @@ struct UserArguments
     std::string OutputHistFileName;       /// Exact file name for histograms file
     bool PlottingEnabled;                 /// Don't produce validation plots
     bool AfterburnerEnabled;              /// Switch off afterburner
+    bool SquashVertex;                    /// Squash event vertices to (0,0,0,0)
     ulong EventProcessLimit;              /// Limit on processed events. Will shut down after this number of events processed
 
     long StartEventIndex;                 /// Start event index (all skipped before that)

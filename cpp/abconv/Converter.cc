@@ -110,7 +110,9 @@ void ab::abconv::Converter::convert() {
 
             // Translate
             auto vtx = ab_result.vertex;
-            evt.shift_position_to(FourVector(vtx.x(), vtx.y(), vtx.z(), vtx.t()));
+            if( ! _afterburner->config().squash_vertex ) {
+              evt.shift_position_to(FourVector(vtx.x(), vtx.y(), vtx.z(), vtx.t()));
+            }
             if(_verbose) {
                 std::cout << "************\nAFTER TRANSLATION\n************\n";
                 Print::content(evt);
