@@ -199,8 +199,19 @@ HepMC3::ConstGenParticles ab::abconv::Converter::get_beam_particles(const HepMC3
 }
 
 void ab::abconv::Converter::ab_config_to_run_info(const std::shared_ptr<HepMC3::GenRunInfo>& run_info, ab::AfterburnerConfig cfg) {
-    using namespace HepMC3;
+    using namespace HepMC3;  
+
     run_info->add_attribute("ab_afterburner_is_used", std::make_shared<BoolAttribute>(true));
+
+    run_info->add_attribute("hadron_beam_energy", std::make_shared<DoubleAttribute>(cfg.hadron_beam.energy));
+    run_info->add_attribute("lepton_beam_energy", std::make_shared<DoubleAttribute>(cfg.lepton_beam.energy));
+
+    run_info->add_attribute("hadron_beam_charge", std::make_shared<DoubleAttribute>(cfg.hadron_beam.charge));
+    run_info->add_attribute("lepton_beam_charge", std::make_shared<DoubleAttribute>(cfg.lepton_beam.charge));
+
+    run_info->add_attribute("hadron_beam_mass", std::make_shared<DoubleAttribute>(cfg.hadron_beam.mass));
+    run_info->add_attribute("lepton_beam_mass", std::make_shared<DoubleAttribute>(cfg.lepton_beam.mass));
+
     run_info->add_attribute("ab_crossing_angle", std::make_shared<DoubleAttribute>(cfg.crossing_angle_hor));
     run_info->add_attribute("ab_use_beam_bunch_sim", std::make_shared<BoolAttribute>(cfg.use_beam_bunch_sim));
 
