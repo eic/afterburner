@@ -11,6 +11,18 @@ using namespace CLHEP;
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x18() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 110;
+    cfg.lepton_beam.energy = 18;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 79;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 197; //fix
+    cfg.lepton_beam.mass = 0.000511;
+
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -46,6 +58,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x18() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x10() {
     ab::AfterburnerConfig cfg;
+
+    // Beam energy
+    cfg.hadron_beam.energy = 110;
+    cfg.lepton_beam.energy = 10;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 79;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 197; //fix
+    cfg.lepton_beam.mass = 0.000511;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -83,6 +107,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x10() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x5() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 110;
+    cfg.lepton_beam.energy = 5;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 79;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 197; //fix
+    cfg.lepton_beam.mass = 0.000511;
+
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -118,6 +154,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x5() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_41x5() {
     ab::AfterburnerConfig cfg;
+
+    // Beam energy
+    cfg.hadron_beam.energy = 41;
+    cfg.lepton_beam.energy = 5;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 79;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 197; //fix
+    cfg.lepton_beam.mass = 0.000511;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -155,6 +203,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_41x5() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_41x5() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 41;
+    cfg.lepton_beam.energy = 5;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
+
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -189,6 +249,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_41x5() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_100x5() {
     ab::AfterburnerConfig cfg;
+
+    // Beam energy
+    cfg.hadron_beam.energy = 100;
+    cfg.lepton_beam.energy = 5;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -225,6 +297,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_100x5() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_100x10() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 100;
+    cfg.lepton_beam.energy = 10;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
+
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -260,6 +344,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_100x10() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_275x10() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 275;
+    cfg.lepton_beam.energy = 10;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
+
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -294,6 +390,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_275x10() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_275x18() {
     ab::AfterburnerConfig cfg;
+
+    // Beam energy
+    cfg.hadron_beam.energy = 275;
+    cfg.lepton_beam.energy = 18;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -331,6 +439,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_275x18() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_41x5() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 41;
+    cfg.lepton_beam.energy = 5;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
+
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -365,6 +485,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_41x5() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_100x5() {
     ab::AfterburnerConfig cfg;
+
+    // Beam energy
+    cfg.hadron_beam.energy = 100;
+    cfg.lepton_beam.energy = 5;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -401,6 +533,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_100x5() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_100x10() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 100;
+    cfg.lepton_beam.energy = 10;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
+
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -436,6 +580,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_100x10() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_275x10() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 275;
+    cfg.lepton_beam.energy = 10;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
+
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -470,6 +626,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_275x10() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_275x18() {
     ab::AfterburnerConfig cfg;
+
+    // Beam energy
+    cfg.hadron_beam.energy = 275;
+    cfg.lepton_beam.energy = 18;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -509,6 +677,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_275x18() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x18() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 110;
+    cfg.lepton_beam.energy = 18;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 79;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 197; //fix
+    cfg.lepton_beam.mass = 0.000511;
+
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
 
@@ -543,6 +723,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x18() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x10() {
     ab::AfterburnerConfig cfg;
+
+    // Beam energy 
+    cfg.hadron_beam.energy = 110;
+    cfg.lepton_beam.energy = 10;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 79;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 197; //fix
+    cfg.lepton_beam.mass = 0.000511;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -579,6 +771,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x10() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x5() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 110;
+    cfg.lepton_beam.energy = 5;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 79;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 197; //fix
+    cfg.lepton_beam.mass = 0.000511;
+
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
 
@@ -613,6 +817,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x5() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_41x5() {
     ab::AfterburnerConfig cfg;
+
+    // Beam energy
+    cfg.hadron_beam.energy = 45;
+    cfg.lepton_beam.energy = 5;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 79;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 197; //fix
+    cfg.lepton_beam.mass = 0.000511;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -650,6 +866,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_41x5() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_41x5() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 41;
+    cfg.lepton_beam.energy = 5;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
+
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
 
@@ -683,6 +911,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_41x5() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_100x5() {
     ab::AfterburnerConfig cfg;
+
+    // Beam energy
+    cfg.hadron_beam.energy = 100;
+    cfg.lepton_beam.energy = 5;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -718,6 +958,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_100x5() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_100x10() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 100;
+    cfg.lepton_beam.energy = 10;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
+
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
 
@@ -752,6 +1004,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_100x10() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_275x10() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 275;
+    cfg.lepton_beam.energy = 10;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
+
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
 
@@ -785,6 +1049,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_275x10() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_275x18() {
     ab::AfterburnerConfig cfg;
+
+    // Beam energy
+    cfg.hadron_beam.energy = 275;
+    cfg.lepton_beam.energy = 18;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -821,6 +1097,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_275x18() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_41x5() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 41;
+    cfg.lepton_beam.energy = 5;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
+
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
 
@@ -854,6 +1142,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_41x5() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_100x5() {
     ab::AfterburnerConfig cfg;
+
+    // Beam energy
+    cfg.hadron_beam.energy = 100;
+    cfg.lepton_beam.energy = 5;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -889,6 +1189,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_100x5() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_100x10() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 100;
+    cfg.lepton_beam.energy = 10;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
+
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
 
@@ -923,6 +1235,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_100x10() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_275x10() {
     ab::AfterburnerConfig cfg;
 
+    // Beam energy
+    cfg.hadron_beam.energy = 275;
+    cfg.lepton_beam.energy = 10;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
+
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;                 // Crossing angle in vertical plane [rad]
 
@@ -956,6 +1280,18 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_275x10() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_275x18() {
     ab::AfterburnerConfig cfg;
+
+    // Beam energy
+    cfg.hadron_beam.energy = 275;
+    cfg.lepton_beam.energy = 18;
+
+    // Beam charge
+    cfg.hadron_beam.charge = 1;
+    cfg.lepton_beam.charge = -1;
+
+    // Beam mass
+    cfg.hadron_beam.mass = 0.938;
+    cfg.lepton_beam.mass = 0.000511;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;                 // Crossing angle in vertical plane [rad]
