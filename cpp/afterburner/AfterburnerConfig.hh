@@ -75,10 +75,10 @@ namespace ab {
         double vertex_shift_t = 0;
 
         /// Beam A (one) configuration
-        BeamConfig hadron_beam;
+        BeamConfig ion_beam;
 
         /// Beam B (two) configuration
-        BeamConfig lepton_beam;
+        BeamConfig electron_beam;
     };
 }
 #endif //EICAFTERBURNER_AFTERBURNERCONFIG_HH
