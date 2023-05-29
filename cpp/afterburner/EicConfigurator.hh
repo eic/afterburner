@@ -55,8 +55,8 @@ namespace ab {
         static AfterburnerConfig preset_ip8_hidiv_275x18();
         static AfterburnerConfig from_string(const std::string& name);
 
-        static AfterburnerConfig config(double hadron_energy, double lepton_energy, EicBeamPresets beam_preset);
-        static AfterburnerConfig config(EicBeamEnergies hadron, EicBeamEnergies lepton, EicBeamPresets beam_preset);
+        static AfterburnerConfig config(double ion_energy, double electron_energy, EicBeamPresets beam_preset);
+        static AfterburnerConfig config(EicBeamEnergies ion, EicBeamEnergies electron, EicBeamPresets beam_preset);
 
     private:
 
