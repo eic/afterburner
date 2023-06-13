@@ -12,10 +12,7 @@ namespace ab {
         double energy = 18;
 
         //! Charge of beam specimen
-        double charge = -1;
-
-        //! Mass of beam specimen [GeV/c2]
-        double mass   = 0.000511;      
+        int    pdg = 11;
 
         //! Beam angle divergence in accelerator beam coordinate.
         //! First element is beamA, in pair of Gaussian Sigma_H Sigma_V. BeamA is aimed to +z direction in the HepMC event generator's coordinate

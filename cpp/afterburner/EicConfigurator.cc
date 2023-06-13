@@ -15,13 +15,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x18() {
     cfg.ion_beam.energy = 110;
     cfg.electron_beam.energy = 18;
 
-    // Beam charge
-    cfg.ion_beam.charge = 79;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 184.009; //fix?
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -63,13 +59,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x10() {
     cfg.ion_beam.energy = 110;
     cfg.electron_beam.energy = 10;
 
-    // Beam charge
-    cfg.ion_beam.charge = 79;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 184.009; //fix?
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -111,13 +103,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x5() {
     cfg.ion_beam.energy = 110;
     cfg.electron_beam.energy = 5;
 
-    // Beam charge
-    cfg.ion_beam.charge = 79;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 184.009; //fix?
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -159,13 +147,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_41x5() {
     cfg.ion_beam.energy = 41;
     cfg.electron_beam.energy = 5;
 
-    // Beam charge
-    cfg.ion_beam.charge = 79;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 184.009; //fix?
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -207,13 +191,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_41x5() {
     cfg.ion_beam.energy = 41;
     cfg.electron_beam.energy = 5;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -254,13 +234,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_100x5() {
     cfg.ion_beam.energy = 100;
     cfg.electron_beam.energy = 5;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -301,13 +277,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_100x10() {
     cfg.ion_beam.energy = 100;
     cfg.electron_beam.energy = 10;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -348,13 +320,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_275x10() {
     cfg.ion_beam.energy = 275;
     cfg.electron_beam.energy = 10;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -395,13 +363,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_275x18() {
     cfg.ion_beam.energy = 275;
     cfg.electron_beam.energy = 18;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -443,13 +407,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_41x5() {
     cfg.ion_beam.energy = 41;
     cfg.electron_beam.energy = 5;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -490,13 +450,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_100x5() {
     cfg.ion_beam.energy = 100;
     cfg.electron_beam.energy = 5;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -537,13 +493,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_100x10() {
     cfg.ion_beam.energy = 100;
     cfg.electron_beam.energy = 10;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -584,13 +536,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_275x10() {
     cfg.ion_beam.energy = 275;
     cfg.electron_beam.energy = 10;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -631,13 +579,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_275x18() {
     cfg.ion_beam.energy = 275;
     cfg.electron_beam.energy = 18;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -681,13 +625,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x18() {
     cfg.ion_beam.energy = 110;
     cfg.electron_beam.energy = 18;
 
-    // Beam charge
-    cfg.ion_beam.charge = 79;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 184.009; //fix?
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -728,13 +668,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x10() {
     cfg.ion_beam.energy = 110;
     cfg.electron_beam.energy = 10;
 
-    // Beam charge
-    cfg.ion_beam.charge = 79;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 184.009; //fix?
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -775,13 +711,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x5() {
     cfg.ion_beam.energy = 110;
     cfg.electron_beam.energy = 5;
 
-    // Beam charge
-    cfg.ion_beam.charge = 79;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 184.009; //fix?
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -822,13 +754,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_41x5() {
     cfg.ion_beam.energy = 45;
     cfg.electron_beam.energy = 5;
 
-    // Beam charge
-    cfg.ion_beam.charge = 79;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 184.009; //fix?
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -870,13 +798,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_41x5() {
     cfg.ion_beam.energy = 41;
     cfg.electron_beam.energy = 5;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -916,13 +840,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_100x5() {
     cfg.ion_beam.energy = 100;
     cfg.electron_beam.energy = 5;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -962,13 +882,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_100x10() {
     cfg.ion_beam.energy = 100;
     cfg.electron_beam.energy = 10;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -1008,13 +924,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_275x10() {
     cfg.ion_beam.energy = 275;
     cfg.electron_beam.energy = 10;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -1054,13 +966,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_275x18() {
     cfg.ion_beam.energy = 275;
     cfg.electron_beam.energy = 18;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -1101,13 +1009,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_41x5() {
     cfg.ion_beam.energy = 41;
     cfg.electron_beam.energy = 5;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -1147,13 +1051,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_100x5() {
     cfg.ion_beam.energy = 100;
     cfg.electron_beam.energy = 5;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -1193,13 +1093,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_100x10() {
     cfg.ion_beam.energy = 100;
     cfg.electron_beam.energy = 10;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -1239,13 +1135,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_275x10() {
     cfg.ion_beam.energy = 275;
     cfg.electron_beam.energy = 10;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;                 // Crossing angle in vertical plane [rad]
@@ -1285,13 +1177,9 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_275x18() {
     cfg.ion_beam.energy = 275;
     cfg.electron_beam.energy = 18;
 
-    // Beam charge
-    cfg.ion_beam.charge = 1;
-    cfg.electron_beam.charge = -1;
-
-    // Beam mass
-    cfg.ion_beam.mass = 0.938;
-    cfg.electron_beam.mass = 0.000511;
+    // Beam species
+    cfg.ion_beam.pdg = 2212;
+    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;                 // Crossing angle in vertical plane [rad]

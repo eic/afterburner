@@ -206,11 +206,8 @@ void ab::abconv::Converter::ab_config_to_run_info(const std::shared_ptr<HepMC3::
     run_info->add_attribute("ion_beam_energy", std::make_shared<DoubleAttribute>(cfg.ion_beam.energy));
     run_info->add_attribute("electron_beam_energy", std::make_shared<DoubleAttribute>(cfg.electron_beam.energy));
 
-    run_info->add_attribute("ion_beam_charge", std::make_shared<DoubleAttribute>(cfg.ion_beam.charge));
-    run_info->add_attribute("electron_beam_charge", std::make_shared<DoubleAttribute>(cfg.electron_beam.charge));
-
-    run_info->add_attribute("ion_beam_mass", std::make_shared<DoubleAttribute>(cfg.ion_beam.mass));
-    run_info->add_attribute("electron_beam_mass", std::make_shared<DoubleAttribute>(cfg.electron_beam.mass));
+    run_info->add_attribute("ion_beam_pdg", std::make_shared<IntAttribute>(cfg.ion_beam.pdg));
+    run_info->add_attribute("electron_beam_pdg", std::make_shared<IntAttribute>(cfg.electron_beam.pdg));
 
     run_info->add_attribute("ab_crossing_angle", std::make_shared<DoubleAttribute>(cfg.crossing_angle_hor));
     run_info->add_attribute("ab_use_beam_bunch_sim", std::make_shared<BoolAttribute>(cfg.use_beam_bunch_sim));
