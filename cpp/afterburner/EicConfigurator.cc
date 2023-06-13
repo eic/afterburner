@@ -1212,8 +1212,11 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_275x18() {
 }
 
 
-ab::AfterburnerConfig ab::EicConfigurator::config(double ion_energy, double electron_energy, ab::EicBeamPresets beam_preset) {
+ab::AfterburnerConfig ab::EicConfigurator::config(HepMC3::ConstGenParticlePtr ion, HepMC3::ConstGenParticlePtr electron, ab::EicBeamPresets beam_preset) {
     using namespace std;
+
+    float ion_energy      = ion->momentum().e();
+    float electron_energy = electron->momentum().e();
 
     int ion_e = 0;
     int electron_e = 0;
@@ -1226,7 +1229,7 @@ ab::AfterburnerConfig ab::EicConfigurator::config(double ion_energy, double elec
 
     if(electron_energy > 15 && electron_energy < 21) electron_e = 18;
     if(electron_energy > 7  && electron_energy < 13) electron_e = 10;
-    if(electron_energy > 3  && electron_energy < 7) electron_e = 5;
+    if(electron_energy > 3  && electron_energy < 7)  electron_e = 5;
 
     if(ion_e != 275 && ion_e!= 110 && ion_e != 100 && ion_e!=41) {
         cerr << (int)ion_e << " is not a valid Ion Beam Energy!!" << endl;
