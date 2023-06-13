@@ -37,6 +37,9 @@ namespace ab {
 
     struct AfterburnerConfig {
 
+        // Name of the afterburner config used
+        std::string name = "none";
+
         /**
          * Crossing angle in horizontal plane [rad]
          */
