@@ -1327,32 +1327,32 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_275x18() {
 ab::AfterburnerConfig ab::EicConfigurator::config(double ion_energy, double electron_energy, ab::EicBeamPresets beam_preset) {
     using namespace std;
 
-    int had_e = (int)round(ion_energy);
-    int lep_e = (int)round(electron_energy);
+    int ion_e = 0;
+    int electron_e = 0;
 
     // Approximate energies so it tolerate some spread
-    if(ion_energy > 270 && ion_energy < 280) had_e = 275;
-    if(ion_energy > 105 && ion_energy < 115) had_e = 110;
-    if(ion_energy > 95  && ion_energy < 105) had_e = 100;
-    if(ion_energy > 37  && ion_energy < 44) had_e = 41;
+    if(ion_energy > 270 && ion_energy < 280) ion_e = 275;
+    if(ion_energy > 105 && ion_energy < 115) ion_e = 110;
+    if(ion_energy > 95  && ion_energy < 105) ion_e = 100;
+    if(ion_energy > 37  && ion_energy < 44)  ion_e = 41;
 
-    if(electron_energy > 15 && electron_energy < 21) lep_e = 18;
-    if(electron_energy > 7  && electron_energy < 13) lep_e = 10;
-    if(electron_energy > 3  && electron_energy < 7) lep_e = 5;
+    if(electron_energy > 15 && electron_energy < 21) electron_e = 18;
+    if(electron_energy > 7  && electron_energy < 13) electron_e = 10;
+    if(electron_energy > 3  && electron_energy < 7) electron_e = 5;
 
-    if(had_e != 275 && had_e!= 110 && had_e != 100 && had_e!=41) {
-        cerr << (int)had_e << " is not a valid Ion Beam Energy!!" << endl;
+    if(ion_e != 275 && ion_e!= 110 && ion_e != 100 && ion_e!=41) {
+        cerr << (int)ion_e << " is not a valid Ion Beam Energy!!" << endl;
         cerr << "Valid Energies are 275, 110, 100, and 41" << endl;
         throw std::invalid_argument("Ion energy setting is incorrect");
     }
 
-    if(lep_e != 18 && lep_e != 10 && lep_e!=5) {
-        cout << (int) lep_e << " is not a valid Electron Beam Energy!!" << endl;
+    if(electron_e != 18 && electron_e != 10 && electron_e!=5) {
+        cout << (int) electron_e << " is not a valid Electron Beam Energy!!" << endl;
         cout << "Valid Energies are 18, 10, and 5" << endl;
         throw std::invalid_argument("Electron energy setting is incorrect");
     }
 
-    return config(static_cast<ab::EicBeamEnergies>(had_e), static_cast<ab::EicBeamEnergies>(lep_e), beam_preset);
+    return config(static_cast<ab::EicBeamEnergies>(ion_e), static_cast<ab::EicBeamEnergies>(electron_e), beam_preset);
 }
 
 
