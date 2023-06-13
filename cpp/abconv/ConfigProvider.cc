@@ -40,9 +40,7 @@ ab::convert::ConfigProvider::from_hepmc_file(const std::shared_ptr<HepMC3::Reade
       throw std::invalid_argument("No electron found");
     }
 
-
-    return ab::EicConfigurator::config(ion->momentum().e(), electron->momentum().e(), beam_config);
-    //return ab::EicConfigurator::config(ion, electron, beam_config);
+    return ab::EicConfigurator::config(ion, electron, beam_config);
 }
 
 ab::AfterburnerConfig ab::convert::ConfigProvider::from_preset_name(const string &name) {
