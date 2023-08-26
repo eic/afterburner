@@ -11,14 +11,6 @@ using namespace CLHEP;
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x18() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 110;
-    cfg.electron_beam.energy = 18;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -54,14 +46,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x18() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x10() {
     ab::AfterburnerConfig cfg;
-
-    // Beam energy
-    cfg.ion_beam.energy = 110;
-    cfg.electron_beam.energy = 10;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -99,14 +83,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x10() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x5() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 110;
-    cfg.electron_beam.energy = 5;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -142,14 +118,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x5() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_41x5() {
     ab::AfterburnerConfig cfg;
-
-    // Beam energy
-    cfg.ion_beam.energy = 41;
-    cfg.electron_beam.energy = 5;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -187,14 +155,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_41x5() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_41x5() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 41;
-    cfg.electron_beam.energy = 5;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -229,14 +189,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_41x5() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_100x5() {
     ab::AfterburnerConfig cfg;
-
-    // Beam energy
-    cfg.ion_beam.energy = 100;
-    cfg.electron_beam.energy = 5;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -273,14 +225,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_100x5() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_100x10() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 100;
-    cfg.electron_beam.energy = 10;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -316,14 +260,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_100x10() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_275x10() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 275;
-    cfg.electron_beam.energy = 10;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -358,14 +294,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_275x10() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_275x18() {
     ab::AfterburnerConfig cfg;
-
-    // Beam energy
-    cfg.ion_beam.energy = 275;
-    cfg.electron_beam.energy = 18;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -403,14 +331,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_275x18() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_41x5() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 41;
-    cfg.electron_beam.energy = 5;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -445,14 +365,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_41x5() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_100x5() {
     ab::AfterburnerConfig cfg;
-
-    // Beam energy
-    cfg.ion_beam.energy = 100;
-    cfg.electron_beam.energy = 5;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -489,14 +401,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_100x5() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_100x10() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 100;
-    cfg.electron_beam.energy = 10;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -532,14 +436,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_100x10() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_275x10() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 275;
-    cfg.electron_beam.energy = 10;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
@@ -574,14 +470,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_275x10() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_275x18() {
     ab::AfterburnerConfig cfg;
-
-    // Beam energy
-    cfg.ion_beam.energy = 275;
-    cfg.electron_beam.energy = 18;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
 
     // Crossing angle
     cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
@@ -621,14 +509,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_275x18() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x18() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 110;
-    cfg.electron_beam.energy = 18;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
 
@@ -663,14 +543,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x18() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x10() {
     ab::AfterburnerConfig cfg;
-
-    // Beam energy 
-    cfg.ion_beam.energy = 110;
-    cfg.electron_beam.energy = 10;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -707,14 +579,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x10() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x5() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 110;
-    cfg.electron_beam.energy = 5;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
 
@@ -749,14 +613,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_110x5() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_41x5() {
     ab::AfterburnerConfig cfg;
-
-    // Beam energy
-    cfg.ion_beam.energy = 45;
-    cfg.electron_beam.energy = 5;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -794,14 +650,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_eau_41x5() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_41x5() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 41;
-    cfg.electron_beam.energy = 5;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
 
@@ -835,14 +683,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_41x5() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_100x5() {
     ab::AfterburnerConfig cfg;
-
-    // Beam energy
-    cfg.ion_beam.energy = 100;
-    cfg.electron_beam.energy = 5;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -878,14 +718,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_100x5() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_100x10() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 100;
-    cfg.electron_beam.energy = 10;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
 
@@ -920,14 +752,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_100x10() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_275x10() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 275;
-    cfg.electron_beam.energy = 10;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
 
@@ -961,14 +785,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_275x10() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_275x18() {
     ab::AfterburnerConfig cfg;
-
-    // Beam energy
-    cfg.ion_beam.energy = 275;
-    cfg.electron_beam.energy = 18;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -1005,14 +821,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hiacc_275x18() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_41x5() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 41;
-    cfg.electron_beam.energy = 5;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
 
@@ -1046,14 +854,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_41x5() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_100x5() {
     ab::AfterburnerConfig cfg;
-
-    // Beam energy
-    cfg.ion_beam.energy = 100;
-    cfg.electron_beam.energy = 5;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
@@ -1089,14 +889,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_100x5() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_100x10() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 100;
-    cfg.electron_beam.energy = 10;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;             // Crossing angle in vertical plane [rad]
 
@@ -1131,14 +923,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_100x10() {
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_275x10() {
     ab::AfterburnerConfig cfg;
 
-    // Beam energy
-    cfg.ion_beam.energy = 275;
-    cfg.electron_beam.energy = 10;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
-
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;                 // Crossing angle in vertical plane [rad]
 
@@ -1172,14 +956,6 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_275x10() {
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip8_hidiv_275x18() {
     ab::AfterburnerConfig cfg;
-
-    // Beam energy
-    cfg.ion_beam.energy = 275;
-    cfg.electron_beam.energy = 18;
-
-    // Beam species
-    cfg.ion_beam.pdg = 2212;
-    cfg.electron_beam.pdg = 11;
 
     cfg.crossing_angle_hor = -35e-3;            // Crossing angle in horizontal plane [rad]
     cfg.crossing_angle_ver = 0;                 // Crossing angle in vertical plane [rad]
@@ -1243,7 +1019,14 @@ ab::AfterburnerConfig ab::EicConfigurator::config(HepMC3::ConstGenParticlePtr io
         throw std::invalid_argument("Electron energy setting is incorrect");
     }
 
-    return config(static_cast<ab::EicBeamEnergies>(ion_e), static_cast<ab::EicBeamEnergies>(electron_e), beam_preset);
+    ab::AfterburnerConfig cfg = config(static_cast<ab::EicBeamEnergies>(ion_e), static_cast<ab::EicBeamEnergies>(electron_e), beam_preset);
+    cfg.ion_beam.energy      = ion_e;
+    cfg.electron_beam.energy = electron_e;
+    
+    cfg.ion_beam.pdg         = ion->pid();
+    cfg.electron_beam.pdg    = electron->pid();
+    
+    return cfg;
 }
 
 
