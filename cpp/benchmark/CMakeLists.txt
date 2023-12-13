@@ -7,7 +7,7 @@ list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
 list(APPEND CMAKE_PREFIX_PATH ${ROOT_DIR})
 find_package(ROOT REQUIRED COMPONENTS Core RIO Tree)
 
-find_package(HepMC3 REQUIRED)
+# find_package(HepMC3 REQUIRED) # shouldn't be called again after abconv
 find_package(yaml-cpp REQUIRED)
 message(STATUS "BENCHMARKS HEPMC3_LIBRARIES ${HEPMC3_LIBRARIES}")
 message(STATUS "BENCHMARKS HEPMC3_INCLUDE_DIR ${HEPMC3_INCLUDE_DIR}")
