@@ -81,6 +81,13 @@ elseif()
 	message(STATUS "EIC Afterburner: zlib not found. Compressed files support disabled.")
 endif()
 
+if(HEPMC3_ROOTIO)
+  	target_compile_definitions(${TARGET_NAME} PRIVATE HEPMC3_ROOTIO)
+else()
+	message(STATUS "EIC Afterburner: HEPMC3_ROOTIO=OFF. hepmc.root files support disabled.")
+endif()
+
+
 # installs
 install(TARGETS ${TARGET_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
 
