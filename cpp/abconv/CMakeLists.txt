@@ -59,14 +59,11 @@ target_compile_definitions(${TARGET_NAME} PRIVATE ${basic_defines} )
 
 # CERN Rooooooot
 list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
-find_package(ROOT REQUIRED COMPONENTS Core RIO Tree)
-include(${ROOT_USE_FILE})
-message(STATUS "${TARGET_NAME}: ROOT_FOUND:        ${ROOT_FOUND}")
-message(STATUS "${TARGET_NAME}: ROOT_USE_FILE:     ${ROOT_USE_FILE}")
-message(STATUS "${TARGET_NAME}: ROOT_INCLUDE_DIRS: ${ROOT_INCLUDE_DIRS}")
+find_package(ROOT REQUIRED COMPONENTS Core RIO Tree Hist)
+
 if(ROOT_FOUND)
-	target_include_directories(${TARGET_NAME} PRIVATE SYSTEM ${ROOT_INCLUDE_DIRS})
-	target_link_libraries(${TARGET_NAME} ${ROOT_LIBRARIES})
+        target_include_directories(${TARGET_NAME} PRIVATE SYSTEM ${ROOT_INCLUDE_DIRS})
+	target_link_libraries(${TARGET_NAME} ROOT::Core ROOT::RIO ROOT::Tree ROOT::Hist)
 endif()
 
 # ZLib
