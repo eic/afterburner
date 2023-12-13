@@ -4,7 +4,7 @@ project(EICAfterburner)
 cmake_minimum_required(VERSION 3.10.0 FATAL_ERROR)
 include_directories(${PROJECT_SOURCE_DIR}/include )
 
-option(HEPMC3_ROOTIO "Enable hepmc.root input and output (treerot & root)" ON)
+option(HEPMC3_ROOTIO "Enable hepmc.root input and output (treeroot & root)" ON)
 
 #This is needed for standalone compilation
 #find_package(HepMC3 REQUIRED)
