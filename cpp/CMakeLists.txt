@@ -1,7 +1,7 @@
 # building examples
 #------------------
-project(EICAfterburner)
 cmake_minimum_required(VERSION 3.10.0 FATAL_ERROR)
+project(EICAfterburner)
 include_directories(${PROJECT_SOURCE_DIR}/include )
 
 
@@ -21,8 +21,8 @@ endif()
 message(STATUS "CMAKE_CXX_STANDARD: ${CMAKE_CXX_STANDARD} (By Default)")
 
 add_subdirectory(afterburner)
-add_subdirectory(benchmark)
 add_subdirectory(abconv)
+add_subdirectory(benchmark)
 
 
 enable_testing()

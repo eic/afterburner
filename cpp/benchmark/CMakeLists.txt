@@ -7,7 +7,7 @@ list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
 list(APPEND CMAKE_PREFIX_PATH ${ROOT_DIR})
 find_package(ROOT REQUIRED COMPONENTS Core RIO Tree)
 
-find_package(HepMC3 REQUIRED)
+# find_package(HepMC3 REQUIRED) # shouldn't be called again after abconv
 find_package(yaml-cpp REQUIRED)
 message(STATUS "BENCHMARKS HEPMC3_LIBRARIES ${HEPMC3_LIBRARIES}")
 message(STATUS "BENCHMARKS HEPMC3_INCLUDE_DIR ${HEPMC3_INCLUDE_DIR}")
@@ -17,13 +17,6 @@ if(NOT CLHEP_FOUND)
     set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Modules ${CMAKE_MODULE_PATH} )
     find_package(CLHEP REQUIRED)
 endif()
-
-
-include(${ROOT_USE_FILE})
-message(STATUS "ROOT_FOUND:     ${ROOT_FOUND}")
-message(STATUS "ROOT_USE_FILE ${ROOT_USE_FILE}")
-message(STATUS "ROOT_INCLUDE_DIRS:  ${ROOT_INCLUDE_DIRS}")
-
 
 add_library(benchmark STATIC
         Histogrammer.hh
@@ -54,7 +47,7 @@ target_compile_features(benchmark
         )
 
 target_include_directories(benchmark PRIVATE ../external/ ../ ${HEPMC3_INCLUDE_DIR} ${YAML_CPP_INCLUDE_DIRS} ${ROOT_INCLUDE_DIRS} )
-target_link_libraries(benchmark afterburner ${HEPMC3_LIBRARIES} ${YAML_CPP_LIBRARIES} HepMC3 ${ROOT_LIBRARIES})
+target_link_libraries(benchmark afterburner ${HEPMC3_LIBRARIES} ${YAML_CPP_LIBRARIES} HepMC3 ROOT::Core ROOT::RIO ROOT::Tree)
 
 
 
