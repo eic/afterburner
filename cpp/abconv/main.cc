@@ -20,7 +20,6 @@
 #include "ConfigProvider.hh"
 
 
-/// Hello world!
 int main(int argc, char** argv)
 {
     using namespace HepMC3;

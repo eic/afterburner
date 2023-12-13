@@ -99,6 +99,18 @@ std::shared_ptr<HepMC3::Writer> ab::convert::generate_writer(FileFormats format,
             return std::make_shared<WriterAsciiHepMC2>(file_name);
         case FileFormats::hepmc3:
             return std::make_shared<WriterAscii>(file_name);
+        case FileFormats::treeroot:
+            #ifdef HEPMC3_ROOTIO
+                return std::make_shared<WriterRootTree>(file_name);
+            #else
+                throw std::runtime_error("Format HepMC3RootTree is not supported. You need to recompile this package");
+            #endif
+        case FileFormats::root:
+            #ifdef HEPMC3_ROOTIO
+                return std::make_shared<WriterRoot>(file_name);
+            #else
+                throw std::runtime_error("Format HepMC3Root is not supported. You need to recompile this package");
+            #endif
         case FileFormats::dot:
             return std::make_shared<WriterDOT>(file_name);
         case FileFormats::none:

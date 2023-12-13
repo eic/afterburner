@@ -13,7 +13,7 @@ for Electron Ion Collider.
 **Software:**
 - Standalone framework independent code
 - Clean C++ API to embed in analysis scripts and/or frameworks
-- Convenient Command Line Interface (CLI) HepMC2/3 converter, that adds crossing_angle_hor and beam effects
+- Convenient Command Line Interface (CLI) HepMC2/3 and `root.hepmc` converter, that adds crossing_angle_hor and beam effects
 - Configurable beam parameters interface (yaml files)
 
 
@@ -58,7 +58,11 @@ abconv my.hepmc -o test -l 1000
 
 # Just convert hepmc3 to hepmc2 don't use afterburner, don't create plots
 abconv my.hepmc -f hepmc2 --ab-off --plot-off 
+
+# Just convert hepmc3 to hepmc.root don't use afterburner, don't create plots
+abconv my.hepmc -f treeroot --ab-off --plot-off 
 ```
+Note: In the final example above, you want the `treeroot` option. The `root` option creates a (rather strange) flat file.
 
 How exactly the afterburner works illustrated by `abconv my.hepmc` command. 
 
