@@ -184,7 +184,7 @@ The later was also validated with Fun4All afterburner implementation.
 To apply benchmarks. Head-on data (no crossing angle nor effects) is located:
 
 ```
-https://dtn01.sdcc.bnl.gov:9000/minio/eictest/ATHENA/WG/BeamEffects/
+https://eics3.sdcc.bnl.gov:9000/minio/eictest/ATHENA/WG/BeamEffects/
 ```
 
 The validation plots are generated and can be viewed in [python/comparison.ipynb](python/comparison.ipynb)
