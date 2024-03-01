@@ -8,6 +8,12 @@ namespace ab {
 
     struct BeamConfig {
 
+        //! Beam energy setting
+        double energy = 18;
+
+        //! Charge of beam specimen
+        int    pdg = 11;
+
         //! Beam angle divergence in accelerator beam coordinate.
         //! First element is beamA, in pair of Gaussian Sigma_H Sigma_V. BeamA is aimed to +z direction in the HepMC event generator's coordinate
         //! Second element is beamB, in pair of Gaussian Sigma_H Sigma_V. BeamA is aimed to -z direction in the HepMC event generator's coordinate
@@ -30,6 +36,9 @@ namespace ab {
     };
 
     struct AfterburnerConfig {
+
+        // Name of the afterburner config used
+        std::string name = "auto";
 
         /**
          * Crossing angle in horizontal plane [rad]
@@ -66,10 +75,10 @@ namespace ab {
         double vertex_shift_t = 0;
 
         /// Beam A (one) configuration
-        BeamConfig hadron_beam;
+        BeamConfig ion_beam;
 
         /// Beam B (two) configuration
-        BeamConfig lepton_beam;
+        BeamConfig electron_beam;
     };
 }
 #endif //EICAFTERBURNER_AFTERBURNERCONFIG_HH
