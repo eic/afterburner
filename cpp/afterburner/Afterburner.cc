@@ -56,24 +56,24 @@ ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interactio
     using namespace std;
 
     // Set particle positions
-    double hadron_z = _smear.gauss(_cfg.hadron_beam.rms_bunch_length);
-    double lepton_z = _smear.gauss(_cfg.lepton_beam.rms_bunch_length);
+    double ion_z = _smear.gauss(_cfg.ion_beam.rms_bunch_length);
+    double electron_z = _smear.gauss(_cfg.electron_beam.rms_bunch_length);
     double crossing_angle = _cfg.crossing_angle_hor;
 
-    double had_bunch_rms_hor = sqrt(_cfg.hadron_beam.beta_star_hor * _cfg.hadron_beam.rms_emittance_hor);
-    double had_bunch_rms_ver = sqrt(_cfg.hadron_beam.beta_star_ver * _cfg.hadron_beam.rms_emittance_ver);
-    double lep_bunch_rms_hor = sqrt(_cfg.lepton_beam.beta_star_hor * _cfg.lepton_beam.rms_emittance_hor);
-    double lep_bunch_rms_ver = sqrt(_cfg.lepton_beam.beta_star_ver * _cfg.lepton_beam.rms_emittance_ver);
+    double had_bunch_rms_hor = sqrt(_cfg.ion_beam.beta_star_hor * _cfg.ion_beam.rms_emittance_hor);
+    double had_bunch_rms_ver = sqrt(_cfg.ion_beam.beta_star_ver * _cfg.ion_beam.rms_emittance_ver);
+    double lep_bunch_rms_hor = sqrt(_cfg.electron_beam.beta_star_hor * _cfg.electron_beam.rms_emittance_hor);
+    double lep_bunch_rms_ver = sqrt(_cfg.electron_beam.beta_star_ver * _cfg.electron_beam.rms_emittance_ver);
     double sigma_hor = get_collision_width(had_bunch_rms_hor, lep_bunch_rms_hor);
     double sigma_ver = get_collision_width(had_bunch_rms_ver, lep_bunch_rms_ver);
 
-    // Find Collision time, z position of collision, z position of center of hadron bunch at collision time and x position of collision
+    // Find Collision time, z position of collision, z position of center of ion bunch at collision time and x position of collision
     // Quantities are found via a system of parametric equations
-    // Z position of colliding hadron as a function of time: Z_h = Cos(0.5*theta_c)*t + Z_h_offset (Z_h_offset = distance from center of bunch)
-    // Z position of colliding lepton as a function of time: Z_l = -Cos(0.5*theta_c)*t + Z_l_offset
+    // Z position of colliding ion as a function of time: Z_h = Cos(0.5*theta_c)*t + Z_h_offset (Z_h_offset = distance from center of bunch)
+    // Z position of colliding electron as a function of time: Z_l = -Cos(0.5*theta_c)*t + Z_l_offset
     // Collision time when Z_h = Z_l -> t_int = (Z_l_offset - Z_h_offset)/(2*Cos(0.5*theta_c))
     // Z position of collision: Z_int = (Z_l_offset + Z_h_offset)/2
-    // Z position of center of hadron bunch a collision time - this gives x position of collision via relation x = z*Tan(0.5*theta_c)
+    // Z position of center of ion bunch a collision time - this gives x position of collision via relation x = z*Tan(0.5*theta_c)
     // Z_bunch_int = Cos(0.5*theta_c)*t_int
     // X_int = Z_bunch_int * Tan(0.5*theta_c)
 
@@ -81,8 +81,8 @@ ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interactio
     double s_c = sin(crossing_angle/2.0);
     double t_c = tan(crossing_angle/2.0);
 
-    double t_int = (lepton_z - hadron_z)/(2.0*c_c);
-    double z_int = (lepton_z + hadron_z)/2.0;
+    double t_int = (electron_z - ion_z)/(2.0*c_c);
+    double z_int = (electron_z + ion_z)/2.0;
     double z_bunch_int = c_c*t_int;
     double x_int = z_bunch_int*t_c;
 
@@ -109,8 +109,8 @@ ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interactio
     CLHEP::Hep3Vector collision_center(tmpVtxX, tmpVtxY, tmpVtxZ);
     ab::BunchInteractionResult result;
     result.vertex.set(collision_center, t_int);
-    result.bunch_one_z = hadron_z;
-    result.bunch_two_z = lepton_z;
+    result.bunch_one_z = ion_z;
+    result.bunch_two_z = electron_z;
 
 //
 //    //  const static CLHEP::Hep3Vector z_axis(0, 0, 1);
@@ -123,8 +123,8 @@ ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interactio
 //
 //    CLHEP::Hep3Vector vec_crossing = beamA_center - 0.5 * (beamA_center - beamB_center);
 //
-//    CLHEP::Hep3Vector vec_longitudinal_collision = beamCenterDiffAxis * (hadron_z + lepton_z) / 2.;
-//    double ct_collision = 0.5 * (-hadron_z + lepton_z) / beamCenterDiffAxis.dot(beamA_center);
+//    CLHEP::Hep3Vector vec_longitudinal_collision = beamCenterDiffAxis * (ion_z + electron_z) / 2.;
+//    double ct_collision = 0.5 * (-ion_z + electron_z) / beamCenterDiffAxis.dot(beamA_center);
 //    double t_collision = ct_collision ;//* CLHEP::mm / CLHEP::c_light / CLHEP::ns;
 //    CLHEP::Hep3Vector vec_crossing_collision = ct_collision * vec_crossing;  // shift of collision to crossing direction
 //
@@ -152,8 +152,8 @@ ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interactio
 //
 //    ab::BunchInteractionResult result;
 //    result.vertex.set(vec_collision_vertex, t_collision);
-//    result.bunch_one_z = hadron_z;
-//    result.bunch_two_z = lepton_z;
+//    result.bunch_one_z = ion_z;
+//    result.bunch_two_z = electron_z;
 //
 //
 //    if (m_verbosity)
@@ -206,12 +206,12 @@ CLHEP::Hep3Vector ab::Afterburner::smear_beam_divergence(const CLHEP::Hep3Vector
     // Vertical
     /*
     // Calculate angular deflection
-    double crabAngHad = ((mXAngle/2.0)*hadronPartPos)/(TMath::Sqrt(betaCrabHad*betaStarHad));
-    double crabAngLep = ((mXAngle/2.0)*leptonPartPos)/(TMath::Sqrt(betaCrabLep*betaStarLep));
+    double crabAngHad = ((mXAngle/2.0)*ionPartPos)/(TMath::Sqrt(betaCrabHad*betaStarHad));
+    double crabAngLep = ((mXAngle/2.0)*electronPartPos)/(TMath::Sqrt(betaCrabLep*betaStarLep));
 
     // Calculate Magnitude of Px kick
     double crabKickHad = (mIonBeamEnergy + tmpPzA)*TMath::Sin(crabAngHad);
-    double crabKickLep = (-1.0)*(mLeptonBeamEnergy + tmpPzB)*TMath::Sin(crabAngLep); //
+    double crabKickLep = (-1.0)*(mElectronBeamEnergy + tmpPzB)*TMath::Sin(crabAngLep); //
 
     // Rotate Momentum Kick into Detector Frame
     double tmpVertPxA, tmpVertPyA, tmpVertPzA;
@@ -271,56 +271,56 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     const static CLHEP::Hep3Vector z_axis(0, 0, 1);
     const static CLHEP::Hep3Vector y_axis(0, 1, 0);
 
-    //CLHEP::Hep3Vector ideal_hadron_dir = spherical_to_cartesian(_cfg.hadron_beam.direction_theta, _cfg.hadron_beam.direction_phi);
-    //CLHEP::Hep3Vector ideal_lepton_dir = spherical_to_cartesian(_cfg.lepton_beam.direction_theta, _cfg.lepton_beam.direction_phi);
-    CLHEP::Hep3Vector ideal_lepton_dir(0, 0, -1);
-    CLHEP::Hep3Vector ideal_hadron_dir = CLHEP::Hep3Vector(z_axis).rotateY(_cfg.crossing_angle_hor).rotateX(_cfg.crossing_angle_ver);
+    //CLHEP::Hep3Vector ideal_ion_dir = spherical_to_cartesian(_cfg.ion_beam.direction_theta, _cfg.ion_beam.direction_phi);
+    //CLHEP::Hep3Vector ideal_electron_dir = spherical_to_cartesian(_cfg.electron_beam.direction_theta, _cfg.electron_beam.direction_phi);
+    CLHEP::Hep3Vector ideal_electron_dir(0, 0, -1);
+    CLHEP::Hep3Vector ideal_ion_dir = CLHEP::Hep3Vector(z_axis).rotateY(_cfg.crossing_angle_hor).rotateX(_cfg.crossing_angle_ver);
 
-    //double crossing_angle = acos(ideal_hadron_dir.unit().dot(-ideal_lepton_dir.unit()));
+    //double crossing_angle = acos(ideal_ion_dir.unit().dot(-ideal_electron_dir.unit()));
 
     if (m_verbosity) {
         cout << __PRETTY_FUNCTION__ << ": " << endl;
-        cout << "ideal_hadron_dir = " << ideal_hadron_dir << endl;
-        cout << "ideal_lepton_dir = " << ideal_lepton_dir << endl;
+        cout << "ideal_ion_dir = " << ideal_ion_dir << endl;
+        cout << "ideal_electron_dir = " << ideal_electron_dir << endl;
         cout << "crossing_angle_hor   = " << _cfg.crossing_angle_hor << endl;
         cout << "crossing_angle_ver   = " << _cfg.crossing_angle_ver << endl;
     }
 
-    assert(fabs(ideal_hadron_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
-    assert(fabs(ideal_lepton_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
+    assert(fabs(ideal_ion_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
+    assert(fabs(ideal_electron_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
 
-    if (ideal_hadron_dir.dot(ideal_lepton_dir) > -0.5) {
+    if (ideal_ion_dir.dot(ideal_electron_dir) > -0.5) {
         cout << "PHHepMCGenHelper::process_event - WARNING -"
              << "Beam A and Beam B are not near back to back. "
              << "Please double check beam direction setting at set_beam_direction_theta_phi()."
-             << "beamA_center = " << ideal_hadron_dir << ","
-             << "beamB_center = " << ideal_lepton_dir << ","
+             << "beamA_center = " << ideal_ion_dir << ","
+             << "beamB_center = " << ideal_electron_dir << ","
              << " Current setting:";
 
         print();
     }
 
     // Calculate angular deflection
-    double hadron_crab_hor = _cfg.crossing_angle_hor / 2.0 / sqrt(_cfg.hadron_beam.beta_crab_hor * _cfg.hadron_beam.beta_star_hor);
-    double hadron_crab_ver = 0;
+    double ion_crab_hor = _cfg.crossing_angle_hor / 2.0 / sqrt(_cfg.ion_beam.beta_crab_hor * _cfg.ion_beam.beta_star_hor);
+    double ion_crab_ver = 0;
 
-    double lepton_crab_hor = _cfg.crossing_angle_hor / 2.0 / sqrt(_cfg.lepton_beam.beta_crab_hor * _cfg.lepton_beam.beta_star_hor);
-    double lepton_crab_ver = 0;
+    double electron_crab_hor = _cfg.crossing_angle_hor / 2.0 / sqrt(_cfg.electron_beam.beta_crab_hor * _cfg.electron_beam.beta_star_hor);
+    double electron_crab_ver = 0;
 
-    CLHEP::Hep3Vector real_hadron_dir = smear_beam_divergence(ideal_hadron_dir, _cfg.hadron_beam, bunch_one_z, hadron_crab_hor, hadron_crab_ver);
-    CLHEP::Hep3Vector real_lepton_dir = smear_beam_divergence(ideal_lepton_dir, _cfg.lepton_beam, bunch_two_z, lepton_crab_hor, lepton_crab_ver);
+    CLHEP::Hep3Vector real_ion_dir = smear_beam_divergence(ideal_ion_dir, _cfg.ion_beam, bunch_one_z, ion_crab_hor, ion_crab_ver);
+    CLHEP::Hep3Vector real_electron_dir = smear_beam_divergence(ideal_electron_dir, _cfg.electron_beam, bunch_two_z, electron_crab_hor, electron_crab_ver);
 
     if (m_verbosity) {
         cout << __PRETTY_FUNCTION__ << ": " << endl;
-        cout << "beamA_vec = " << real_hadron_dir << endl;
-        cout << "beamB_vec = " << real_lepton_dir << endl;
+        cout << "beamA_vec = " << real_ion_dir << endl;
+        cout << "beamB_vec = " << real_electron_dir << endl;
     }
 
-    assert(fabs(real_hadron_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
-    assert(fabs(real_lepton_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
+    assert(fabs(real_ion_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
+    assert(fabs(real_electron_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
 
     // apply minimal beam energy shift rotation and boost
-    CLHEP::Hep3Vector boost_axis = real_hadron_dir + real_lepton_dir;
+    CLHEP::Hep3Vector boost_axis = real_ion_dir + real_electron_dir;
     if (boost_axis.mag2() > CLHEP::Hep3Vector::getTolerance()) {
         //non-zero boost
 
@@ -339,13 +339,13 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     }
 
     //rotation to collision to along z-axis with beamA pointing to +z
-    CLHEP::Hep3Vector beamDiffAxis = (real_hadron_dir - real_lepton_dir);
+    CLHEP::Hep3Vector beamDiffAxis = (real_ion_dir - real_electron_dir);
     if (beamDiffAxis.mag2() < CLHEP::Hep3Vector::getTolerance()) {
         cout << "PHHepMCGenHelper::process_event - Fatal error -"
              << "Beam A and Beam B are too close to each other in direction "
              << "Please double check beam direction and divergence setting. "
-             << "real_hadron_dir = " << real_hadron_dir << ","
-             << "real_lepton_dir = " << real_lepton_dir << ","
+             << "real_ion_dir = " << real_ion_dir << ","
+             << "real_electron_dir = " << real_electron_dir << ","
              << " Current setting:";
 
         print();
@@ -376,7 +376,7 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
         }
     } else {
         // need a rotation
-        CLHEP::Hep3Vector rotation_axis = (real_hadron_dir - real_lepton_dir).cross(z_axis);
+        CLHEP::Hep3Vector rotation_axis = (real_ion_dir - real_electron_dir).cross(z_axis);
         const double rotation_angle_to_z = acos(cos_rotation_angle_to_z);   // TODO back to -acos?
 
         result.rotation = CLHEP::HepRotation(rotation_axis, rotation_angle_to_z);
@@ -389,7 +389,7 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     // rotate the collision vertex z direction to middle of the beam angles
 
     // the final longitudinal vertex smear axis
-    CLHEP::Hep3Vector beamCenterDiffAxis = (ideal_hadron_dir - ideal_lepton_dir);
+    CLHEP::Hep3Vector beamCenterDiffAxis = (ideal_ion_dir - ideal_electron_dir);
     beamCenterDiffAxis = beamCenterDiffAxis / beamCenterDiffAxis.mag();
 
     double cos_rotation_center_angle_to_z = beamCenterDiffAxis.dot(z_axis);
@@ -462,17 +462,17 @@ void ab::Afterburner::print() const {
 
     cout << "Vertex distribution function: " << smear_func_to_str(_cfg.vertex_smear_func) << endl;
     cout << "Vertex simulation is: " << (_cfg.use_beam_bunch_sim ? string("on") : std::string("off")) << endl;
-    cout << "Hadron beam:\n";
-    cout << "   rms emittance   : hor = " << _cfg.hadron_beam.rms_emittance_hor << ", ver = " << _cfg.hadron_beam.rms_emittance_ver << endl;
-    cout << "   beta star       : hor = " << _cfg.hadron_beam.beta_star_hor << ", ver = " << _cfg.hadron_beam.beta_star_ver << endl;
-    cout << "   beta crab       : hor = " << _cfg.hadron_beam.beta_crab_hor << endl;
-    cout << "   rms bunch length: " << _cfg.hadron_beam.rms_bunch_length << endl;
+    cout << "Ion beam:\n";
+    cout << "   rms emittance   : hor = " << _cfg.ion_beam.rms_emittance_hor << ", ver = " << _cfg.ion_beam.rms_emittance_ver << endl;
+    cout << "   beta star       : hor = " << _cfg.ion_beam.beta_star_hor << ", ver = " << _cfg.ion_beam.beta_star_ver << endl;
+    cout << "   beta crab       : hor = " << _cfg.ion_beam.beta_crab_hor << endl;
+    cout << "   rms bunch length: " << _cfg.ion_beam.rms_bunch_length << endl;
 
-    cout << "Lepton beam:\n";
-    cout << "   rms emittance   : hor = " << _cfg.lepton_beam.rms_emittance_hor << ", ver = " << _cfg.lepton_beam.rms_emittance_ver << endl;
-    cout << "   beta star       : hor = " << _cfg.lepton_beam.beta_star_hor << ", ver = " << _cfg.lepton_beam.beta_star_ver << endl;
-    cout << "   beta crab       : hor = " << _cfg.lepton_beam.beta_crab_hor << endl;
-    cout << "   rms bunch length: " << _cfg.lepton_beam.rms_bunch_length << endl;
+    cout << "Electron beam:\n";
+    cout << "   rms emittance   : hor = " << _cfg.electron_beam.rms_emittance_hor << ", ver = " << _cfg.electron_beam.rms_emittance_ver << endl;
+    cout << "   beta star       : hor = " << _cfg.electron_beam.beta_star_hor << ", ver = " << _cfg.electron_beam.beta_star_ver << endl;
+    cout << "   beta crab       : hor = " << _cfg.electron_beam.beta_crab_hor << endl;
+    cout << "   rms bunch length: " << _cfg.electron_beam.rms_bunch_length << endl;
 
     cout << "=========================\n";
 }
