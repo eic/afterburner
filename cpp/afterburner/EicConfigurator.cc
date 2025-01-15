@@ -8,6 +8,166 @@ using namespace CLHEP;
 // ========================== IP 6 ==================================
 // ------------------------------------------------------------------
 
+
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eHe3_166x10() {
+
+    //Same settings as for e+p 10x100 GeV - no official numbers exist
+    //update numbers when available
+    //Note: these settings assume BeAGLE-like input, where the beam hadron is
+    //      is the active nucleon in the interaction.
+
+    ab::AfterburnerConfig cfg;
+
+    // Crossing angle
+    cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
+
+    cfg.hadron_beam.beta_crab_hor = 500000.0;
+    cfg.lepton_beam.beta_crab_hor = 150000.0;
+
+    // Beam divergence
+    cfg.hadron_beam.divergence_hor = 180e-6;
+    cfg.hadron_beam.divergence_ver = 180e-6;
+    cfg.lepton_beam.divergence_hor = 118e-6;
+    cfg.lepton_beam.divergence_ver = 86e-6;
+
+    // Beam beta star [mm]
+    cfg.hadron_beam.beta_star_hor = 940;
+    cfg.hadron_beam.beta_star_ver = 85;
+    cfg.lepton_beam.beta_star_hor = 1430;
+    cfg.lepton_beam.beta_star_ver = 180;
+
+    // RMS emittance
+    cfg.hadron_beam.rms_emittance_hor = 30 * nm;
+    cfg.hadron_beam.rms_emittance_ver = 2.7 * nm;
+    cfg.lepton_beam.rms_emittance_hor = 20 * nm;
+    cfg.lepton_beam.rms_emittance_ver = 1.3 * nm;
+
+    // RMS bunch length
+    cfg.hadron_beam.rms_bunch_length = 7 * cm;
+    cfg.lepton_beam.rms_bunch_length = 0.7 * cm;
+    return cfg;
+}
+
+
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eD_130x10() {
+    
+    //Same settings as for e+p 10x100 GeV - no official numbers exist
+    //update numbers when available
+    //Note: these settings assume BeAGLE-like input, where the beam hadron is
+    //      is the active nucleon in the interaction.
+
+    ab::AfterburnerConfig cfg;
+
+    // Crossing angle
+    cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
+
+    cfg.hadron_beam.beta_crab_hor = 500000.0;
+    cfg.lepton_beam.beta_crab_hor = 150000.0;
+
+    // Beam divergence
+    cfg.hadron_beam.divergence_hor = 180e-6;
+    cfg.hadron_beam.divergence_ver = 180e-6;
+    cfg.lepton_beam.divergence_hor = 118e-6;
+    cfg.lepton_beam.divergence_ver = 86e-6;
+
+    // Beam beta star [mm]
+    cfg.hadron_beam.beta_star_hor = 940;
+    cfg.hadron_beam.beta_star_ver = 85;
+    cfg.lepton_beam.beta_star_hor = 1430;
+    cfg.lepton_beam.beta_star_ver = 180;
+
+    // RMS emittance
+    cfg.hadron_beam.rms_emittance_hor = 30 * nm;
+    cfg.hadron_beam.rms_emittance_ver = 2.7 * nm;
+    cfg.lepton_beam.rms_emittance_hor = 20 * nm;
+    cfg.lepton_beam.rms_emittance_ver = 1.3 * nm;
+
+    // RMS bunch length
+    cfg.hadron_beam.rms_bunch_length = 7 * cm;
+    cfg.lepton_beam.rms_bunch_length = 0.7 * cm;
+    return cfg;
+}
+
+
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ep_130x10() {
+    
+    //Same settings as for e+p 10x100 GeV - no official numbers exist
+    //update numbers when available
+
+    ab::AfterburnerConfig cfg;
+
+    // Crossing angle
+    cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
+
+    cfg.hadron_beam.beta_crab_hor = 500000.0;
+    cfg.lepton_beam.beta_crab_hor = 150000.0;
+
+    // Beam divergence
+    cfg.hadron_beam.divergence_hor = 180e-6;
+    cfg.hadron_beam.divergence_ver = 180e-6;
+    cfg.lepton_beam.divergence_hor = 118e-6;
+    cfg.lepton_beam.divergence_ver = 86e-6;
+
+    // Beam beta star [mm]
+    cfg.hadron_beam.beta_star_hor = 940;
+    cfg.hadron_beam.beta_star_ver = 85;
+    cfg.lepton_beam.beta_star_hor = 1430;
+    cfg.lepton_beam.beta_star_ver = 180;
+
+    // RMS emittance
+    cfg.hadron_beam.rms_emittance_hor = 30 * nm;
+    cfg.hadron_beam.rms_emittance_ver = 2.7 * nm;
+    cfg.lepton_beam.rms_emittance_hor = 20 * nm;
+    cfg.lepton_beam.rms_emittance_ver = 1.3 * nm;
+
+    // RMS bunch length
+    cfg.hadron_beam.rms_bunch_length = 7 * cm;
+    cfg.lepton_beam.rms_bunch_length = 0.7 * cm;
+    return cfg;
+}
+
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ep_250x10() {
+
+    //Same settings as for e+p 10x275 GeV - no official numbers exist
+    //update numbers when available
+
+    ab::AfterburnerConfig cfg;
+
+    // Crossing angle
+    cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
+
+    cfg.hadron_beam.beta_crab_hor = 1300000.0;
+    cfg.lepton_beam.beta_crab_hor = 150000.0;
+
+    // Beam divergence
+    cfg.hadron_beam.divergence_hor = 65e-6;
+    cfg.hadron_beam.divergence_ver = 65e-6;
+    cfg.lepton_beam.divergence_hor = 116e-6;
+    cfg.lepton_beam.divergence_ver = 84e-6;
+
+    // Beam beta star [mm]
+    cfg.hadron_beam.beta_star_hor = 2650;
+    cfg.hadron_beam.beta_star_ver = 240;
+    cfg.lepton_beam.beta_star_hor = 1490;
+    cfg.lepton_beam.beta_star_ver = 190;
+
+    // RMS emittance
+    cfg.hadron_beam.rms_emittance_hor = 11 * nm;
+    cfg.hadron_beam.rms_emittance_ver = 1 * nm;
+    cfg.lepton_beam.rms_emittance_hor = 20 * nm;
+    cfg.lepton_beam.rms_emittance_ver = 1.3 * nm;
+
+    // RMS bunch length
+    cfg.hadron_beam.rms_bunch_length = 6 * cm;
+    cfg.lepton_beam.rms_bunch_length = 0.7 * cm;
+    return cfg;
+}
+
+
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x18() {
     ab::AfterburnerConfig cfg;
 
@@ -996,6 +1156,9 @@ ab::AfterburnerConfig ab::EicConfigurator::config(double hadron_energy, double l
 
     // Approximate energies so it tolerate some spread
     if(hadron_energy > 270 && hadron_energy < 280) had_e = 275;
+    if(hadron_energy > 245 && hadron_energy < 255) had_e = 250;
+    if(hadron_energy > 161 && hadron_energy < 171) had_e = 166;
+    if(hadron_energy > 125 && hadron_energy < 135) had_e = 130;
     if(hadron_energy > 105 && hadron_energy < 115) had_e = 110;
     if(hadron_energy > 95  && hadron_energy < 105) had_e = 100;
     if(hadron_energy > 37  && hadron_energy < 44) had_e = 41;
@@ -1004,9 +1167,9 @@ ab::AfterburnerConfig ab::EicConfigurator::config(double hadron_energy, double l
     if(lepton_energy > 7  && lepton_energy < 13) lep_e = 10;
     if(lepton_energy > 3  && lepton_energy < 7) lep_e = 5;
 
-    if(had_e != 275 && had_e!= 110 && had_e != 100 && had_e!=41) {
+    if(had_e != 275 && had_e != 250 && had_e != 166 && had_e != 130 && had_e != 110 && had_e != 100 && had_e != 41) {
         cerr << (int)had_e << " is not a valid Hadron Beam Energy!!" << endl;
-        cerr << "Valid Energies are 275, 110, 100, and 41" << endl;
+        cerr << "Valid Energies are 275, 250, 166, 130, 110, 100, and 41" << endl;
         throw std::invalid_argument("Ion energy setting is incorrect");
     }
 
@@ -1023,10 +1186,11 @@ ab::AfterburnerConfig ab::EicConfigurator::config(double hadron_energy, double l
 ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies hadron, ab::EicBeamEnergies lepton, ab::EicBeamPresets beam_preset) {
     using namespace std;
 
-    // Ensure Beam Energies Correspond to Those Presented in CDR
-    if(hadron != EicBeamEnergies::E275GeV && hadron != EicBeamEnergies::E110GeV && hadron != EicBeamEnergies::E100GeV && hadron != EicBeamEnergies::E41GeV) {
+    // Ensure Beam Energies Correspond to Those Presented in CDR OR EIC early-science
+    if(hadron != EicBeamEnergies::E275GeV && hadron != EicBeamEnergies::E250GeV && hadron != EicBeamEnergies::E166GeV && hadron != EicBeamEnergies::E130GeV && 
+       hadron != EicBeamEnergies::E110GeV && hadron != EicBeamEnergies::E100GeV && hadron != EicBeamEnergies::E41GeV) {
         cerr << (int)hadron << " is not a valid Hadron Beam Energy!!" << endl;
-        cerr << "Valid Energies are 275, 110, 100, and 41" << endl;
+        cerr << "Valid Energies are 275, 250, 166, 130, 110, 100, and 41" << endl;
         throw std::invalid_argument("Hadron energy setting is incorrect");
     }
 
@@ -1047,6 +1211,10 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies hadron, ab
 
     // High acceptance settings
     if(beam_preset == EicBeamPresets::Ip6HighAcceptance) {
+        if(hadron == EicBeamEnergies::E166GeV && lepton == EicBeamEnergies::E10GeV) return preset_ip6_eHe3_166x10();
+        if(hadron == EicBeamEnergies::E130GeV && lepton == EicBeamEnergies::E10GeV) return preset_ip6_eD_130x10();
+        if(hadron == EicBeamEnergies::E130GeV && lepton == EicBeamEnergies::E10GeV) return preset_ip6_ep_130x10();
+        if(hadron == EicBeamEnergies::E250GeV && lepton == EicBeamEnergies::E10GeV) return preset_ip6_ep_250x10();
         if(hadron == EicBeamEnergies::E275GeV && lepton == EicBeamEnergies::E18GeV) return preset_ip6_hiacc_275x18();
         if(hadron == EicBeamEnergies::E275GeV && lepton == EicBeamEnergies::E10GeV) return preset_ip6_hiacc_275x10();
         if(hadron == EicBeamEnergies::E100GeV && lepton == EicBeamEnergies::E10GeV) return preset_ip6_hiacc_100x10();
@@ -1088,11 +1256,17 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies hadron, ab
 
     cout << (int)lepton << "x" << (int)hadron << " is not a valid energy combination!!" << endl;
     cout << "Valid (ep) Combinations are 18x275, 10x275, 10x100, 5x100, and 5x41" << endl;
+    cout << "Additional (ep) Combinations are 10x250, 10x130, but are approximate" << endl;
+    cout << "eHe3 10x166 GeV/n and eD 10x130 GeV/n are valid, and approximate" << endl;
     cout << "Valid (eA) Combinations are 18x110, 10x110, 5x110, and 5x41" << endl;
     throw std::invalid_argument("Ion beams energy combination ");
 }
 
 ab::AfterburnerConfig ab::EicConfigurator::from_string(const std::string &name) {
+    if(name == "ip6_eHe3_166x10")  return preset_ip6_eHe3_166x10();
+    if(name == "ip6_eD_130x10")    return preset_ip6_eD_130x10();
+    if(name == "ip6_ep_130x10")    return preset_ip6_ep_130x10();
+    if(name == "ip6_ep_250x10")    return preset_ip6_ep_250x10();
     if(name == "ip6_eau_110x18")   return preset_ip6_eau_110x18();
     if(name == "ip6_eau_110x10")   return preset_ip6_eau_110x10();
     if(name == "ip6_eau_110x5")    return preset_ip6_eau_110x5();
