@@ -60,6 +60,8 @@ int main(int argc, char** argv)
 
         // Check how to configure the afterburner
         auto ab_config = ab::convert::ConfigProvider::from_user_args(arg);
+        ab_config.squash_vertex = arg.SquashVertex; // squash config option
+
         afterburner->set_config(ab_config);
     } else {
         std::cout<<"Afterburner is DISABLED\n";
