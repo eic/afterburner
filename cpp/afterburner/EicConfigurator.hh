@@ -29,7 +29,7 @@ namespace ab {
 
     class EicConfigurator {
     public:
-		static AfterburnerConfig preset_ip6_eRu_115x10(); //EIC early-science option -- only approximate for now
+        static AfterburnerConfig preset_ip6_eRu_115x10(); //EIC early-science option -- only approximate for now
         static AfterburnerConfig preset_ip6_eCu_115x10(); //EIC early-science option -- only approximate for now
         static AfterburnerConfig preset_ip6_eHe3_166x10(); //EIC early-science option -- only approximate for now
         static AfterburnerConfig preset_ip6_eD_130x10(); //EIC early-science option -- only approximate for now
