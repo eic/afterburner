@@ -20,6 +20,7 @@ namespace ab {
         E41GeV = 41,
         E100GeV = 100,
         E110GeV = 110,
+		E115GeV = 115,
         E130GeV = 130,
         E166GeV = 166,
         E250GeV = 250,
@@ -28,6 +29,8 @@ namespace ab {
 
     class EicConfigurator {
     public:
+		static AfterburnerConfig preset_ip6_eRu_115x10(); //EIC early-science option -- only approximate for now
+        static AfterburnerConfig preset_ip6_eCu_115x10(); //EIC early-science option -- only approximate for now
         static AfterburnerConfig preset_ip6_eHe3_166x10(); //EIC early-science option -- only approximate for now
         static AfterburnerConfig preset_ip6_eD_130x10(); //EIC early-science option -- only approximate for now
         static AfterburnerConfig preset_ip6_ep_130x10(); //EIC early-science option -- only approximate for now
