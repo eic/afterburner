@@ -20,7 +20,7 @@ namespace ab {
         E41GeV = 41,
         E100GeV = 100,
         E110GeV = 110,
-		E115GeV = 115,
+        E115GeV = 115,
         E130GeV = 130,
         E166GeV = 166,
         E250GeV = 250,
