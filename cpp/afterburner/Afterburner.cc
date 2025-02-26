@@ -462,6 +462,7 @@ void ab::Afterburner::print() const {
 
     cout << "Vertex distribution function: " << smear_func_to_str(_cfg.vertex_smear_func) << endl;
     cout << "Vertex simulation is: " << (_cfg.use_beam_bunch_sim ? string("on") : std::string("off")) << endl;
+    cout << "Vertex squashing at end is: " << (_cfg.squash_vertex ? string("on") : string("off")) << endl;
     cout << "Hadron beam:\n";
     cout << "   rms emittance   : hor = " << _cfg.hadron_beam.rms_emittance_hor << ", ver = " << _cfg.hadron_beam.rms_emittance_ver << endl;
     cout << "   beta star       : hor = " << _cfg.hadron_beam.beta_star_hor << ", ver = " << _cfg.hadron_beam.beta_star_ver << endl;
