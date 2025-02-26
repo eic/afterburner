@@ -7,7 +7,85 @@ using namespace CLHEP;
 // ------------------------------------------------------------------
 // ========================== IP 6 ==================================
 // ------------------------------------------------------------------
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eRu_115x10() {
+    ab::AfterburnerConfig cfg;
 
+    //Same settings as for e+Au 10x110 GeV/n - no official numbers exist
+    //update numbers when available
+    //Note: these settings assume BeAGLE-like input, where the beam hadron is
+    //      is the active nucleon in the interaction.
+
+    // Crossing angle
+    cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
+
+    cfg.hadron_beam.beta_crab_hor = 500000.0;
+    cfg.lepton_beam.beta_crab_hor = 150000.0;
+
+    // Beam divergence
+    cfg.hadron_beam.divergence_hor = 216e-6;
+    cfg.hadron_beam.divergence_ver = 274e-6;
+    cfg.lepton_beam.divergence_hor = 102e-6;
+    cfg.lepton_beam.divergence_ver = 92e-6;
+
+    // Beam beta star [mm] [mm]
+    cfg.hadron_beam.beta_star_hor = 910;
+    cfg.hadron_beam.beta_star_ver = 40;
+    cfg.lepton_beam.beta_star_hor = 1930;
+    cfg.lepton_beam.beta_star_ver = 120;
+
+    // RMS emittance
+    cfg.hadron_beam.rms_emittance_hor = 42.3 * nm;
+    cfg.hadron_beam.rms_emittance_ver = 3 * nm;
+    cfg.lepton_beam.rms_emittance_hor = 20 * nm;
+    cfg.lepton_beam.rms_emittance_ver = 1  * nm;
+
+    // RMS bunch length
+    cfg.hadron_beam.rms_bunch_length = 7 * cm;
+    cfg.lepton_beam.rms_bunch_length = 0.7 * cm;
+
+    return cfg;
+}
+
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eCu_115x10() {
+    ab::AfterburnerConfig cfg;
+
+    //Same settings as for e+Au 10x110 GeV/n - no official numbers exist
+    //update numbers when available
+    //Note: these settings assume BeAGLE-like input, where the beam hadron is
+    //      is the active nucleon in the interaction.
+
+    // Crossing angle
+    cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
+
+    cfg.hadron_beam.beta_crab_hor = 500000.0;
+    cfg.lepton_beam.beta_crab_hor = 150000.0;
+
+    // Beam divergence
+    cfg.hadron_beam.divergence_hor = 216e-6;
+    cfg.hadron_beam.divergence_ver = 274e-6;
+    cfg.lepton_beam.divergence_hor = 102e-6;
+    cfg.lepton_beam.divergence_ver = 92e-6;
+
+    // Beam beta star [mm] [mm]
+    cfg.hadron_beam.beta_star_hor = 910;
+    cfg.hadron_beam.beta_star_ver = 40;
+    cfg.lepton_beam.beta_star_hor = 1930;
+    cfg.lepton_beam.beta_star_ver = 120;
+
+    // RMS emittance
+    cfg.hadron_beam.rms_emittance_hor = 42.3 * nm;
+    cfg.hadron_beam.rms_emittance_ver = 3 * nm;
+    cfg.lepton_beam.rms_emittance_hor = 20 * nm;
+    cfg.lepton_beam.rms_emittance_ver = 1  * nm;
+
+    // RMS bunch length
+    cfg.hadron_beam.rms_bunch_length = 7 * cm;
+    cfg.lepton_beam.rms_bunch_length = 0.7 * cm;
+
+    return cfg;
+}
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eHe3_166x10() {
 
@@ -1188,9 +1266,9 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies hadron, ab
 
     // Ensure Beam Energies Correspond to Those Presented in CDR OR EIC early-science
     if(hadron != EicBeamEnergies::E275GeV && hadron != EicBeamEnergies::E250GeV && hadron != EicBeamEnergies::E166GeV && hadron != EicBeamEnergies::E130GeV && 
-       hadron != EicBeamEnergies::E110GeV && hadron != EicBeamEnergies::E100GeV && hadron != EicBeamEnergies::E41GeV) {
+       hadron != EicBeamEnergies::E115GeV && hadron != EicBeamEnergies::E110GeV && hadron != EicBeamEnergies::E100GeV && hadron != EicBeamEnergies::E41GeV) {
         cerr << (int)hadron << " is not a valid Hadron Beam Energy!!" << endl;
-        cerr << "Valid Energies are 275, 250, 166, 130, 110, 100, and 41" << endl;
+        cerr << "Valid Energies are 275, 250, 166, 130, 115, 110, 100, and 41" << endl;
         throw std::invalid_argument("Hadron energy setting is incorrect");
     }
 
@@ -1211,10 +1289,6 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies hadron, ab
 
     // High acceptance settings
     if(beam_preset == EicBeamPresets::Ip6HighAcceptance) {
-        if(hadron == EicBeamEnergies::E166GeV && lepton == EicBeamEnergies::E10GeV) return preset_ip6_eHe3_166x10();
-        if(hadron == EicBeamEnergies::E130GeV && lepton == EicBeamEnergies::E10GeV) return preset_ip6_eD_130x10();
-        if(hadron == EicBeamEnergies::E130GeV && lepton == EicBeamEnergies::E10GeV) return preset_ip6_ep_130x10();
-        if(hadron == EicBeamEnergies::E250GeV && lepton == EicBeamEnergies::E10GeV) return preset_ip6_ep_250x10();
         if(hadron == EicBeamEnergies::E275GeV && lepton == EicBeamEnergies::E18GeV) return preset_ip6_hiacc_275x18();
         if(hadron == EicBeamEnergies::E275GeV && lepton == EicBeamEnergies::E10GeV) return preset_ip6_hiacc_275x10();
         if(hadron == EicBeamEnergies::E100GeV && lepton == EicBeamEnergies::E10GeV) return preset_ip6_hiacc_100x10();
@@ -1258,11 +1332,13 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies hadron, ab
     cout << "Valid (ep) Combinations are 18x275, 10x275, 10x100, 5x100, and 5x41" << endl;
     cout << "Additional (ep) Combinations are 10x250, 10x130, but are approximate" << endl;
     cout << "eHe3 10x166 GeV/n and eD 10x130 GeV/n are valid, and approximate" << endl;
-    cout << "Valid (eA) Combinations are 18x110, 10x110, 5x110, and 5x41" << endl;
+    cout << "Valid (eA) Combinations are 18x110, 10x115 (Cu, Ru), 10x110, 5x110, and 5x41" << endl;
     throw std::invalid_argument("Ion beams energy combination ");
 }
 
 ab::AfterburnerConfig ab::EicConfigurator::from_string(const std::string &name) {
+    if(name == "ip6_eRu_115x10")   return preset_ip6_eRu_115x10();
+    if(name == "ip6_eCu_115x10")   return preset_ip6_eCu_115x10();
     if(name == "ip6_eHe3_166x10")  return preset_ip6_eHe3_166x10();
     if(name == "ip6_eD_130x10")    return preset_ip6_eD_130x10();
     if(name == "ip6_ep_130x10")    return preset_ip6_ep_130x10();
