@@ -37,13 +37,13 @@ void ab::abconv::Converter::convert() {
 
         if (_last_event_number && evt.event_number() > _last_event_number) continue;
 
+        // Have to copy run info from existing hepmc
+        auto run_info = _reader->run_info();
+
         if(0 == events_processed) {
             // The first event, determine beams configuration
             bool must_exit = check_beams_setup(evt);
             if(must_exit) return;
-
-            // Have to copy run info from existing hepmc
-            auto run_info = _reader->run_info();
 
             // Autodetect afterburner config if we have afterburner
             if(_afterburner) {
@@ -57,10 +57,10 @@ void ab::abconv::Converter::convert() {
                 // set afterburner is not used to run info
                 run_info->add_attribute("ab_afterburner_is_used", std::make_shared<BoolAttribute>(false));
             }
-
-            // save updated run info
-            evt.set_run_info(run_info);
         }
+
+        // save run info that may have been updated
+        evt.set_run_info(run_info);
 
         if (_verbose) {
             cout << fixed;
