@@ -1,7 +1,7 @@
 # building examples
 #------------------
 cmake_minimum_required(VERSION 3.10.0 FATAL_ERROR)
-project(EICAfterburner)
+project(EICAfterburner LANGUAGES CXX)
 include_directories(${PROJECT_SOURCE_DIR}/include )
 
 option(HEPMC3_ROOTIO "Enable hepmc.root input and output (treeroot & root)" ON)
