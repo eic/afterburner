@@ -64,7 +64,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     if("hepmc2" == output_format || "hepmc3" == output_format) {
         result.OutputEventFileName = result.OutputBaseName + ".hepmc";
     } else if("root" == output_format || "treeroot" == output_format) {
-        result.OutputEventFileName = result.OutputBaseName + ".hepmc.root";
+        result.OutputEventFileName = result.OutputBaseName + ".hepmc3.tree.root";
     } else {
         result.OutputEventFileName = result.OutputBaseName + "." + result.OutputFormat;
     }
