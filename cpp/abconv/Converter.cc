@@ -35,7 +35,7 @@ void ab::abconv::Converter::convert() {
         }
         if (evt.event_number() < _first_event_number) continue;
 
-        if (_last_event_number && evt.event_number() > _last_event_number) continue;
+        if (_last_event_number && evt.event_number() > _last_event_number) break;
 
         if(0 == events_processed) {
             // The first event, determine beams configuration
