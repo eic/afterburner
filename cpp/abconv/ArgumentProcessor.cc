@@ -36,7 +36,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     app.add_flag("--ab-off", ab_off, "No afterburner is applied");
     app.add_flag("--plot-off", plot_off, "Don't produce validation plots");
     app.add_flag("--exit-ca", check_ca, "Check existing crossing angle and exit if CA>1mrad");
-    app.set_version_flag("-v, --version", "0.1.1");
+    app.set_version_flag("-v, --version", "0.1.3");
 
     app.add_option("input file", optAllFiles, "Input file");
 
