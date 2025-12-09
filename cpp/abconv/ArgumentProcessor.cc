@@ -20,7 +20,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     bool check_ca = false;
     unsigned long process_limit = 0;
     std::string input_format = "auto";
-    std::string output_format = "hepmc3";
+    std::string output_format = "treeroot";
     long ev_start = 0;
     long ev_end = 0;
 
