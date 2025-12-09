@@ -28,7 +28,7 @@ yum install yaml-cpp-devel      # RHEL/CentOS/Fedora
 
 
 ```bash
-git clone https://eicweb.phy.anl.gov/monte_carlo/afterburner.git
+git clone https://github.com/eic/afterburner.git
 mkdir -p afterburner/build
 cd afterburner/build
 
@@ -42,7 +42,7 @@ cmake --build ../cpp --target all
 cmake --build ../cpp --target install -- -j 8
 ```
 
-**Preinstalled versions** are available in [ATHENA containers](https://doc.athena-eic.org/en/latest/overview/containers.html). 
+**Preinstalled versions** are available in [ePIC containers](https://eic.github.io/tutorial-setting-up-environment/02-eic-shell/index.html). 
 
 
 ## CLI command
