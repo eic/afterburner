@@ -27,7 +27,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     app.add_option("-o, --output", output_base_name, "Base name for Output files ((!) no extension)");
     app.add_option("-p, --preset", preset, "0: IP6 High divergence[default], 1: IP6 High acceptance, 2: IP6 eAu; 3: IP8 Hight divergence..., More - see below");
     app.add_option("-i, --in-format", input_format, "Input format: auto [default], hepmc2, hepmc3, hpe, lhef, gz, treeroot, root");
-    app.add_option("-f, --out-format", output_format, "Output format: hepmc3 [default], treeroot, root, hepmc2, dot, none (no events file is saved)");
+    app.add_option("-f, --out-format", output_format, "Output format: hepmc3, treeroot [default], root, hepmc2, dot, none (no events file is saved)");
 
     app.add_option("-s, --ev-start", ev_start, "Start event index (all previous are skipped)");
     app.add_option("-e, --ev-end", ev_end, "End event index (end processing after this event)");
