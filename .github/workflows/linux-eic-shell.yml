@@ -47,4 +47,21 @@ jobs:
               cmake -B build -S ./cpp/ -DCMAKE_INSTALL_PREFIX=install -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
               cmake --build build -j $(getconf _NPROCESSORS_ONLN) --target install
               ccache --show-stats
+
+        - name: Run test
+          uses: eic/run-cvmfs-osg-eic-shell@main
+          with:
+            platform-release: "${{ env.platform-release }}"
+            run: |
+              # Generate test events
+              python3 python/gen_hepmc_event.py
+              
+              # Run afterburner on generated events
+              ./install/bin/abconv beam_18x275_events.hepmc
+              
+              # Verify output files exist
+              test -f ab_output.hepmc || exit 1
+              test -f ab_output.hist.root || exit 1
+              
+              echo "Test completed successfully!"
   

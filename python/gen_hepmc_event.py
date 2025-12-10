@@ -95,6 +95,6 @@ def read_events(file_name):
 
 if __name__ == "__main__":
     # Generate some simple events to ensure the afterburner can read them
-    create_simple_event("beam_18x275_events.hepmc3.tree.root", n_events=1000, file_type="root", electron_energy=18, proton_energy=275)
+    create_simple_event("beam_18x275_events.hepmc", n_events=1000, file_type="ascii", electron_energy=18, proton_energy=275)
     create_zonly_event("zonly_event.hepmc")
     read_events("zonly_event.hepmc")
