@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include <utility>
+#include <inttypes.h>
 
 #include <HepMC3/GenEvent.h>
 #include <HepMC3/Print.h>
@@ -30,7 +31,7 @@ void ab::abconv::Converter::convert() {
         GenEvent evt;
         _reader->read_event(evt);
         if (_reader->failed()) {
-            printf("End of file reached. Events processed: %lu Exit.\n", events_processed);
+            printf("End of file reached. Events processed: %" PRIu64 " Exit.\n", events_processed);
             break;
         }
         if (evt.event_number() < _first_event_number) continue;
@@ -132,7 +133,7 @@ void ab::abconv::Converter::convert() {
         print_processed_events(events_processed);
 
         if(_events_limit && events_processed >= _events_limit ) {
-            printf("Event limit reached:-> Events processed: %lu >= Events_limit: %lu\n", events_processed , _events_limit);
+            printf("Event limit reached:-> Events processed: %" PRIu64 " >= Events_limit: %" PRIu64 "\n", events_processed , _events_limit);
             break;
         }
     }
