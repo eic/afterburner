@@ -6,7 +6,7 @@ on:
 
 
 env:
-  platform-release: ${{ inputs.platform-release || 'eic_xl:nightly' }}
+  platform-release: ${{ inputs.platform-release || 'eic_ci:nightly' }}
   detector-version: ${{ inputs.detector-version || 'main' }}
   clang-tidy-iwyu-CC: clang
   clang-tidy-iwyu-CMAKE_BUILD_TYPE: Debug
@@ -31,8 +31,7 @@ jobs:
           uses: eic/run-cvmfs-osg-eic-shell@main
           with:
             platform-release: "${{ env.platform-release }}"
-        - run: |
-                # install this repo
-                cmake -B build -S ./cpp/ -DCMAKE_INSTALL_PREFIX=install
-                cmake --build build -j $(getconf _NPROCESSORS_ONLN) --target install
+            run: |
+              cmake -B build -S ./cpp/ -DCMAKE_INSTALL_PREFIX=install
+              cmake --build build -j $(getconf _NPROCESSORS_ONLN) --target install
   
