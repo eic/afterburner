@@ -134,22 +134,36 @@ void Histogrammer::process_event(HepMC3::GenEvent &event) {
     // Note here, for many HepMC3 files these vtx_one and vtx_two might be 2 different objects.
     // We assume here that their x,y,z are identical
 
-    if(_verbose) {
+    if(_verbose && vtx_one && vtx_two) {
         printf("vtx1 %7.1f %7.1f %7.1f    vtx2 %7.1f %7.1f %7.1f\n",
                vtx_one->position().x(), vtx_one->position().y(), vtx_one->position().z(),
                vtx_two->position().x(), vtx_two->position().y(), vtx_two->position().z());
 
     }
 
-    vtxX->Fill(vtx_one->position().x());
-    vtxY->Fill(vtx_one->position().y());
-    vtxZ->Fill(vtx_one->position().z());
-    vtxT->Fill(vtx_one->position().t());
+    if(vtx_one) {
+        vtxX->Fill(vtx_one->position().x());
+        vtxY->Fill(vtx_one->position().y());
+        vtxZ->Fill(vtx_one->position().z());
+        vtxT->Fill(vtx_one->position().t());
+    } else {
+        vtxX->Fill(0.0);
+        vtxY->Fill(0.0);
+        vtxZ->Fill(0.0);
+        vtxT->Fill(0.0);
+    }
 
-    vtx2X->Fill(vtx_two->position().x());
-    vtx2Y->Fill(vtx_two->position().y());
-    vtx2Z->Fill(vtx_two->position().z());
-    vtx2T->Fill(vtx_two->position().t());
+    if(vtx_two) {
+        vtx2X->Fill(vtx_two->position().x());
+        vtx2Y->Fill(vtx_two->position().y());
+        vtx2Z->Fill(vtx_two->position().z());
+        vtx2T->Fill(vtx_two->position().t());
+    } else {
+        vtx2X->Fill(0.0);
+        vtx2Y->Fill(0.0);
+        vtx2Z->Fill(0.0);
+        vtx2T->Fill(0.0);
+    }
 
     atan2PxPz1Hist->Fill(TMath::ATan2(mom_one.px(),mom_one.pz()));
     atan2PyPz1Hist->Fill(TMath::ATan2(mom_one.py(),mom_one.pz()));
