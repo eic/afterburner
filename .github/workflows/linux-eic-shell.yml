@@ -24,14 +24,27 @@ jobs:
       
 
         - uses: cvmfs-contrib/github-action-cvmfs@v4
+        
         - name: Checkout code
-          uses: actions/checkout@v2
+          uses: actions/checkout@v5
+
+        - name: Setup ccache
+          uses: actions/cache@v4
+          with:
+            path: ~/.ccache
+            key: ${{ runner.os }}-ccache-${{ github.sha }}
+            restore-keys: |
+              ${{ runner.os }}-ccache-
 
         - name: Build and install
           uses: eic/run-cvmfs-osg-eic-shell@main
           with:
             platform-release: "${{ env.platform-release }}"
             run: |
-              cmake -B build -S ./cpp/ -DCMAKE_INSTALL_PREFIX=install
+              export CCACHE_DIR=$HOME/.ccache
+              export PATH="/usr/lib/ccache:$PATH"
+              ccache --zero-stats
+              cmake -B build -S ./cpp/ -DCMAKE_INSTALL_PREFIX=install -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
               cmake --build build -j $(getconf _NPROCESSORS_ONLN) --target install
+              ccache --show-stats
   
