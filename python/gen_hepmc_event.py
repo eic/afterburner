@@ -1,6 +1,5 @@
 from pyHepMC3 import HepMC3 as hm
 
-
 # direction 0.024997395914712332 0 0.9996875162757026
 
 def create_zonly_event(file_name):
@@ -35,7 +34,8 @@ def create_simple_event(file_name, n_events=1000, file_type="ascii", electron_en
     if file_type == "ascii":
         writer = hm.WriterAscii(file_name)
     elif file_type == "root":
-        writer = hm.WriterRoot(file_name)
+        from pyHepMC3.rootIO import HepMC3 as hmrootIO
+        writer = hmrootIO.WriterRootTree(file_name)
 
     for i in range(n_events):
         evt = hm.GenEvent(hm.Units.GEV, hm.Units.MM)
@@ -95,6 +95,6 @@ def read_events(file_name):
 
 if __name__ == "__main__":
     # Generate some simple events to ensure the afterburner can read them
-    create_simple_event("beam_18x275_events.hepmc", n_events=10, file_type="ascii", electron_energy=18, proton_energy=275)
+    create_simple_event("beam_18x275_events.hepmc3.tree.root", n_events=1000, file_type="root", electron_energy=18, proton_energy=275)
     create_zonly_event("zonly_event.hepmc")
     read_events("zonly_event.hepmc")
