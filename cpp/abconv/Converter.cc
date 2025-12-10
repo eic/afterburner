@@ -22,7 +22,7 @@ ab::abconv::Converter::Converter(std::shared_ptr<HepMC3::Reader> reader,
 void ab::abconv::Converter::convert() {
     using namespace HepMC3;
 
-    long int events_processed = 0;
+    uint64_t events_processed = 0;
     // HepMC files open
 
     // Event loop
@@ -30,7 +30,7 @@ void ab::abconv::Converter::convert() {
         GenEvent evt;
         _reader->read_event(evt);
         if (_reader->failed()) {
-            printf("End of file reached. Events processed: %li Exit.\n", events_processed);
+            printf("End of file reached. Events processed: %lu Exit.\n", events_processed);
             break;
         }
         if (evt.event_number() < _first_event_number) continue;
@@ -132,7 +132,7 @@ void ab::abconv::Converter::convert() {
         print_processed_events(events_processed);
 
         if(_events_limit && events_processed >= _events_limit ) {
-            printf("Event limit reached:-> Events processed: %li >= Events_limit: %llu\n", events_processed , _events_limit);
+            printf("Event limit reached:-> Events processed: %lu >= Events_limit: %lu\n", events_processed , _events_limit);
             break;
         }
     }
