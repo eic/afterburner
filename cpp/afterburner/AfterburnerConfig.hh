@@ -51,6 +51,7 @@ namespace ab {
          * */
         SmearFuncs vertex_smear_func = SmearFuncs::Gauss;
 
+        bool squash_vertex = false;
         /** Smearing width (be it Gauss or Flat)
          *  (!) These fields relevant only if use_beam_bunch_sim = FALSE
          * */

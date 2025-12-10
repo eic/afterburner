@@ -16,6 +16,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     std::vector<std::string> optAllFiles;
     std::string preset="0";
     bool ab_off = false;
+    bool squash_vtx = false;
     bool plot_off = false;
     bool check_ca = false;
     unsigned long process_limit = 0;
@@ -34,6 +35,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     app.add_option("-l, --limit", process_limit, "Limit number of events to process. (Shutdown after this number of parsed events).");
 
     app.add_flag("--ab-off", ab_off, "No afterburner is applied");
+    app.add_flag("--squash-vtx", squash_vtx, "Squash all event vertices at the end to (0,0,0,0).");
     app.add_flag("--plot-off", plot_off, "Don't produce validation plots");
     app.add_flag("--exit-ca", check_ca, "Check existing crossing angle and exit if CA>1mrad");
     app.set_version_flag("-v, --version", "0.1.3");
@@ -75,6 +77,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
 
     // Does afterburner off at all?
     result.AfterburnerEnabled = !ab_off;
+    result.SquashVertex = squash_vtx;
 
     // Limit on number of processed events
     result.EventProcessLimit = process_limit;
