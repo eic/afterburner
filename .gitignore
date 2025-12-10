@@ -7,6 +7,4 @@ python/.ipynb_checkpoints/
 
 *.log
 
-*~
-
 build/

@@ -1,0 +1,59 @@
+name: Linux EIC Shell Workflow
+on:
+  pull_request:
+    branches:
+      - main
+
+
+env:
+  platform-release: ${{ inputs.platform-release || 'eic_xl:nightly' }}
+
+jobs:
+  build:
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Create directories
+          run: mkdir -p /var/cache/apt/archives/
+
+        - uses: cvmfs-contrib/github-action-cvmfs@v4
+        - name: Checkout code
+          uses: actions/checkout@v5
+
+        - name: Setup ccache
+          uses: actions/cache@v4
+          with:
+            path: ~/.ccache
+            key: ${{ runner.os }}-ccache-${{ github.sha }}
+            restore-keys: |
+              ${{ runner.os }}-ccache-
+
+        - name: Build and install
+          uses: eic/run-cvmfs-osg-eic-shell@main
+          with:
+            platform-release: "${{ env.platform-release }}"
+            run: |
+              export CCACHE_DIR=$HOME/.ccache
+              export PATH="/usr/lib/ccache:$PATH"
+              ccache --zero-stats
+              cmake -B build -S ./cpp/ -DCMAKE_INSTALL_PREFIX=install -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+              cmake --build build -j $(getconf _NPROCESSORS_ONLN) --target install
+              ccache --show-stats
+
+        - name: Run test
+          uses: eic/run-cvmfs-osg-eic-shell@main
+          with:
+            platform-release: "${{ env.platform-release }}"
+            run: |
+              # Generate test events
+              python3 python/gen_hepmc_event.py
+              
+              # Run afterburner on generated events
+              ./install/bin/abconv beam_18x275_events.hepmc
+              
+              # Verify output files exist
+              test -f ab_output.hepmc || exit 1
+              test -f ab_output.hist.root || exit 1
+              
+              echo "Test completed successfully!"
+  
