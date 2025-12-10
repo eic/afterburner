@@ -61,7 +61,7 @@ namespace ab{
 
             std::function<void(HepMC3::GenEvent&)> _after_process_callback=nullptr;
             std::function<void(HepMC3::GenEvent&)> _prior_process_callback=nullptr;
-            static void print_processed_events(long count);
+            static void print_processed_events(uint64_t count);
 
             bool check_beams_setup(const HepMC3::GenEvent& event);
 

@@ -52,7 +52,7 @@ jobs:
               ./install/bin/abconv beam_18x275_events.hepmc
               
               # Verify output files exist
-              test -f ab_output.hepmc || exit 1
+              test -f ab_output.hepmc3.tree.root || exit 1
               test -f ab_output.hist.root || exit 1
               
               echo "Test completed successfully!"
