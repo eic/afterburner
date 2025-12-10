@@ -6,7 +6,7 @@ on:
 
 
 env:
-  platform-release: ${{ inputs.platform-release || 'jug_xl:nightly' }}
+  platform-release: ${{ inputs.platform-release || 'eic_xl:nightly' }}
   detector-version: ${{ inputs.detector-version || 'main' }}
   clang-tidy-iwyu-CC: clang
   clang-tidy-iwyu-CMAKE_BUILD_TYPE: Debug
