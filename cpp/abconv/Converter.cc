@@ -200,27 +200,36 @@ HepMC3::ConstGenParticles ab::abconv::Converter::get_beam_particles(const HepMC3
 }
 
 void ab::abconv::Converter::ab_config_to_run_info(const std::shared_ptr<HepMC3::GenRunInfo>& run_info, ab::AfterburnerConfig cfg) {
-    using namespace HepMC3;
-    run_info->add_attribute("ab_afterburner_is_used", std::make_shared<BoolAttribute>(true));
-    run_info->add_attribute("ab_crossing_angle", std::make_shared<DoubleAttribute>(cfg.crossing_angle_hor));
-    run_info->add_attribute("ab_use_beam_bunch_sim", std::make_shared<BoolAttribute>(cfg.use_beam_bunch_sim));
+    using namespace HepMC3;  
 
-    run_info->add_attribute("ab_hadron_divergence_hor",    std::make_shared<DoubleAttribute>(cfg.hadron_beam.divergence_hor));
-    run_info->add_attribute("ab_hadron_divergence_ver",    std::make_shared<DoubleAttribute>(cfg.hadron_beam.divergence_ver));
-    run_info->add_attribute("ab_hadron_beta_crab_hor",     std::make_shared<DoubleAttribute>(cfg.hadron_beam.beta_crab_hor));
-    run_info->add_attribute("ab_hadron_beta_star_hor",     std::make_shared<DoubleAttribute>(cfg.hadron_beam.beta_star_hor));
-    run_info->add_attribute("ab_hadron_beta_star_ver",     std::make_shared<DoubleAttribute>(cfg.hadron_beam.beta_star_ver));
-    run_info->add_attribute("ab_hadron_rms_emittance_hor", std::make_shared<DoubleAttribute>(cfg.hadron_beam.rms_emittance_hor));
-    run_info->add_attribute("ab_hadron_rms_emittance_ver", std::make_shared<DoubleAttribute>(cfg.hadron_beam.rms_emittance_ver));
-    run_info->add_attribute("ab_hadron_rms_bunch_length",  std::make_shared<DoubleAttribute>(cfg.hadron_beam.rms_bunch_length));
+    run_info->add_attribute("ab_afterburner_is_used",   std::make_shared<BoolAttribute>(true));
+    run_info->add_attribute("afterburner_config_name",  std::make_shared<StringAttribute>(cfg.name));
 
-    run_info->add_attribute("ab_lepton_divergence_hor",    std::make_shared<DoubleAttribute>(cfg.lepton_beam.divergence_hor));
-    run_info->add_attribute("ab_lepton_divergence_ver",    std::make_shared<DoubleAttribute>(cfg.lepton_beam.divergence_ver));
-    run_info->add_attribute("ab_lepton_beta_crab_hor",     std::make_shared<DoubleAttribute>(cfg.lepton_beam.beta_crab_hor));
-    run_info->add_attribute("ab_lepton_beta_star_hor",     std::make_shared<DoubleAttribute>(cfg.lepton_beam.beta_star_hor));
-    run_info->add_attribute("ab_lepton_beta_star_ver",     std::make_shared<DoubleAttribute>(cfg.lepton_beam.beta_star_ver));
-    run_info->add_attribute("ab_lepton_rms_emittance_hor", std::make_shared<DoubleAttribute>(cfg.lepton_beam.rms_emittance_hor));
-    run_info->add_attribute("ab_lepton_rms_emittance_ver", std::make_shared<DoubleAttribute>(cfg.lepton_beam.rms_emittance_ver));
-    run_info->add_attribute("ab_lepton_rms_bunch_length",  std::make_shared<DoubleAttribute>(cfg.lepton_beam.rms_bunch_length));
+    run_info->add_attribute("ion_beam_energy",          std::make_shared<DoubleAttribute>(cfg.ion_beam.energy));
+    run_info->add_attribute("electron_beam_energy",     std::make_shared<DoubleAttribute>(cfg.electron_beam.energy));
+
+    run_info->add_attribute("ion_beam_pdg",             std::make_shared<IntAttribute>(cfg.ion_beam.pdg));
+    run_info->add_attribute("electron_beam_pdg",        std::make_shared<IntAttribute>(cfg.electron_beam.pdg));
+
+    run_info->add_attribute("ab_crossing_angle",        std::make_shared<DoubleAttribute>(cfg.crossing_angle_hor));
+    run_info->add_attribute("ab_use_beam_bunch_sim",    std::make_shared<BoolAttribute>(cfg.use_beam_bunch_sim));
+
+    run_info->add_attribute("ab_ion_divergence_hor",    std::make_shared<DoubleAttribute>(cfg.ion_beam.divergence_hor));
+    run_info->add_attribute("ab_ion_divergence_ver",    std::make_shared<DoubleAttribute>(cfg.ion_beam.divergence_ver));
+    run_info->add_attribute("ab_ion_beta_crab_hor",     std::make_shared<DoubleAttribute>(cfg.ion_beam.beta_crab_hor));
+    run_info->add_attribute("ab_ion_beta_star_hor",     std::make_shared<DoubleAttribute>(cfg.ion_beam.beta_star_hor));
+    run_info->add_attribute("ab_ion_beta_star_ver",     std::make_shared<DoubleAttribute>(cfg.ion_beam.beta_star_ver));
+    run_info->add_attribute("ab_ion_rms_emittance_hor", std::make_shared<DoubleAttribute>(cfg.ion_beam.rms_emittance_hor));
+    run_info->add_attribute("ab_ion_rms_emittance_ver", std::make_shared<DoubleAttribute>(cfg.ion_beam.rms_emittance_ver));
+    run_info->add_attribute("ab_ion_rms_bunch_length",  std::make_shared<DoubleAttribute>(cfg.ion_beam.rms_bunch_length));
+
+    run_info->add_attribute("ab_electron_divergence_hor",    std::make_shared<DoubleAttribute>(cfg.electron_beam.divergence_hor));
+    run_info->add_attribute("ab_electron_divergence_ver",    std::make_shared<DoubleAttribute>(cfg.electron_beam.divergence_ver));
+    run_info->add_attribute("ab_electron_beta_crab_hor",     std::make_shared<DoubleAttribute>(cfg.electron_beam.beta_crab_hor));
+    run_info->add_attribute("ab_electron_beta_star_hor",     std::make_shared<DoubleAttribute>(cfg.electron_beam.beta_star_hor));
+    run_info->add_attribute("ab_electron_beta_star_ver",     std::make_shared<DoubleAttribute>(cfg.electron_beam.beta_star_ver));
+    run_info->add_attribute("ab_electron_rms_emittance_hor", std::make_shared<DoubleAttribute>(cfg.electron_beam.rms_emittance_hor));
+    run_info->add_attribute("ab_electron_rms_emittance_ver", std::make_shared<DoubleAttribute>(cfg.electron_beam.rms_emittance_ver));
+    run_info->add_attribute("ab_electron_rms_bunch_length",  std::make_shared<DoubleAttribute>(cfg.electron_beam.rms_bunch_length));
 }
 

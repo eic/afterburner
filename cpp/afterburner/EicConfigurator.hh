@@ -2,6 +2,7 @@
 #define EICAFTERBURNER_EICCONFIGURATOR_HH
 
 #include "AfterburnerConfig.hh"
+#include <HepMC3/GenParticle.h>
 
 namespace ab {
     enum class EicBeamPresets {
@@ -66,8 +67,8 @@ namespace ab {
         static AfterburnerConfig preset_ip8_hidiv_275x18();
         static AfterburnerConfig from_string(const std::string& name);
 
-        static AfterburnerConfig config(double hadron_energy, double lepton_energy, EicBeamPresets beam_preset);
-        static AfterburnerConfig config(EicBeamEnergies hadron, EicBeamEnergies lepton, EicBeamPresets beam_preset);
+        static AfterburnerConfig config(HepMC3::ConstGenParticlePtr ion, HepMC3::ConstGenParticlePtr electron, EicBeamPresets beam_preset);
+        static AfterburnerConfig config(EicBeamEnergies ion, EicBeamEnergies electron, EicBeamPresets beam_preset);
 
     private:
 

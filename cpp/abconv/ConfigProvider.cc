@@ -23,18 +23,24 @@ ab::convert::ConfigProvider::from_hepmc_file(const std::shared_ptr<HepMC3::Reade
             beam_particles.push_back(prt);
         }
     }
-    HepMC3::ConstGenParticlePtr hadron;
-    HepMC3::ConstGenParticlePtr lepton;
-    if(beam_particles[0]->momentum().e() > beam_particles[1]->momentum().e()) {
-        hadron = beam_particles[0];
-        lepton = beam_particles[1];
+
+    HepMC3::ConstGenParticlePtr ion;
+    HepMC3::ConstGenParticlePtr electron;
+    
+    if(beam_particles[0]->pid()==11) {
+        electron = beam_particles[0];
+        ion      = beam_particles[1];
+    }
+    else if(beam_particles[1]->pid()==11) {
+        electron = beam_particles[1];
+	ion      = beam_particles[0];        
     }
     else {
-        hadron = beam_particles[1];
-        lepton = beam_particles[0];
+      std::cerr << "No electron found in the two beam particles" << std::endl;
+      throw std::invalid_argument("No electron found");
     }
 
-    return ab::EicConfigurator::config(hadron->momentum().e(), lepton->momentum().e(), beam_config);
+    return ab::EicConfigurator::config(ion, electron, beam_config);
 }
 
 ab::AfterburnerConfig ab::convert::ConfigProvider::from_preset_name(const string &name) {
