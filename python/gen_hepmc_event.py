@@ -58,7 +58,7 @@ def create_simple_event(file_name, n_events=1000, file_type="ascii", electron_en
         v1.add_particle_out(p4)
 
         evt.add_vertex(v1)
-        evt.add_particle(p1)        
+        evt.add_particle(p1)
         evt.add_particle(p2)
         evt.add_particle(p3)
         evt.add_particle(p4)
@@ -92,7 +92,6 @@ def read_events(file_name):
         evt.clear()
 
     input_file.close()
-
 
 if __name__ == "__main__":
     # Generate some simple events to ensure the afterburner can read them
