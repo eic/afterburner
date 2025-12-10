@@ -141,15 +141,15 @@ void ab::abconv::Converter::convert() {
 
 
 
-void ab::abconv::Converter::print_processed_events(long count) {
+void ab::abconv::Converter::print_processed_events(uint64_t count) {
 
-    long div = 10000;
+    uint64_t div = 10000;
     if(!count) return;
     if(count < 20000) div = 5000;
     if(count < 5000) div = 1000;
 
 
-    if(count % div == 0 ) printf("Events parsed: %li\n", count);
+    if(count % div == 0 ) printf("Events parsed: %" PRIu64 "\n", count);
 }
 
 
