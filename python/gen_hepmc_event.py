@@ -36,6 +36,8 @@ def create_simple_event(file_name, n_events=1000, file_type="ascii", electron_en
     elif file_type == "root":
         from pyHepMC3.rootIO import HepMC3 as hmrootIO
         writer = hmrootIO.WriterRootTree(file_name)
+    else:
+        raise ValueError(f"Unsupported file_type '{file_type}'. Supported types are 'ascii' and 'root'.")
 
     for i in range(n_events):
         evt = hm.GenEvent(hm.Units.GEV, hm.Units.MM)
@@ -46,7 +48,6 @@ def create_simple_event(file_name, n_events=1000, file_type="ascii", electron_en
 
         p1 = hm.GenParticle(hm.FourVector(0, 0, proton_energy, proton_energy), 2212, 4)
         p2 = hm.GenParticle(hm.FourVector(0, 0, -electron_energy, electron_energy), 11, 4)
-        
         p3 = hm.GenParticle(hm.FourVector(0, 0, proton_energy, proton_energy), 2212, 1)
         p4 = hm.GenParticle(hm.FourVector(0, 0, -electron_energy, electron_energy), 11, 1)
 

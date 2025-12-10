@@ -17,14 +17,17 @@ add_library(${TARGET_NAME} STATIC
 target_include_directories(${TARGET_NAME}
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/..
+        ${CLHEP_INCLUDE_DIRS}
+        ${HEPMC3_INCLUDE_DIR}
     PRIVATE
         ../external/json_struct/
 )
 
 # Link libraries
 target_link_libraries(${TARGET_NAME}
-    PRIVATE
+    PUBLIC
         ${CLHEP_LIBRARIES}
         ${HEPMC3_LIBRARIES}
+    PRIVATE
         GSL::gsl
 )
