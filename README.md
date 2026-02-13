@@ -36,10 +36,10 @@ cd afterburner/build
 cmake ../cpp
 
 # to build all
-cmake --build ../cpp --target all
+cmake --build . --target all
 
 # to install
-cmake --build ../cpp --target install -- -j 8
+cmake --build . --target install -- -j 8
 ```
 
 **Preinstalled versions** are available in [ePIC containers](https://eic.github.io/tutorial-setting-up-environment/02-eic-shell/index.html). 
