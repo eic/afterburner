@@ -29,17 +29,16 @@ yum install yaml-cpp-devel      # RHEL/CentOS/Fedora
 
 ```bash
 git clone https://github.com/eic/afterburner.git
-mkdir -p afterburner/build
-cd afterburner/build
+cd afterburner
 
 # setup cmake (c++ code lives in cpp directory) 
-cmake ../cpp
+cmake -B build -S cpp -DCMAKE_INSTALL_PREFIX=install
 
 # to build all
-cmake --build ../cpp --target all
+cmake --build build
 
 # to install
-cmake --build ../cpp --target install -- -j 8
+cmake --install build
 ```
 
 **Preinstalled versions** are available in [ePIC containers](https://eic.github.io/tutorial-setting-up-environment/02-eic-shell/index.html). 
