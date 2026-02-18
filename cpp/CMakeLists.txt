@@ -46,5 +46,10 @@ add_subdirectory(afterburner)
 add_subdirectory(abconv)
 add_subdirectory(benchmark)
 
+# Install beam configuration files
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../beam_configs
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/afterburner
+        FILES_MATCHING PATTERN "*.yaml")
+
 # Testing
 enable_testing()
