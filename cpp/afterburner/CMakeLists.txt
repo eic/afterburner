@@ -11,6 +11,8 @@ add_library(${TARGET_NAME} STATIC
     EicConfigurator.hh
     Smearer.cc
     Smearer.hh
+    YamlConfigFile.cc
+    YamlConfigFile.hh
 )
 
 # Include directories

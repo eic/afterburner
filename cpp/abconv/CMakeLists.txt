@@ -15,8 +15,6 @@ add_executable(${TARGET_NAME}
     WriterDOT.h
     ConfigProvider.cc
     ConfigProvider.hh
-    YamlConfigFile.cc
-    YamlConfigFile.hh
 )
 
 # Include directories

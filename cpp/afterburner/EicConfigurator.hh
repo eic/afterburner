@@ -30,41 +30,6 @@ namespace ab {
 
     class EicConfigurator {
     public:
-        static AfterburnerConfig preset_ip6_eRu_115x10(); //EIC early-science option -- only approximate for now
-        static AfterburnerConfig preset_ip6_eCu_115x10(); //EIC early-science option -- only approximate for now
-        static AfterburnerConfig preset_ip6_eHe3_166x10(); //EIC early-science option -- only approximate for now
-        static AfterburnerConfig preset_ip6_eD_130x10(); //EIC early-science option -- only approximate for now
-        static AfterburnerConfig preset_ip6_ep_130x10(); //EIC early-science option -- only approximate for now
-        static AfterburnerConfig preset_ip6_ep_250x10(); //EIC early-science option -- only approximate for now
-
-        static AfterburnerConfig preset_ip6_eau_41x5();
-        static AfterburnerConfig preset_ip6_eau_110x5();
-        static AfterburnerConfig preset_ip6_eau_110x10();
-        static AfterburnerConfig preset_ip6_eau_110x18();
-        static AfterburnerConfig preset_ip6_hiacc_41x5();
-        static AfterburnerConfig preset_ip6_hiacc_100x5();
-        static AfterburnerConfig preset_ip6_hiacc_100x10();
-        static AfterburnerConfig preset_ip6_hiacc_275x10();
-        static AfterburnerConfig preset_ip6_hiacc_275x18();
-        static AfterburnerConfig preset_ip6_hidiv_41x5();
-        static AfterburnerConfig preset_ip6_hidiv_100x5();
-        static AfterburnerConfig preset_ip6_hidiv_100x10();
-        static AfterburnerConfig preset_ip6_hidiv_275x10();
-        static AfterburnerConfig preset_ip6_hidiv_275x18();
-        static AfterburnerConfig preset_ip8_eau_41x5();
-        static AfterburnerConfig preset_ip8_eau_110x5();
-        static AfterburnerConfig preset_ip8_eau_110x10();
-        static AfterburnerConfig preset_ip8_eau_110x18();
-        static AfterburnerConfig preset_ip8_hiacc_41x5();
-        static AfterburnerConfig preset_ip8_hiacc_100x5();
-        static AfterburnerConfig preset_ip8_hiacc_100x10();
-        static AfterburnerConfig preset_ip8_hiacc_275x10();
-        static AfterburnerConfig preset_ip8_hiacc_275x18();
-        static AfterburnerConfig preset_ip8_hidiv_41x5();
-        static AfterburnerConfig preset_ip8_hidiv_100x5();
-        static AfterburnerConfig preset_ip8_hidiv_100x10();
-        static AfterburnerConfig preset_ip8_hidiv_275x10();
-        static AfterburnerConfig preset_ip8_hidiv_275x18();
         static AfterburnerConfig from_string(const std::string& name);
 
         static AfterburnerConfig config(HepMC3::ConstGenParticlePtr ion, HepMC3::ConstGenParticlePtr electron, EicBeamPresets beam_preset);
