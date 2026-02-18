@@ -103,7 +103,7 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies ion, ab::E
     // Special cases for certain ion types
     if (ion == EicBeamEnergies::E115GeV && electron == EicBeamEnergies::E10GeV) {
         // Cu or Ru - we have specific configs for these
-        // For now, try the eRu config first, fall back to eCu
+        // Using eRu config as default (eCu config also available with same naming pattern)
         config_name = ip_str + "_eRu_" + std::to_string((int)ion) + "x" + std::to_string((int)electron);
     } else if (ion == EicBeamEnergies::E166GeV && electron == EicBeamEnergies::E10GeV) {
         config_name = ip_str + "_eHe3_" + std::to_string((int)ion) + "x" + std::to_string((int)electron);

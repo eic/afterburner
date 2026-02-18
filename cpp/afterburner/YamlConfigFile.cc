@@ -14,8 +14,10 @@ std::string ab::YamlConfigFile::get_config_dir() {
         return std::string(env_dir);
     }
     
-    // Default to beam_configs directory relative to executable or installation
-    // Try multiple possible locations
+    // Try multiple possible locations relative to current working directory
+    // Note: These are relative paths, so behavior depends on where the executable is run from.
+    // For production use, it's recommended to set AFTERBURNER_BEAM_CONFIGS_DIR environment variable
+    // to an absolute path to the beam_configs directory.
     std::vector<std::string> possible_paths = {
         "beam_configs",
         "../beam_configs",
