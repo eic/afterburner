@@ -1,0 +1,25 @@
+---
+# ip6_hidiv_275x10 Configuration
+crossing_angle:
+  horizontal: 25e-3    # rad
+  vertical: 100e-6      # rad
+
+ion_beam:
+  beta_crab_horizontal: 1300000.0
+  divergence_horizontal: 119e-6
+  divergence_vertical: 119e-6
+  beta_star_horizontal: 800      # mm
+  beta_star_vertical: 72        # mm
+  rms_emittance_horizontal: 11.3e-9    # m
+  rms_emittance_vertical: 1.0e-9      # m
+  rms_bunch_length: 0.06             # m
+
+electron_beam:
+  beta_crab_horizontal: 150000.0
+  divergence_horizontal: 211e-6
+  divergence_vertical: 152e-6
+  beta_star_horizontal: 450      # mm
+  beta_star_vertical: 56        # mm
+  rms_emittance_horizontal: 20.0e-9    # m
+  rms_emittance_vertical: 1.3e-9      # m
+  rms_bunch_length: 0.006999999999999999             # m

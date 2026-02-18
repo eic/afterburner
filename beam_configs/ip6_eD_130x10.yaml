@@ -1,0 +1,25 @@
+---
+# ip6_eD_130x10 Configuration
+crossing_angle:
+  horizontal: 25e-3    # rad
+  vertical: 100e-6      # rad
+
+ion_beam:
+  beta_crab_horizontal: 500000.0
+  divergence_horizontal: 180e-6
+  divergence_vertical: 180e-6
+  beta_star_horizontal: 940      # mm
+  beta_star_vertical: 85        # mm
+  rms_emittance_horizontal: 30.0e-9    # m
+  rms_emittance_vertical: 2.7e-9      # m
+  rms_bunch_length: 0.07             # m
+
+electron_beam:
+  beta_crab_horizontal: 150000.0
+  divergence_horizontal: 118e-6
+  divergence_vertical: 86e-6
+  beta_star_horizontal: 1430      # mm
+  beta_star_vertical: 180        # mm
+  rms_emittance_horizontal: 20.0e-9    # m
+  rms_emittance_vertical: 1.3e-9      # m
+  rms_bunch_length: 0.006999999999999999             # m

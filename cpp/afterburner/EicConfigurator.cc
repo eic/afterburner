@@ -1,8 +1,12 @@
 #include "EicConfigurator.hh"
 #include <cmath>
 #include <CLHEP/Units/SystemOfUnits.h>
+#include <yaml-cpp/yaml.h>
+#include <filesystem>
+#include <cstdlib>
 
 using namespace CLHEP;
+namespace fs = std::filesystem;
 
 // ------------------------------------------------------------------
 // ========================== IP 6 ==================================
@@ -1346,7 +1350,136 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies ion, ab::E
     throw std::invalid_argument("Ion beams energy combination ");
 }
 
+// Helper function to get beam config directory
+static std::string get_beam_config_dir() {
+    // Check for environment variable first
+    const char* env_dir = std::getenv("AFTERBURNER_BEAM_CONFIGS_DIR");
+    if (env_dir != nullptr) {
+        return std::string(env_dir);
+    }
+    
+    // Try multiple possible locations relative to installation
+    std::vector<std::string> possible_paths = {
+        "beam_configs",
+        "../beam_configs",
+        "../../beam_configs",
+        "../share/afterburner/beam_configs",
+        "share/afterburner/beam_configs"
+    };
+    
+    for (const auto& path : possible_paths) {
+        if (fs::exists(path) && fs::is_directory(path)) {
+            return path;
+        }
+    }
+    
+    // If none found, return the default
+    return "beam_configs";
+}
+
+// Helper function to load configuration from YAML file
+static ab::AfterburnerConfig load_config_from_yaml(const std::string& config_name) {
+    std::string config_dir = get_beam_config_dir();
+    std::string filepath = config_dir + "/" + config_name + ".yaml";
+    
+    if (!fs::exists(filepath)) {
+        std::string error_msg = "Configuration file not found: " + filepath;
+        throw std::runtime_error(error_msg);
+    }
+    
+    ab::AfterburnerConfig cfg;
+    
+    try {
+        YAML::Node config = YAML::LoadFile(filepath);
+        
+        // Parse crossing angles
+        if (config["crossing_angle"]) {
+            if (config["crossing_angle"]["horizontal"]) {
+                cfg.crossing_angle_hor = config["crossing_angle"]["horizontal"].as<double>();
+            }
+            if (config["crossing_angle"]["vertical"]) {
+                cfg.crossing_angle_ver = config["crossing_angle"]["vertical"].as<double>();
+            }
+        }
+        
+        // Parse ion beam configuration
+        if (config["ion_beam"]) {
+            auto ion = config["ion_beam"];
+            if (ion["beta_crab_horizontal"]) {
+                cfg.ion_beam.beta_crab_hor = ion["beta_crab_horizontal"].as<double>();
+            }
+            if (ion["divergence_horizontal"]) {
+                cfg.ion_beam.divergence_hor = ion["divergence_horizontal"].as<double>();
+            }
+            if (ion["divergence_vertical"]) {
+                cfg.ion_beam.divergence_ver = ion["divergence_vertical"].as<double>();
+            }
+            if (ion["beta_star_horizontal"]) {
+                cfg.ion_beam.beta_star_hor = ion["beta_star_horizontal"].as<double>();
+            }
+            if (ion["beta_star_vertical"]) {
+                cfg.ion_beam.beta_star_ver = ion["beta_star_vertical"].as<double>();
+            }
+            if (ion["rms_emittance_horizontal"]) {
+                cfg.ion_beam.rms_emittance_hor = ion["rms_emittance_horizontal"].as<double>();
+            }
+            if (ion["rms_emittance_vertical"]) {
+                cfg.ion_beam.rms_emittance_ver = ion["rms_emittance_vertical"].as<double>();
+            }
+            if (ion["rms_bunch_length"]) {
+                cfg.ion_beam.rms_bunch_length = ion["rms_bunch_length"].as<double>();
+            }
+        }
+        
+        // Parse electron beam configuration
+        if (config["electron_beam"]) {
+            auto electron = config["electron_beam"];
+            if (electron["beta_crab_horizontal"]) {
+                cfg.electron_beam.beta_crab_hor = electron["beta_crab_horizontal"].as<double>();
+            }
+            if (electron["divergence_horizontal"]) {
+                cfg.electron_beam.divergence_hor = electron["divergence_horizontal"].as<double>();
+            }
+            if (electron["divergence_vertical"]) {
+                cfg.electron_beam.divergence_ver = electron["divergence_vertical"].as<double>();
+            }
+            if (electron["beta_star_horizontal"]) {
+                cfg.electron_beam.beta_star_hor = electron["beta_star_horizontal"].as<double>();
+            }
+            if (electron["beta_star_vertical"]) {
+                cfg.electron_beam.beta_star_ver = electron["beta_star_vertical"].as<double>();
+            }
+            if (electron["rms_emittance_horizontal"]) {
+                cfg.electron_beam.rms_emittance_hor = electron["rms_emittance_horizontal"].as<double>();
+            }
+            if (electron["rms_emittance_vertical"]) {
+                cfg.electron_beam.rms_emittance_ver = electron["rms_emittance_vertical"].as<double>();
+            }
+            if (electron["rms_bunch_length"]) {
+                cfg.electron_beam.rms_bunch_length = electron["rms_bunch_length"].as<double>();
+            }
+        }
+        
+        cfg.name = config_name;
+        
+    } catch (const YAML::Exception& e) {
+        std::string error_msg = "Error parsing YAML file '" + filepath + "': " + e.what();
+        throw std::runtime_error(error_msg);
+    }
+    
+    return cfg;
+}
+
 ab::AfterburnerConfig ab::EicConfigurator::from_string(const std::string &name) {
+    // Try to load from YAML file first
+    try {
+        return load_config_from_yaml(name);
+    } catch (const std::exception& e) {
+        // If YAML loading fails, fall back to hardcoded presets
+        // This ensures backward compatibility
+    }
+    
+    // Fallback to hardcoded presets
     if(name == "ip6_eRu_115x10")   return preset_ip6_eRu_115x10();
     if(name == "ip6_eCu_115x10")   return preset_ip6_eCu_115x10();
     if(name == "ip6_eHe3_166x10")  return preset_ip6_eHe3_166x10();

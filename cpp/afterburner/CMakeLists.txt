@@ -30,4 +30,5 @@ target_link_libraries(${TARGET_NAME}
         ${HEPMC3_LIBRARIES}
     PRIVATE
         GSL::gsl
+        yaml-cpp::yaml-cpp
 )

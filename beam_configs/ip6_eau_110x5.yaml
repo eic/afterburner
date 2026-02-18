@@ -1,0 +1,25 @@
+---
+# ip6_eau_110x5 Configuration
+crossing_angle:
+  horizontal: 25e-3    # rad
+  vertical: 100e-6      # rad
+
+ion_beam:
+  beta_crab_horizontal: 500000.0
+  divergence_horizontal: 215e-6
+  divergence_vertical: 275e-6
+  beta_star_horizontal: 910      # mm
+  beta_star_vertical: 40        # mm
+  rms_emittance_horizontal: 42.3e-9    # m
+  rms_emittance_vertical: 3.0e-9      # m
+  rms_bunch_length: 0.07             # m
+
+electron_beam:
+  beta_crab_horizontal: 150000.0
+  divergence_horizontal: 102e-6
+  divergence_vertical: 185e-6
+  beta_star_horizontal: 1930      # mm
+  beta_star_vertical: 60        # mm
+  rms_emittance_horizontal: 20.0e-9    # m
+  rms_emittance_vertical: 2.0e-9      # m
+  rms_bunch_length: 0.006999999999999999             # m

@@ -1,0 +1,25 @@
+---
+# ip8_hidiv_275x18 Configuration
+crossing_angle:
+  horizontal: -35e-3    # rad
+  vertical: 0      # rad
+
+ion_beam:
+  beta_crab_horizontal: 1300000.0
+  divergence_horizontal: 150e-6
+  divergence_vertical: 150e-6
+  beta_star_horizontal: 800      # mm
+  beta_star_vertical: 71        # mm
+  rms_emittance_horizontal: 18e-6    # m
+  rms_emittance_vertical: 1.6e-6      # m
+  rms_bunch_length: 0.06             # m
+
+electron_beam:
+  beta_crab_horizontal: 150000.0
+  divergence_horizontal: 202e-6
+  divergence_vertical: 187e-6
+  beta_star_horizontal: 590      # mm
+  beta_star_vertical: 57        # mm
+  rms_emittance_horizontal: 24e-6    # m
+  rms_emittance_vertical: 2e-6      # m
+  rms_bunch_length: 0.009000000000000001             # m
