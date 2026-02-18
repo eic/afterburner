@@ -1378,6 +1378,8 @@ static std::string get_beam_config_dir() {
 }
 
 // Helper function to load configuration from YAML file
+// Note: This duplicates some logic from YamlConfigFile in abconv, but is necessary
+// to keep the afterburner library independent of the abconv conversion layer.
 static ab::AfterburnerConfig load_config_from_yaml(const std::string& config_name) {
     std::string config_dir = get_beam_config_dir();
     std::string filepath = config_dir + "/" + config_name + ".yaml";

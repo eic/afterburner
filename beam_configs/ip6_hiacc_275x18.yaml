@@ -10,8 +10,8 @@ ion_beam:
   divergence_vertical: 65e-6
   beta_star_horizontal: 4170      # mm
   beta_star_vertical: 380        # mm
-  rms_emittance_horizontal: 17.6e-9    # m
-  rms_emittance_vertical: 1.6e-9      # m
+  rms_emittance_horizontal: 1.76e-08    # m
+  rms_emittance_vertical: 1.6e-09      # m
   rms_bunch_length: 0.06             # m
 
 electron_beam:
@@ -20,6 +20,6 @@ electron_beam:
   divergence_vertical: 82e-6
   beta_star_horizontal: 3060      # mm
   beta_star_vertical: 300        # mm
-  rms_emittance_horizontal: 24.0e-9    # m
-  rms_emittance_vertical: 2.0e-9      # m
-  rms_bunch_length: 0.009000000000000001             # m
+  rms_emittance_horizontal: 2.4e-08    # m
+  rms_emittance_vertical: 2e-09      # m
+  rms_bunch_length: 0.009             # m
