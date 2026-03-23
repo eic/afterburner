@@ -246,7 +246,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ep_250x10() {
 }
 
 
-ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x18() {
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eAu_110x18() {
     ab::AfterburnerConfig cfg;
 
     // Crossing angle
@@ -282,7 +282,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x18() {
 }
 
 
-ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x10() {
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eAu_110x10() {
     ab::AfterburnerConfig cfg;
 
     // Crossing angle
@@ -317,7 +317,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x10() {
     return cfg;
 }
 
-ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_100x10() {
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eAu_100x10() {
 
     //Same settings as for e+Au 10x110 GeV/n - no official numbers exist
     //update numbers when available
@@ -358,7 +358,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_100x10() {
     return cfg;
 }
 
-ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x5() {
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eAu_110x5() {
     ab::AfterburnerConfig cfg;
 
     // Crossing angle
@@ -394,7 +394,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x5() {
 }
 
 
-ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_41x5() {
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eAu_41x5() {
     ab::AfterburnerConfig cfg;
 
     // Crossing angle
@@ -432,7 +432,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_41x5() {
 //Add Pb ion configs here -- identical to the equivalent Au energies
 //since official numbers do not exist from the machine
 
-ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_epb_110x18() {
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ePb_110x18() {
     ab::AfterburnerConfig cfg;
 
     // Crossing angle
@@ -468,7 +468,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_epb_110x18() {
 }
 
 
-ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_epb_110x10() {
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ePb_110x10() {
     ab::AfterburnerConfig cfg;
 
     // Crossing angle
@@ -503,7 +503,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_epb_110x10() {
     return cfg;
 }
 
-ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_epb_100x10() {
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ePb_100x10() {
 
     //Same settings as for e+Au 10x110 GeV/n - no official numbers exist
     //update numbers when available
@@ -544,7 +544,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_epb_100x10() {
     return cfg;
 }
 
-ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_epb_110x5() {
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ePb_110x5() {
     ab::AfterburnerConfig cfg;
 
     // Crossing angle
@@ -580,7 +580,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_epb_110x5() {
 }
 
 
-ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_epb_41x5() {
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ePb_41x5() {
     ab::AfterburnerConfig cfg;
 
     // Crossing angle
@@ -1533,10 +1533,10 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies ion, ab::E
     }
 
     if(beam_preset == EicBeamPresets::Ip6ElectronAurum) {
-        if(ion == EicBeamEnergies::E110GeV && electron == EicBeamEnergies::E18GeV) return preset_ip6_eau_110x18();
-        if(ion == EicBeamEnergies::E110GeV && electron == EicBeamEnergies::E10GeV) return preset_ip6_eau_110x10();
-        if(ion == EicBeamEnergies::E110GeV && electron == EicBeamEnergies::E5GeV)  return preset_ip6_eau_110x5();
-        if(ion == EicBeamEnergies::E41GeV  && electron == EicBeamEnergies::E5GeV)  return preset_ip6_eau_41x5();
+        if(ion == EicBeamEnergies::E110GeV && electron == EicBeamEnergies::E18GeV) return preset_ip6_eAu_110x18();
+        if(ion == EicBeamEnergies::E110GeV && electron == EicBeamEnergies::E10GeV) return preset_ip6_eAu_110x10();
+        if(ion == EicBeamEnergies::E110GeV && electron == EicBeamEnergies::E5GeV)  return preset_ip6_eAu_110x5();
+        if(ion == EicBeamEnergies::E41GeV  && electron == EicBeamEnergies::E5GeV)  return preset_ip6_eAu_41x5();
     }
 
     // High Divergence setting
@@ -1579,11 +1579,16 @@ ab::AfterburnerConfig ab::EicConfigurator::from_string(const std::string &name) 
     if(name == "ip6_eD_130x10")    return preset_ip6_eD_130x10();
     if(name == "ip6_ep_130x10")    return preset_ip6_ep_130x10();
     if(name == "ip6_ep_250x10")    return preset_ip6_ep_250x10();
-    if(name == "ip6_eau_110x18")   return preset_ip6_eau_110x18();
-    if(name == "ip6_eau_110x10")   return preset_ip6_eau_110x10();
-    if(name == "ip6_eau_100x10")   return preset_ip6_eau_100x10();
-    if(name == "ip6_eau_110x5")    return preset_ip6_eau_110x5();
-    if(name == "ip6_eau_41x5")     return preset_ip6_eau_41x5();
+    if(name == "ip6_eAu_110x18")   return preset_ip6_eAu_110x18();
+    if(name == "ip6_eAu_110x10")   return preset_ip6_eAu_110x10();
+    if(name == "ip6_eAu_100x10")   return preset_ip6_eAu_100x10();
+    if(name == "ip6_eAu_110x5")    return preset_ip6_eAu_110x5();
+    if(name == "ip6_eAu_41x5")     return preset_ip6_eAu_41x5();
+    if(name == "ip6_ePb_110x18")   return preset_ip6_ePb_110x18();
+    if(name == "ip6_ePb_110x10")   return preset_ip6_ePb_110x10();
+    if(name == "ip6_ePb_100x10")   return preset_ip6_ePb_100x10();
+    if(name == "ip6_ePb_110x5")    return preset_ip6_ePb_110x5();
+    if(name == "ip6_ePb_41x5")     return preset_ip6_ePb_41x5();
     if(name == "ip6_hiacc_41x5")   return preset_ip6_hiacc_41x5();
     if(name == "ip6_hiacc_100x5")  return preset_ip6_hiacc_100x5();
     if(name == "ip6_hiacc_100x10") return preset_ip6_hiacc_100x10();
