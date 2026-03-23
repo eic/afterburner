@@ -37,11 +37,17 @@ namespace ab {
         static AfterburnerConfig preset_ip6_ep_130x10(); //EIC early-science option -- only approximate for now
         static AfterburnerConfig preset_ip6_ep_250x10(); //EIC early-science option -- only approximate for now
         static AfterburnerConfig preset_ip6_eAu_100x10(); //EIC early-science option -- only approximate for now
+        static AfterburnerConfig preset_ip6_ePb_41x5();
+        static AfterburnerConfig preset_ip6_ePb_110x5();
+        static AfterburnerConfig preset_ip6_ePb_100x10();
+        static AfterburnerConfig preset_ip6_ePb_110x10();
+        static AfterburnerConfig preset_ip6_ePb_110x18();
 
-        static AfterburnerConfig preset_ip6_eau_41x5();
-        static AfterburnerConfig preset_ip6_eau_110x5();
-        static AfterburnerConfig preset_ip6_eau_110x10();
-        static AfterburnerConfig preset_ip6_eau_110x18();
+
+        static AfterburnerConfig preset_ip6_eAu_41x5();
+        static AfterburnerConfig preset_ip6_eAu_110x5();
+        static AfterburnerConfig preset_ip6_eAu_110x10();
+        static AfterburnerConfig preset_ip6_eAu_110x18();
         static AfterburnerConfig preset_ip6_hiacc_41x5();
         static AfterburnerConfig preset_ip6_hiacc_100x5();
         static AfterburnerConfig preset_ip6_hiacc_100x10();
