@@ -317,7 +317,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x10() {
     return cfg;
 }
 
-ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x10() {
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_100x10() {
 
     //Same settings as for e+Au 10x110 GeV/n - no official numbers exist
     //update numbers when available
