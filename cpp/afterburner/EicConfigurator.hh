@@ -36,6 +36,7 @@ namespace ab {
         static AfterburnerConfig preset_ip6_eD_130x10(); //EIC early-science option -- only approximate for now
         static AfterburnerConfig preset_ip6_ep_130x10(); //EIC early-science option -- only approximate for now
         static AfterburnerConfig preset_ip6_ep_250x10(); //EIC early-science option -- only approximate for now
+        static AfterburnerConfig preset_ip6_eAu_100x10(); //EIC early-science option -- only approximate for now
 
         static AfterburnerConfig preset_ip6_eau_41x5();
         static AfterburnerConfig preset_ip6_eau_110x5();
