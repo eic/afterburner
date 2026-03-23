@@ -317,6 +317,46 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x10() {
     return cfg;
 }
 
+ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x10() {
+
+    //Same settings as for e+Au 10x110 GeV/n - no official numbers exist
+    //update numbers when available
+    //Note: these settings assume BeAGLE-like input, where the beam ion is
+    //      is the active nucleon in the interaction.    
+
+    ab::AfterburnerConfig cfg;
+
+    // Crossing angle
+    cfg.crossing_angle_hor = 25e-3;          // Crossing angle in horizontal plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
+
+    cfg.ion_beam.beta_crab_hor = 500000.0;
+    cfg.electron_beam.beta_crab_hor = 150000.0;
+
+    // Beam divergence
+    cfg.ion_beam.divergence_hor = 216e-6;
+    cfg.ion_beam.divergence_ver = 274e-6;
+    cfg.electron_beam.divergence_hor = 102e-6;
+    cfg.electron_beam.divergence_ver = 92e-6;
+
+    // Beam beta star [mm] [mm]
+    cfg.ion_beam.beta_star_hor = 910;
+    cfg.ion_beam.beta_star_ver = 40;
+    cfg.electron_beam.beta_star_hor = 1930;
+    cfg.electron_beam.beta_star_ver = 120;
+
+    // RMS emittance
+    cfg.ion_beam.rms_emittance_hor = 42.3 * nm;
+    cfg.ion_beam.rms_emittance_ver = 3 * nm;
+    cfg.electron_beam.rms_emittance_hor = 20 * nm;
+    cfg.electron_beam.rms_emittance_ver = 1  * nm;
+
+    // RMS bunch length
+    cfg.ion_beam.rms_bunch_length = 7 * cm;
+    cfg.electron_beam.rms_bunch_length = 0.7 * cm;
+
+    return cfg;
+}
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eau_110x5() {
     ab::AfterburnerConfig cfg;
@@ -1355,6 +1395,7 @@ ab::AfterburnerConfig ab::EicConfigurator::from_string(const std::string &name) 
     if(name == "ip6_ep_250x10")    return preset_ip6_ep_250x10();
     if(name == "ip6_eau_110x18")   return preset_ip6_eau_110x18();
     if(name == "ip6_eau_110x10")   return preset_ip6_eau_110x10();
+    if(name == "ip6_eau_100x10")   return preset_ip6_eau_100x10();
     if(name == "ip6_eau_110x5")    return preset_ip6_eau_110x5();
     if(name == "ip6_eau_41x5")     return preset_ip6_eau_41x5();
     if(name == "ip6_hiacc_41x5")   return preset_ip6_hiacc_41x5();
