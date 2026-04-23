@@ -114,9 +114,21 @@ converter.
   HepMC3 ascii, HepMC2 ascii, HepMC3 ROOT, HepEvt etc. 
 - The input file events must have two beam particles (marked by status code 4)
 - Input file should not have crossing angle and beam effects that AB simulates.
-  **By default, it is not possible to apply just crossing angle or just beam effects.**
-  **But!** in the upcoming version one can provide beam parameters through yaml config files,
-  where one would be able to switch off crossing angle, beam effects, etc. 
+
+### YAML Configuration Files
+
+Beam parameters can now be provided through YAML configuration files in the `beam_configs` directory. 
+This allows for:
+- Easy sharing of beam configurations with event generators (e.g., Pythia)
+- Version control of beam parameters
+- Custom beam configurations without recompiling
+
+To use a custom configuration directory, set the `AFTERBURNER_BEAM_CONFIGS_DIR` environment variable:
+```bash
+export AFTERBURNER_BEAM_CONFIGS_DIR=/path/to/my/configs
+```
+
+See `beam_configs/README.md` for detailed documentation on the YAML format. 
 
 
 ### All options:

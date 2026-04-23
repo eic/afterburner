@@ -11,6 +11,8 @@ add_library(${TARGET_NAME} STATIC
     EicConfigurator.hh
     Smearer.cc
     Smearer.hh
+    YamlConfigFile.cc
+    YamlConfigFile.hh
 )
 
 # Include directories
@@ -30,4 +32,5 @@ target_link_libraries(${TARGET_NAME}
         ${HEPMC3_LIBRARIES}
     PRIVATE
         GSL::gsl
+        yaml-cpp::yaml-cpp
 )

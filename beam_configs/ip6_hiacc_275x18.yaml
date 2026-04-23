@@ -1,0 +1,25 @@
+---
+# ip6_hiacc_275x18 Configuration
+crossing_angle:
+  horizontal: 25e-3    # rad
+  vertical: 100e-6      # rad
+
+ion_beam:
+  beta_crab_horizontal: 1300000.0
+  divergence_horizontal: 65e-6
+  divergence_vertical: 65e-6
+  beta_star_horizontal: 4170      # mm
+  beta_star_vertical: 380        # mm
+  rms_emittance_horizontal: 1.76e-08    # m
+  rms_emittance_vertical: 1.6e-09      # m
+  rms_bunch_length: 0.06             # m
+
+electron_beam:
+  beta_crab_horizontal: 150000.0
+  divergence_horizontal: 89e-6
+  divergence_vertical: 82e-6
+  beta_star_horizontal: 3060      # mm
+  beta_star_vertical: 300        # mm
+  rms_emittance_horizontal: 2.4e-08    # m
+  rms_emittance_vertical: 2e-09      # m
+  rms_bunch_length: 0.009             # m
