@@ -82,7 +82,7 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies ion, ab::E
             break;
         case EicBeamPresets::Ip6ElectronAurum:
             ip_str = "ip6";
-            profile_str = "eau";
+            profile_str = "eAu";
             break;
         case EicBeamPresets::Ip8HighDivergence:
             ip_str = "ip8";
@@ -94,7 +94,7 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies ion, ab::E
             break;
         case EicBeamPresets::Ip8ElectronAurum:
             ip_str = "ip8";
-            profile_str = "eau";
+            profile_str = "eAu";
             break;
         default:
             throw std::invalid_argument("Unknown beam preset");
