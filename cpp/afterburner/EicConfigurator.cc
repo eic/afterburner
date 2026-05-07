@@ -9,7 +9,7 @@ using namespace CLHEP;
 // ------------------------------------------------------------------
 
 
-//---------------- 9 GeV electron congfigurations start here ----------------//
+//---------------- 9 GeV electron configurations start here ----------------//
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eRu_115x9() {
     ab::AfterburnerConfig cfg;
 
