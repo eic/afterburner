@@ -2005,7 +2005,8 @@ ab::AfterburnerConfig ab::EicConfigurator::config(HepMC3::ConstGenParticlePtr io
     if(ion_energy > 37  && ion_energy < 44) ion_e = 41;
 
     if(electron_energy > 15 && electron_energy < 21) electron_e = 18;
-    if(electron_energy > 7  && electron_energy < 13) electron_e = 10;
+    if(electron_energy > 8.6  && electron_energy < 9.4) electron_e = 9;
+	if(electron_energy > 9.6  && electron_energy < 10.4) electron_e = 10;
     if(electron_energy > 3  && electron_energy < 7)  electron_e = 5;
 
     if(ion_e != 275 && ion_e != 250 && ion_e != 166 && ion_e != 130 && ion_e != 110 && ion_e != 100 && ion_e != 41) {
@@ -2014,9 +2015,9 @@ ab::AfterburnerConfig ab::EicConfigurator::config(HepMC3::ConstGenParticlePtr io
         throw std::invalid_argument("Ion energy setting is incorrect");
     }
 
-    if(electron_e != 18 && electron_e != 10 && electron_e!=5) {
+    if(electron_e != 18 && electron_e != 10 && electron_e != 9 && electron_e!=5) {
         cout << (int) electron_e << " is not a valid Electron Beam Energy!!" << endl;
-        cout << "Valid Energies are 18, 10, and 5" << endl;
+        cout << "Valid Energies are 18, 10, 9, and 5" << endl;
         throw std::invalid_argument("Electron energy setting is incorrect");
     }
 
