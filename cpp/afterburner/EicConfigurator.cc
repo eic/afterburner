@@ -2044,7 +2044,7 @@ ab::AfterburnerConfig ab::EicConfigurator::config(ab::EicBeamEnergies ion, ab::E
 
     if(electron != EicBeamEnergies::E18GeV && electron != EicBeamEnergies::E10GeV && electron != EicBeamEnergies::E9GeV && electron != EicBeamEnergies::E5GeV) {
         cout << (int) electron << " is not a valid Electron Beam Energy!!" << endl;
-        cout << "Valid Energies are 18, 10, and 5" << endl;
+        cout << "Valid Energies are 18, 10, 9 and 5" << endl;
         throw std::invalid_argument("Electron energy setting is incorrect");
     }
 
