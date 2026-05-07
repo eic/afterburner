@@ -16,6 +16,7 @@ namespace ab {
 
     enum class EicBeamEnergies {
         E5GeV = 5,
+		E9GeV = 9,
         E10GeV = 10,
         E18GeV = 18,
         E41GeV = 41,
@@ -30,6 +31,27 @@ namespace ab {
 
     class EicConfigurator {
     public:
+		//Adding 9 GeV configurations here -- keeping them separate because no 9 GeV tables currently exist as of May 2026
+		//need to revisit once the project provide updated numbers.
+		//also purposefully not including the IP8 configurations right now
+		
+        static AfterburnerConfig preset_ip6_eRu_115x9(); //EIC early-science option -- only approximate for now
+        static AfterburnerConfig preset_ip6_eCu_115x9(); //EIC early-science option -- only approximate for now
+        static AfterburnerConfig preset_ip6_eHe3_166x9(); //EIC early-science option -- only approximate for now
+        static AfterburnerConfig preset_ip6_eD_130x9(); //EIC early-science option -- only approximate for now
+        static AfterburnerConfig preset_ip6_ep_130x9(); //EIC early-science option -- only approximate for now
+        static AfterburnerConfig preset_ip6_ep_250x9(); //EIC early-science option -- only approximate for now
+        static AfterburnerConfig preset_ip6_eAu_100x9(); //EIC early-science option -- only approximate for now
+        static AfterburnerConfig preset_ip6_eAu_110x9();
+        static AfterburnerConfig preset_ip6_ePb_100x9();
+        static AfterburnerConfig preset_ip6_ePb_110x9();
+        static AfterburnerConfig preset_ip6_hiacc_100x9();
+        static AfterburnerConfig preset_ip6_hiacc_275x9();
+        static AfterburnerConfig preset_ip6_hidiv_100x9();
+        static AfterburnerConfig preset_ip6_hidiv_275x9();
+		
+		/////////////////////////////////////////////////
+		
         static AfterburnerConfig preset_ip6_eRu_115x10(); //EIC early-science option -- only approximate for now
         static AfterburnerConfig preset_ip6_eCu_115x10(); //EIC early-science option -- only approximate for now
         static AfterburnerConfig preset_ip6_eHe3_166x10(); //EIC early-science option -- only approximate for now
@@ -58,7 +80,9 @@ namespace ab {
         static AfterburnerConfig preset_ip6_hidiv_100x10();
         static AfterburnerConfig preset_ip6_hidiv_275x10();
         static AfterburnerConfig preset_ip6_hidiv_275x18();
-        static AfterburnerConfig preset_ip8_eau_41x5();
+        
+		//IP8 configurations for the second detector
+		static AfterburnerConfig preset_ip8_eau_41x5();
         static AfterburnerConfig preset_ip8_eau_110x5();
         static AfterburnerConfig preset_ip8_eau_110x10();
         static AfterburnerConfig preset_ip8_eau_110x18();
