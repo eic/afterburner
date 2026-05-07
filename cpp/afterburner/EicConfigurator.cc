@@ -539,7 +539,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_275x9() {
 }
 
 
-//---------------- other electron congfigurations start here ----------------//
+//---------------- other electron configurations start here ----------------//
 
 ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eRu_115x10() {
     ab::AfterburnerConfig cfg;
