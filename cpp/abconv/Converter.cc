@@ -25,7 +25,11 @@ void ab::abconv::Converter::convert() {
 
     uint64_t events_processed = 0;
     // HepMC files open
-
+    
+    if(_first_event_number > 0) {
+      _reader->skip(_first_event_number);
+    }
+    
     // Event loop
     while( !_reader->failed() ) {
         GenEvent evt;
@@ -34,7 +38,6 @@ void ab::abconv::Converter::convert() {
             printf("End of file reached. Events processed: %" PRIu64 " Exit.\n", events_processed);
             break;
         }
-        if (evt.event_number() < _first_event_number) continue;
 
         if (_last_event_number && evt.event_number() > _last_event_number) break;
 
