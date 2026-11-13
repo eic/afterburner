@@ -43,8 +43,8 @@ namespace ab {
         double gauss(double width) const;
 
     private:
-        /** Generator state; each draw advances it */
-        std::unique_ptr<gsl_rng> _generator;
+        /** Generator state; each draw advances it. Freed with gsl_rng_free: gsl_rng_alloc allocates with malloc */
+        std::unique_ptr<gsl_rng, decltype(&gsl_rng_free)> _generator;
     };
 
     /// SmearFunc-s to std::string conversion
