@@ -6,7 +6,7 @@
 #include "Smearer.hh"
 
 ab::Smearer::Smearer(unsigned int seed) :
-    _generator(gsl_rng_alloc(gsl_rng_mt19937))
+    _generator(gsl_rng_alloc(gsl_rng_mt19937), gsl_rng_free)
 {
     set_seed(seed);
 }
