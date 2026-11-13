@@ -28,14 +28,14 @@ static void RotXY(double theta, double phi, double xin, double yin, double zin, 
 }
 
 
-ab::Afterburner::Afterburner() : _smear(1) {}
+ab::Afterburner::Afterburner() : _smearer(_cfg.random_seed) {}
 
 CLHEP::HepLorentzVector ab::Afterburner::move_vertex(const CLHEP::HepLorentzVector &init_vtx) {
 
-    double x = init_vtx.x() + _smear.smear(_cfg.vertex_shift_x, _cfg.vertex_smear_width_x, _cfg.vertex_smear_func);
-    double y = init_vtx.y() + _smear.smear(_cfg.vertex_shift_y, _cfg.vertex_smear_width_y, _cfg.vertex_smear_func);
-    double z = init_vtx.z() + _smear.smear(_cfg.vertex_shift_z, _cfg.vertex_smear_width_z, _cfg.vertex_smear_func);
-    double t = init_vtx.t() + _smear.smear(_cfg.vertex_shift_t, _cfg.vertex_smear_width_t, _cfg.vertex_smear_func);
+    double x = init_vtx.x() + _smearer.smear(_cfg.vertex_shift_x, _cfg.vertex_smear_width_x, _cfg.vertex_smear_func);
+    double y = init_vtx.y() + _smearer.smear(_cfg.vertex_shift_y, _cfg.vertex_smear_width_y, _cfg.vertex_smear_func);
+    double z = init_vtx.z() + _smearer.smear(_cfg.vertex_shift_z, _cfg.vertex_smear_width_z, _cfg.vertex_smear_func);
+    double t = init_vtx.t() + _smearer.smear(_cfg.vertex_shift_t, _cfg.vertex_smear_width_t, _cfg.vertex_smear_func);
     return CLHEP::HepLorentzVector {x, y, z, t};
 }
 
@@ -56,8 +56,8 @@ ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interactio
     using namespace std;
 
     // Set particle positions
-    double ion_z = _smear.gauss(_cfg.ion_beam.rms_bunch_length);
-    double electron_z = _smear.gauss(_cfg.electron_beam.rms_bunch_length);
+    double ion_z = _smearer.gauss(_cfg.ion_beam.rms_bunch_length);
+    double electron_z = _smearer.gauss(_cfg.electron_beam.rms_bunch_length);
     double crossing_angle = _cfg.crossing_angle_hor;
 
     double had_bunch_rms_hor = sqrt(_cfg.ion_beam.beta_star_hor * _cfg.ion_beam.rms_emittance_hor);
@@ -91,12 +91,12 @@ ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interactio
     double y_int = 0.;
     if(abs(sigma_hor) > 1e-9)
     {
-        x_int += _smear.gauss(sigma_hor);
+        x_int += _smearer.gauss(sigma_hor);
     }
 
     if(abs(sigma_ver) > 1e-9)
     {
-        y_int += _smear.gauss(sigma_ver);
+        y_int += _smearer.gauss(sigma_ver);
     }
 
     // We now have the x-y-z position of the collision in the accelerator frame, but we want it in the detector frame. Rotate by 0.5*theta_c to get to accelerator frame
@@ -139,10 +139,10 @@ ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interactio
 //
 //
 //
-//    double bunch_x = _smear.smear(0, sigma_hor);
+//    double bunch_x = _smearer.smear(0, sigma_hor);
 //    CLHEP::Hep3Vector vec_horizontal_collision_vertex_smear = horizontal_axis * bunch_x;
 //
-//    double bunch_y = _smear.smear(0, sigma_ver);
+//    double bunch_y = _smearer.smear(0, sigma_ver);
 //    CLHEP::Hep3Vector vec_vertical_collision_vertex_smear = vertical_axis * bunch_y;
 //
 //    CLHEP::Hep3Vector vec_collision_vertex =
@@ -199,7 +199,7 @@ CLHEP::Hep3Vector ab::Afterburner::smear_beam_divergence(const CLHEP::Hep3Vector
 
     // Horizontal
     double horizontal_angle = vtx_z * crab_hor;                                     // horizontal angle 0
-    horizontal_angle = _smear.smear(horizontal_angle, beam_cfg.divergence_hor, SmearFuncs::Gauss);    // smear horizontal angle
+    horizontal_angle = _smearer.smear(horizontal_angle, beam_cfg.divergence_hor, SmearFuncs::Gauss);    // smear horizontal angle
     CLHEP::HepRotation x_smear_in_accelerator_plane(accelerator_plane, horizontal_angle);      // central horizontal angle shift
 
 
@@ -223,7 +223,7 @@ CLHEP::Hep3Vector ab::Afterburner::smear_beam_divergence(const CLHEP::Hep3Vector
     */
 
     double vertical_angle =  -vtx_z * crab_ver;                                             // vertical angle 0
-    vertical_angle = _smear.smear(vertical_angle, beam_cfg.divergence_ver, SmearFuncs::Gauss);   // smear vertical angle
+    vertical_angle = _smearer.smear(vertical_angle, beam_cfg.divergence_ver, SmearFuncs::Gauss);   // smear vertical angle
     auto out_accelerator_plane = accelerator_plane.cross(beam_dir);                             // vertical out acc plane
     CLHEP::HepRotation y_smear_out_accelerator_plane(out_accelerator_plane, vertical_angle);    // central vertical angle shift
 
@@ -450,6 +450,7 @@ void ab::Afterburner::print() const {
     cout << "AFTERBURNER CONFIGURATION\n";
     cout << "=========================\n";
 
+    cout << "Random seed: " << _cfg.random_seed << endl;
     cout << "Crossing angle hor: " << _cfg.crossing_angle_hor << endl;
     cout << "Crossing angle ver: " << _cfg.crossing_angle_ver << endl;
 

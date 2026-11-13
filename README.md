@@ -132,6 +132,7 @@ converter.
 | -s,--ev-start INT    | Start event index (all previous are skipped)|
 | -e,--ev-end INT      | End event index (end processing after this event)|
 | -l,--limit UINT      | Limit number of events to process. (Shutdown after this number of parsed events)|
+| --seed UINT          | Random seed of the beam effects (2) |
 | --ab-off             | No afterburner is applied|
 | --plot-off           | Don't produce validation plots|
 | --exit-ca            | Check existing crossing angle and exit if CA>1mrad (1) |
@@ -142,6 +143,11 @@ converter.
 > with the `--exit-ca` is set and crossing angle absolute value is > 1mrad program ends with 0 code.
 > This method is very coarse as if in a source file the crossing angle is 0 but all beam effects do exist,
 > beam effects will be applied twice
+
+> (2) Without `--seed`, each run draws a random seed, prints it and stores it in the output run info
+> as `ab_random_seed`. To reproduce a file, pass that value: `abconv --seed 1234567 ...`.
+> One seed gives the same sequence of vertices and beam kicks for any input, so give runs on different
+> input files different seeds.
 
 -p,--preset flag, values \[0,1,2,3,4,5\] set config and auto determine energy from source file:
 

@@ -1,5 +1,5 @@
 //
-// Created by romanov on 10/27/21.
+// Created by Dmitry Romanov on 10/27/21.
 //
 
 #include <HepMC3/GenEvent.h>
@@ -48,7 +48,7 @@ ab::AfterburnerConfig ab::convert::ConfigProvider::from_preset_name(const string
 }
 
 ab::AfterburnerConfig ab::convert::ConfigProvider::from_user_args(UserArguments arg) {
-    auto reader = ab::convert::generate_reader(arg.InputFormat, arg.InputFileName);
+    auto reader = ab::convert::generate_reader(arg.input_format, arg.input_file_name);
 
     if(arg.preset_name == "0") {
         return from_hepmc_file(reader, ab::EicBeamPresets::Ip6HighDivergence);

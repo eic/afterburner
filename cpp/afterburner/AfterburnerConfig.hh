@@ -50,6 +50,9 @@ namespace ab {
          */
         double crossing_angle_ver = 100e-6;
 
+        /** Seed of the beam effects random sequence. One seed gives the same beam effects for any input,
+         *  so runs on different inputs need different seeds (abconv draws one unless --seed is given).
+         *  GSL's mt19937 treats 0 as its default seed 4357. */
         unsigned int random_seed = 1;
 
         // Use beam bunch simulation

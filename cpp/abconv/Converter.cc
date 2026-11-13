@@ -204,6 +204,7 @@ void ab::abconv::Converter::ab_config_to_run_info(const std::shared_ptr<HepMC3::
 
     run_info->add_attribute("ab_afterburner_is_used",   std::make_shared<BoolAttribute>(true));
     run_info->add_attribute("afterburner_config_name",  std::make_shared<StringAttribute>(cfg.name));
+    run_info->add_attribute("ab_random_seed",           std::make_shared<UIntAttribute>(cfg.random_seed));
 
     run_info->add_attribute("ion_beam_energy",          std::make_shared<DoubleAttribute>(cfg.ion_beam.energy));
     run_info->add_attribute("electron_beam_energy",     std::make_shared<DoubleAttribute>(cfg.electron_beam.energy));

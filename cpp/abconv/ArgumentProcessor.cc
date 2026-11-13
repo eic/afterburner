@@ -1,5 +1,7 @@
 #include <vector>
 #include <string>
+#include <random>
+#include <limits>
 
 #include <CLI/CLI.hpp>
 
@@ -7,13 +9,13 @@
 #include "afterburner/EicConfigurator.hh"
 
 
-UserArguments ArgumentProcessor::Process(int argc, char **argv)
+UserArguments ArgumentProcessor::process(int argc, char **argv)
 {
     UserArguments result;                                          // This function result
     CLI::App app{get_description()};
 
     std::string output_base_name("ab_output");
-    std::vector<std::string> optAllFiles;
+    std::vector<std::string> opt_all_files;
     std::string preset="0";
     bool ab_off = false;
     bool plot_off = false;
@@ -23,6 +25,7 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     std::string output_format = "treeroot";
     long ev_start = 0;
     long ev_end = 0;
+    unsigned int seed = 0;
 
     app.add_option("-o, --output", output_base_name, "Base name for Output files ((!) no extension)");
     app.add_option("-p, --preset", preset, "0: IP6 High divergence[default], 1: IP6 High acceptance, 2: IP6 eAu; 3: IP8 Hight divergence..., More - see below");
@@ -32,20 +35,21 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     app.add_option("-s, --ev-start", ev_start, "Start event index (all previous are skipped)");
     app.add_option("-e, --ev-end", ev_end, "End event index (end processing after this event)");
     app.add_option("-l, --limit", process_limit, "Limit number of events to process. (Shutdown after this number of parsed events).");
+    auto seed_option = app.add_option("--seed", seed, "Random seed of the beam effects. Default: drawn at random, printed and stored in the output run info (ab_random_seed); pass that value to reproduce a file");
 
     app.add_flag("--ab-off", ab_off, "No afterburner is applied");
     app.add_flag("--plot-off", plot_off, "Don't produce validation plots");
     app.add_flag("--exit-ca", check_ca, "Check existing crossing angle and exit if CA>1mrad");
     app.set_version_flag("-v, --version", "0.1.3");
 
-    app.add_option("input file", optAllFiles, "Input file");
+    app.add_option("input file", opt_all_files, "Input file");
 
     app.footer(get_footer());
 
     // Parse everything
     try {
         app.parse(argc, argv);
-        if(optAllFiles.empty()) {
+        if(opt_all_files.empty()) {
             throw std::runtime_error("Please, provide an input file");
         }
     } catch(const CLI::ParseError &e) {
@@ -53,38 +57,47 @@ UserArguments ArgumentProcessor::Process(int argc, char **argv)
     }
 
     // Input files (macros and data files)
-    result.InputFileName = optAllFiles[0];
-    result.InputFormat = input_format;
+    result.input_file_name = opt_all_files[0];
+    result.input_format = input_format;
 
      // Output file name:
-    result.OutputBaseName = output_base_name;
-    result.OutputFormat = output_format;
+    result.output_base_name = output_base_name;
+    result.output_format = output_format;
 
     // Manage output events-file and root-file name
     if("hepmc2" == output_format || "hepmc3" == output_format) {
-        result.OutputEventFileName = result.OutputBaseName + ".hepmc";
+        result.output_event_file_name = result.output_base_name + ".hepmc";
     } else if("root" == output_format || "treeroot" == output_format) {
-        result.OutputEventFileName = result.OutputBaseName + ".hepmc3.tree.root";
+        result.output_event_file_name = result.output_base_name + ".hepmc3.tree.root";
     } else {
-        result.OutputEventFileName = result.OutputBaseName + "." + result.OutputFormat;
+        result.output_event_file_name = result.output_base_name + "." + result.output_format;
     }
 
     // Plots output
-    result.OutputHistFileName = result.OutputBaseName + ".hist.root";
-    result.PlottingEnabled = !plot_off;
+    result.output_hist_file_name = result.output_base_name + ".hist.root";
+    result.plotting_enabled = !plot_off;
 
     // Does afterburner off at all?
-    result.AfterburnerEnabled = !ab_off;
+    result.afterburner_enabled = !ab_off;
 
     // Limit on number of processed events
-    result.EventProcessLimit = process_limit;
-    result.StartEventIndex = ev_start;
-    result.EndEventIndex = ev_end;
-    result.ExitOnCrossingAngle = check_ca;
+    result.event_process_limit = process_limit;
+    result.start_event_index = ev_start;
+    result.end_event_index = ev_end;
+    result.exit_on_crossing_angle = check_ca;
 
 
     // Beam preset name
     result.preset_name = preset;
+
+    // Beam effects seed. A fixed default would give every input file the same sequence of vertices and beam
+    // kicks, so without --seed each run draws its own. Drawn from 1 to 2^31-1: 0 is GSL's alias of 4357.
+    result.random_seed_given = seed_option->count() > 0;
+    if(!result.random_seed_given) {
+        std::random_device entropy;
+        seed = std::uniform_int_distribution<unsigned int>(1, std::numeric_limits<int>::max())(entropy);
+    }
+    result.random_seed = seed;
 
     return result;
 }
