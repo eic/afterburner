@@ -27,20 +27,22 @@
 /// environment variables provided by users
 struct UserArguments
 {
-    std::string InputFileName;            /// List of all arguments which are not flags=values (macro file names, input file names, etc.)
-    std::string InputFormat;              /// One of: hepmc2, hepmc3, hpe, lhef, gz, treeroot, root
-    std::string OutputBaseName;           /// Desired output file(s) name (without suffix and extension)
-    std::string OutputFormat;             /// Output format, one of:
-    std::string OutputEventFileName;      /// hepmc2, hepmc3, dot, none
-    std::string OutputHistFileName;       /// Exact file name for histograms file
-    bool PlottingEnabled;                 /// Don't produce validation plots
-    bool AfterburnerEnabled;              /// Switch off afterburner
-    unsigned long EventProcessLimit;              /// Limit on processed events. Will shut down after this number of events processed
+    std::string input_file_name;          /// List of all arguments which are not flags=values (macro file names, input file names, etc.)
+    std::string input_format;             /// One of: hepmc2, hepmc3, hpe, lhef, gz, treeroot, root
+    std::string output_base_name;         /// Desired output file(s) name (without suffix and extension)
+    std::string output_format;            /// Output format, one of:
+    std::string output_event_file_name;   /// hepmc2, hepmc3, dot, none
+    std::string output_hist_file_name;    /// Exact file name for histograms file
+    bool plotting_enabled;                /// Don't produce validation plots
+    bool afterburner_enabled;             /// Switch off afterburner
+    unsigned long event_process_limit;    /// Limit on processed events. Will shut down after this number of events processed
 
-    long StartEventIndex;                 /// Start event index (all skipped before that)
-    long EndEventIndex;                   /// End event index (stop after that)
-    bool ExitOnCrossingAngle;             /// Check existing crossing angle and exit if CA>1mrad
-    std::string preset_name;       /// Predefined config to use
+    long start_event_index;               /// Start event index (all skipped before that)
+    long end_event_index;                 /// End event index (stop after that)
+    bool exit_on_crossing_angle;          /// Check existing crossing angle and exit if CA>1mrad
+    std::string preset_name;              /// Predefined config to use
+    unsigned int random_seed;             /// Seed of the beam effects: from --seed, or drawn at random
+    bool random_seed_given;               /// True when the seed came from --seed
 
 };
 
@@ -49,7 +51,7 @@ class ArgumentProcessor
 {
 public:
 
-    static UserArguments Process(int argc, char **argv);
+    static UserArguments process(int argc, char **argv);
 
 private:
 

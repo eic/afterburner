@@ -21,20 +21,30 @@ namespace ab {
         Gauss
     };
 
+    /** Random numbers of the beam effects: every draw comes from one GSL Mersenne Twister (mt19937) sequence */
     class Smearer {
 
     public:
 
+        /** Allocates the generator and seeds it */
         explicit Smearer(unsigned int seed);
 
+        /** Restarts the random sequence from this seed */
+        void set_seed(unsigned int seed);
+
+        /** position plus a random offset: Gauss with sigma = width, or Uniform within ±width.
+         *  width 0 returns position and draws nothing */
         double smear(double position, double width, SmearFuncs dist=SmearFuncs::Gauss) const;
 
+        /** Gaussian random number with this mean and sigma = width */
         double gauss(double mean, double width) const;
 
+        /** Gaussian random number with mean 0 and sigma = width */
         double gauss(double width) const;
 
     private:
-        std::unique_ptr<gsl_rng> m_generator;
+        /** Generator state; each draw advances it */
+        std::unique_ptr<gsl_rng> _generator;
     };
 
     /// SmearFunc-s to std::string conversion

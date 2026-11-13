@@ -47,8 +47,10 @@ namespace ab{
 
         int verbose() const { return m_verbosity; }
 
+        /** Sets the configuration and restarts the random sequence from config.random_seed */
         void set_config(ab::AfterburnerConfig config) {
             _cfg = config;
+            _smearer.set_seed(_cfg.random_seed);
         }
 
         ab::AfterburnerConfig config() const {
@@ -60,7 +62,7 @@ namespace ab{
         int m_verbosity = 0;
 
         AfterburnerConfig _cfg;
-        Smearer _smear;
+        Smearer _smearer;
 
         /** Converts from spherical theta-phi to cartesian vector */
         static CLHEP::Hep3Vector spherical_to_cartesian(double theta, double phi);
