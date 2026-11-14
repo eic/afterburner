@@ -144,10 +144,16 @@ converter.
 > This method is very coarse as if in a source file the crossing angle is 0 but all beam effects do exist,
 > beam effects will be applied twice
 
-> (2) Without `--seed`, each run draws a random seed, prints it and stores it in the output run info
-> as `ab_random_seed`. To reproduce a file, pass that value: `abconv --seed 1234567 ...`.
-> One seed gives the same sequence of vertices and beam kicks for any input, so give runs on different
-> input files different seeds.
+> (2) Without `--seed`, each run sets seed using `std::random_device entropy`, 
+> prints it and stores it in the output run attribute as `ab_random_seed`. 
+> To reproduce a file, set the seed manually `abconv --seed 1234567 ...`.
+> (!) The random sequence starts at the first processed event. 
+> This means, if you use `--seed` flag, give every run its own seed, also when you split one file with `-s` and `-e`.
+> ```bash
+>    abconv --seed=1 --ev-end=499 big-input-file
+>    abconv --seed=1 --ev-start=500 big-input-file // <= potential problem
+>    # now events 0 and 500 will have the same random sequence with seed=1
+> ```
 
 -p,--preset flag, values \[0,1,2,3,4,5\] set config and auto determine energy from source file:
 
