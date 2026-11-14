@@ -27,22 +27,22 @@
 /// environment variables provided by users
 struct UserArguments
 {
-    std::string input_file_name;          /// List of all arguments which are not flags=values (macro file names, input file names, etc.)
-    std::string input_format;             /// One of: hepmc2, hepmc3, hpe, lhef, gz, treeroot, root
-    std::string output_base_name;         /// Desired output file(s) name (without suffix and extension)
-    std::string output_format;            /// Output format, one of:
-    std::string output_event_file_name;   /// hepmc2, hepmc3, dot, none
-    std::string output_hist_file_name;    /// Exact file name for histograms file
-    bool plotting_enabled;                /// Don't produce validation plots
-    bool afterburner_enabled;             /// Switch off afterburner
-    unsigned long event_process_limit;    /// Limit on processed events. Will shut down after this number of events processed
+    std::string input_file_name;          ///< Input events file (the positional argument)
+    std::string input_format;             ///< -i: auto, hepmc2, hepmc3, hpe, lhef, gz, treeroot, root
+    std::string output_base_name;         ///< -o: output file name without extension; the files add their own
+    std::string output_format;            ///< -f: hepmc3, treeroot, root, hepmc2, dot, none
+    std::string output_event_file_name;   ///< Events file: output_base_name + the extension of output_format
+    std::string output_hist_file_name;    ///< Validation plots file: output_base_name + .hist.root
+    bool plotting_enabled;                ///< Fill the validation plots (false with --plot-off)
+    bool afterburner_enabled;             ///< Apply the afterburner (false with --ab-off)
+    unsigned long event_process_limit;    ///< -l: stop after this number of processed events; 0: no limit
 
-    long start_event_index;               /// Start event index (all skipped before that)
-    long end_event_index;                 /// End event index (stop after that)
-    bool exit_on_crossing_angle;          /// Check existing crossing angle and exit if CA>1mrad
-    std::string preset_name;              /// Predefined config to use
-    unsigned int random_seed;             /// Seed of the beam effects: from --seed, or drawn at random
-    bool random_seed_given;               /// True when the seed came from --seed
+    long start_event_index;               ///< -s: skip events with a smaller event number
+    long end_event_index;                 ///< -e: stop after the event with this event number; 0: no limit
+    bool exit_on_crossing_angle;          ///< --exit-ca: exit if the input already has a crossing angle > 1 mrad
+    std::string preset_name;              ///< -p: 0-5 (beam energies read from the input) or a preset name
+    unsigned int random_seed;             ///< Seed of the beam effects: from --seed, or drawn at random
+    bool random_seed_given;               ///< True when the seed came from --seed
 
 };
 

@@ -35,23 +35,20 @@ UserArguments ArgumentProcessor::process(int argc, char **argv)
     app.add_option("-s, --ev-start", ev_start, "Start event index (all previous are skipped)");
     app.add_option("-e, --ev-end", ev_end, "End event index (end processing after this event)");
     app.add_option("-l, --limit", process_limit, "Limit number of events to process. (Shutdown after this number of parsed events).");
-    auto seed_option = app.add_option("--seed", seed, "Random seed of the beam effects. Default: drawn at random, printed and stored in the output run info (ab_random_seed); pass that value to reproduce a file");
+    auto seed_option = app.add_option("--seed", seed, "Random seed of the beam effects. Default: drawn at random, printed and stored in the output run info (ab_random_seed). The same command with that seed reproduces the file; runs on different files or -s ranges need different seeds");
 
     app.add_flag("--ab-off", ab_off, "No afterburner is applied");
     app.add_flag("--plot-off", plot_off, "Don't produce validation plots");
     app.add_flag("--exit-ca", check_ca, "Check existing crossing angle and exit if CA>1mrad");
     app.set_version_flag("-v, --version", "0.1.3");
 
-    app.add_option("input file", opt_all_files, "Input file");
+    app.add_option("input file", opt_all_files, "Input file")->required();
 
     app.footer(get_footer());
 
-    // Parse everything
+    // Parse everything. Help, version and argument errors end the program here
     try {
         app.parse(argc, argv);
-        if(opt_all_files.empty()) {
-            throw std::runtime_error("Please, provide an input file");
-        }
     } catch(const CLI::ParseError &e) {
         exit(app.exit(e));
     }

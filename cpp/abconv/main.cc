@@ -11,7 +11,6 @@
 // Afterburner and benchmarks
 #include <afterburner/Afterburner.hh>
 #include <benchmark/Histogrammer.hh>
-#include <CLI/Error.hpp>
 
 // ABConvert includes
 #include "ArgumentProcessor.hh"
@@ -24,14 +23,8 @@ int main(int argc, char** argv)
 {
     using namespace HepMC3;
 
-    // Process user inputs
-    UserArguments arg;
-    try {
-        arg = ArgumentProcessor::process(argc, argv);
-    }
-    catch(CLI::CallForHelp& ex) {
-        return EXIT_SUCCESS;
-    }
+    // Process user inputs (exits on --help, --version and argument errors)
+    UserArguments arg = ArgumentProcessor::process(argc, argv);
 
     // IO files
     auto reader = ab::convert::generate_reader(arg.input_format, arg.input_file_name);
