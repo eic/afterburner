@@ -375,9 +375,10 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
             cout << __PRETTY_FUNCTION__ << ": reverse beam direction " << endl;
         }
     } else {
-        // need a rotation
+        // need a rotation. A rotation about (beam axis x z) by -angle turns +z onto the beam axis: it takes the
+        // head-on event to the crossing frame.
         CLHEP::Hep3Vector rotation_axis = (real_ion_dir - real_electron_dir).cross(z_axis);
-        const double rotation_angle_to_z = acos(cos_rotation_angle_to_z);   // TODO back to -acos?
+        const double rotation_angle_to_z = -acos(cos_rotation_angle_to_z);
 
         result.rotation = CLHEP::HepRotation(rotation_axis, rotation_angle_to_z);
 

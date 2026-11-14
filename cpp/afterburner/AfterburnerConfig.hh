@@ -42,13 +42,16 @@ namespace ab {
 
         /**
          * Crossing angle in horizontal plane [rad]
+         * The ion beam flies along +z rotated by crossing_angle_hor about y, then by crossing_angle_ver about x;
+         * the electron beam along -z. IP6: -25 mrad, the ion beam toward -x.
          */
-        double crossing_angle_hor = 25e-3;
+        double crossing_angle_hor = -25e-3;
 
         /**
          * Crossing angle in vertical plane [rad]
+         * A rotation about x: -100e-6 tilts the ion beam toward +y.
          */
-        double crossing_angle_ver = 100e-6;
+        double crossing_angle_ver = -100e-6;
 
         unsigned int random_seed = 1;
 

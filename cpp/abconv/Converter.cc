@@ -89,9 +89,10 @@ void ab::abconv::Converter::convert() {
             // transformed consistently). No-op when event_pos() is already zero.
             evt.shift_position_to(FourVector(0, 0, 0, 0));
 
-            // Boost
+            // Boost. GenEvent::boost(v) applies HepBoost(-v) (a particle at rest gets velocity -v), so pass
+            // -boost to apply the afterburner's HepBoost(+boost)
             auto boost = ab_result.boost.boostVector();
-            evt.boost(FourVector(boost.x(), boost.y(), boost.z(), 0));
+            evt.boost(FourVector(-boost.x(), -boost.y(), -boost.z(), 0));
 
             if(_verbose) {
                 std::cout << "************\nAFTER BOOST\n************\n";
@@ -122,14 +123,14 @@ void ab::abconv::Converter::convert() {
             // GenEvent::boost() and the loop above act on momenta only, so
             // displaced vertices must be transformed here too, otherwise a
             // secondary-vertex offset is no longer parallel to its parent
-            // particle's momentum. GenEvent::boost(beta) matches HepBoost(-beta).
+            // particle's momentum. The momenta got HepBoost(+boost) above.
             for (const auto& v: evt.vertices())
             {
                 if (!v->has_set_position()) continue;
                 FourVector pos = v->position();
 
                 CLHEP::HepLorentzVector x(pos.x(), pos.y(), pos.z(), pos.t());
-                x = CLHEP::HepBoost(-boost) * x;
+                x = CLHEP::HepBoost(boost) * x;
 
                 CLHEP::Hep3Vector tmp(x.x(), x.y(), x.z());
                 tmp = tmp.rotate(ab_result.rotation.eulerAngles());
