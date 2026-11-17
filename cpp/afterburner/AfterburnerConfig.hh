@@ -20,11 +20,6 @@ namespace ab {
         double divergence_hor = 0;
         double divergence_ver = 0;
 
-        //! Central beam angle shift as linear function of longitudinal vertex position, d_shift/dz,
-        //! which is used to represent leading order effect of crab cavity momentum kick on the beam bunch
-        //! First element is beamA, in pair of dh/dz, dv/dz. BeamA is aimed to +z direction in the HepMC event generator's coordinate
-        //! Second element is beamB, in pair of dh/dz, dv/dz. BeamA is aimed to -z direction in the HepMC event generator's coordinate
-        // double z_shift_ver = 0;
         double beta_crab_hor = 0;
 
         double beta_star_hor = 0;

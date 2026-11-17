@@ -20,14 +20,6 @@ static void RotY(double theta, double xin, double yin, double zin, double *xout,
 }
 
 
-static void RotXY(double theta, double phi, double xin, double yin, double zin, double *xout, double *yout, double *zout) {
-
-    *xout = xin*cos(theta) + zin*sin(theta);
-    *yout = xin*sin(phi)*sin(theta) + yin*cos(phi) - zin*sin(phi)*cos(theta);
-    *zout = yin*sin(phi) - xin*cos(phi)*sin(theta) + zin*cos(phi)*cos(theta);
-}
-
-
 ab::Afterburner::Afterburner() : _smear(1) {}
 
 CLHEP::HepLorentzVector ab::Afterburner::move_vertex(const CLHEP::HepLorentzVector &init_vtx) {
@@ -78,7 +70,6 @@ ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interactio
     // X_int = Z_bunch_int * Tan(0.5*theta_c)
 
     double c_c = cos(crossing_angle/2.0);
-    double s_c = sin(crossing_angle/2.0);
     double t_c = tan(crossing_angle/2.0);
 
     double t_int = (electron_z - ion_z)/(2.0*c_c);
@@ -112,75 +103,6 @@ ab::BunchInteractionResult ab::Afterburner::generate_vertx_with_bunch_interactio
     result.bunch_one_z = ion_z;
     result.bunch_two_z = electron_z;
 
-//
-//    //  const static CLHEP::Hep3Vector z_axis(0, 0, 1);
-//    const static CLHEP::Hep3Vector y_axis(0, 1, 0);
-//
-//    // the final longitudinal vertex smear axis
-//    CLHEP::Hep3Vector beamCenterDiffAxis = (beamA_center - beamB_center);
-//    assert(beamCenterDiffAxis.mag() > CLHEP::Hep3Vector::getTolerance());
-//    beamCenterDiffAxis = beamCenterDiffAxis / beamCenterDiffAxis.mag();
-//
-//    CLHEP::Hep3Vector vec_crossing = beamA_center - 0.5 * (beamA_center - beamB_center);
-//
-//    CLHEP::Hep3Vector vec_longitudinal_collision = beamCenterDiffAxis * (ion_z + electron_z) / 2.;
-//    double ct_collision = 0.5 * (-ion_z + electron_z) / beamCenterDiffAxis.dot(beamA_center);
-//    double t_collision = ct_collision ;//* CLHEP::mm / CLHEP::c_light / CLHEP::ns;
-//    CLHEP::Hep3Vector vec_crossing_collision = ct_collision * vec_crossing;  // shift of collision to crossing direction
-//
-//    CLHEP::Hep3Vector horizontal_axis = y_axis.cross(beamCenterDiffAxis);
-//    assert(horizontal_axis.mag() > CLHEP::Hep3Vector::getTolerance());
-//    horizontal_axis = horizontal_axis.unit();
-//
-//    CLHEP::Hep3Vector vertical_axis = beamCenterDiffAxis.cross(horizontal_axis);
-//    assert(vertical_axis.mag() > CLHEP::Hep3Vector::getTolerance());
-//    vertical_axis = vertical_axis.unit();
-//
-//
-//
-//
-//    double bunch_x = _smear.smear(0, sigma_hor);
-//    CLHEP::Hep3Vector vec_horizontal_collision_vertex_smear = horizontal_axis * bunch_x;
-//
-//    double bunch_y = _smear.smear(0, sigma_ver);
-//    CLHEP::Hep3Vector vec_vertical_collision_vertex_smear = vertical_axis * bunch_y;
-//
-//    CLHEP::Hep3Vector vec_collision_vertex =
-//            vec_horizontal_collision_vertex_smear +
-//            vec_vertical_collision_vertex_smear +  //
-//            vec_crossing_collision + vec_longitudinal_collision;
-//
-//    ab::BunchInteractionResult result;
-//    result.vertex.set(vec_collision_vertex, t_collision);
-//    result.bunch_one_z = ion_z;
-//    result.bunch_two_z = electron_z;
-//
-//
-//    if (m_verbosity)
-//    {
-//        cout << __PRETTY_FUNCTION__
-//             << ":\n  "
-//             << "bunch_one_z = " << result.bunch_one_z << ", "
-//             << "bunch_two_z = " << result.bunch_two_z<< ", "
-//             << "cos(theta/2) = " << beamCenterDiffAxis.dot(beamA_center) << ",\n  "
-//
-//             << "beamCenterDiffAxis = " << beamCenterDiffAxis << ", "
-//             << "vec_crossing = " << vec_crossing << ", "
-//             << "horizontal_axis = " << horizontal_axis << ", "
-//             << "vertical_axis = " << vertical_axis << ",\n  "
-//
-//             << "vec_longitudinal_collision = " << vec_longitudinal_collision << ", "
-//             << "vec_crossing_collision = " << vec_crossing_collision << ", "
-//             << "vec_vertical_collision_vertex_smear = " << vec_vertical_collision_vertex_smear << ", "
-//             << "vec_horizontal_collision_vertex_smear = " << vec_horizontal_collision_vertex_smear << ",\n "
-//
-//             << "vec_collision_vertex = " << vec_collision_vertex << ",\n  "
-//
-//             << "ct_collision = " << ct_collision << ", "
-//             << "t_collision = " << t_collision << ", "
-//             << endl;
-//    }
-
     return result;
 }
 
@@ -204,24 +126,6 @@ CLHEP::Hep3Vector ab::Afterburner::smear_beam_divergence(const CLHEP::Hep3Vector
 
 
     // Vertical
-    /*
-    // Calculate angular deflection
-    double crabAngHad = ((mXAngle/2.0)*ionPartPos)/(TMath::Sqrt(betaCrabHad*betaStarHad));
-    double crabAngLep = ((mXAngle/2.0)*electronPartPos)/(TMath::Sqrt(betaCrabLep*betaStarLep));
-
-    // Calculate Magnitude of Px kick
-    double crabKickHad = (mIonBeamEnergy + tmpPzA)*TMath::Sin(crabAngHad);
-    double crabKickLep = (-1.0)*(mElectronBeamEnergy + tmpPzB)*TMath::Sin(crabAngLep); //
-
-    // Rotate Momentum Kick into Detector Frame
-    double tmpVertPxA, tmpVertPyA, tmpVertPzA;
-    double tmpVertPxB, tmpVertPyB, tmpVertPzB;
-    tmpVertPxA = tmpVertPyA = tmpVertPzA = tmpVertPxB = tmpVertPyB = tmpVertPzB = 0.;
-
-    RotY(mXAngle/2.0,crabKickHad,0.,0.,&tmpVertPxA,&tmpVertPyA,&tmpVertPzA);
-    RotY(mXAngle/2.0,crabKickLep,0.,0.,&tmpVertPxB,&tmpVertPyB,&tmpVertPzB)
-    */
-
     double vertical_angle =  -vtx_z * crab_ver;                                             // vertical angle 0
     vertical_angle = _smear.smear(vertical_angle, beam_cfg.divergence_ver, SmearFuncs::Gauss);   // smear vertical angle
     auto out_accelerator_plane = accelerator_plane.cross(beam_dir);                             // vertical out acc plane
@@ -330,10 +234,6 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     }
 
     // boost-rotation from beam angles
-    const static CLHEP::Hep3Vector y_axis(0, 1, 0);
-
-    //CLHEP::Hep3Vector ideal_ion_dir = spherical_to_cartesian(_cfg.ion_beam.direction_theta, _cfg.ion_beam.direction_phi);
-    //CLHEP::Hep3Vector ideal_electron_dir = spherical_to_cartesian(_cfg.electron_beam.direction_theta, _cfg.electron_beam.direction_phi);
     CLHEP::Hep3Vector ideal_electron_dir(0, 0, -1);
     // Ion beam direction: crossing_angle_hor is its angle to +z in the x-z plane (positive toward +x),
     // crossing_angle_ver its angle to +z in the y-z plane (positive toward +y). eicBeamShape (Pythia8) builds the same
@@ -341,8 +241,6 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     const double hor = _cfg.crossing_angle_hor;
     const double ver = _cfg.crossing_angle_ver;
     CLHEP::Hep3Vector ideal_ion_dir(std::sin(hor), std::cos(hor) * std::sin(ver), std::cos(hor) * std::cos(ver));
-
-    //double crossing_angle = acos(ideal_ion_dir.unit().dot(-ideal_electron_dir.unit()));
 
     if (m_verbosity) {
         cout << __PRETTY_FUNCTION__ << ": " << endl;
