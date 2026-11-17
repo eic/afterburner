@@ -20,11 +20,6 @@ namespace ab {
         double divergence_hor = 0;
         double divergence_ver = 0;
 
-        //! Central beam angle shift as linear function of longitudinal vertex position, d_shift/dz,
-        //! which is used to represent leading order effect of crab cavity momentum kick on the beam bunch
-        //! First element is beamA, in pair of dh/dz, dv/dz. BeamA is aimed to +z direction in the HepMC event generator's coordinate
-        //! Second element is beamB, in pair of dh/dz, dv/dz. BeamA is aimed to -z direction in the HepMC event generator's coordinate
-        // double z_shift_ver = 0;
         double beta_crab_hor = 0;
 
         double beta_star_hor = 0;
@@ -41,12 +36,16 @@ namespace ab {
         std::string name = "auto";
 
         /**
-         * Crossing angle in horizontal plane [rad]
+         * Crossing angle in horizontal plane [rad]: the ion beam's angle to +z in the x-z plane, positive toward +x.
+         * EIC/ePIC detector frame: z on the electron beam axis, pointing opposite to the electron motion (electrons
+         * fly along -z); x horizontal, toward the ring center; y up. See README.md, "Coordinate system".
+         * IP6: -25 mrad, the ion beam toward the ring outside.
          */
-        double crossing_angle_hor = 25e-3;
+        double crossing_angle_hor = -25e-3;
 
         /**
-         * Crossing angle in vertical plane [rad]
+         * Crossing angle in vertical plane [rad]: the ion beam's angle in the y-z plane, positive toward +y.
+         * IP6: +100 urad.
          */
         double crossing_angle_ver = 100e-6;
 

@@ -121,13 +121,11 @@ inline void WriterDOT::flush() {
     // we will not allow precision larger than 24 anyway
     unsigned long length = m_cursor - m_buffer;
     if ( m_buffer_size - length < 32 ) {
-        // m_file.write( m_buffer, length );
         m_stream->write( m_buffer, length );
         m_cursor = m_buffer;
     }
 }
 inline void WriterDOT::forced_flush() {
-    // m_file.write( m_buffer, m_cursor-m_buffer );
     m_stream->write( m_buffer, m_cursor - m_buffer );
     m_cursor = m_buffer;
 }

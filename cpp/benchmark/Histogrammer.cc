@@ -24,7 +24,6 @@ Histogrammer::Histogrammer(std::shared_ptr<TFile> file, std::string dir_name):
 
 void Histogrammer::initialize() {
     // creates ROOT file to write things to
-    //_file = std::make_shared<TFile>(_output_file_path.c_str(), "RECREATE");
     _file->cd();
     auto dir = _file->mkdir(_dirname.c_str());
     dir->cd();
@@ -34,20 +33,6 @@ void Histogrammer::initialize() {
     partPhiHist = new TH1D("partPhi","Final State Particle Phi",100,-1.0*TMath::Pi(),TMath::Pi());
     partPtVsEtaHist = new TH2D("partPtVsEta","Final State Particle Pt Vs Eta",400,-10.,10.,500,0.,50.);
     partPhiVsEtaHist = new TH2D("partPhiVsEta","Final State Particle Phi Vs Eta",400,-10.,10.,100,-1.0*TMath::Pi(),TMath::Pi());
-    /*
-    // Beam Shape
-  TH1D *eCM = new TH1D("eCM","Modified - Nominal CM Energy",10000,-1.0,1.0);
-  TH2D *pXY1 = new TH2D("pXY1","Hadron Beam Py Vs Px",10000,-10.0,10.0,10000,-10.0,10.0);
-  TH2D *pXZProd1 = new TH2D("pXZProd1","Hadron Beam Px Vs Vertex z",5000,-500.,500.,10000,-10.0,10.0);
-  TH2D *pYZProd1 = new TH2D("pYZProd1","Hadron Beam Py Vs Vertex z",5000,-500.,500.,10000,-10.0,10.0);
-  TH2D *pXY2 = new TH2D("pXY2","Lepton Beam Py Vs Px",10000,-10.0,10.0,10000,-10.0,10.0);
-  TH2D *pXZProd2 = new TH2D("pXZProd2","Lepton Beam Px Vs Vertex z",5000,-500.,500.,10000,-10.0,10.0);
-  TH2D *pYZProd2 = new TH2D("pYZProd2","Lepton Beam Py Vs Vertex z",5000,-500.,500.,10000,-10.0,10.0);
-  TH1D *pZ1 = new TH1D("pZ1","Hadron Beam Pz",10000,0.0,280.0);
-  TH1D *pZ2 = new TH1D("pZ2","Lepton Beam Pz",10000,-20.,0.);
-
-     TH2D *lepVsHadPartZ = new TH2D("lepVsHadPartZ","Intrabunch Z Positions of Colliding Leptons Vs Hadrons",5000,-500.0,500.0,5000,-500.0,500.0);
-*/
     vtxX = new TH1D("vtxX","Vertex x;[mm]",100,-5.0,5.0);
     vtxY = new TH1D("vtxY","Vertex y;[mm]",100,-.05,.05);
     vtxZ = new TH1D("vtxZ","Vertex z;[mm]",100,-400.0,400.0);
@@ -92,9 +77,7 @@ void Histogrammer::process_event(HepMC3::GenEvent &event) {
         double pz =  prt->momentum().pz();
         double E =   prt->momentum().e();
 
-        //cout << i << " " << p8.event[i].id() << " " << partPt << " " << partEta << " " << partPhi << endl;
-
-        if(partFin && partEta>-10.0 && partEta<10.0 ) // && y<0.95 && y>0.01 && i > 7)
+        if(partFin && partEta>-10.0 && partEta<10.0 )
         {
             partPtHist->Fill(partPt);
             partPhiHist->Fill(partPhi);
@@ -102,19 +85,6 @@ void Histogrammer::process_event(HepMC3::GenEvent &event) {
 
             partPtVsEtaHist->Fill(partEta,partPt);
             partPhiVsEtaHist->Fill(partEta,partPhi);
-
-//            partStatusVsEtaHist->Fill(partEta,p8.event[i].status());
-//
-//            if(partPt > 1.0)
-//            {
-//                partPtHiHist->Fill(partPt);
-//                partPhiHiHist->Fill(partPhi);
-//                partEtaHiHist->Fill(partEta);
-//
-//                partPhiVsEtaHiHist->Fill(partEta,partPhi);
-//
-//                partStatusVsEtaHiHist->Fill(partEta,p8.event[i].status());
-//            }
         }
     }
 
@@ -190,19 +160,6 @@ void Histogrammer::process_event(HepMC3::GenEvent &event) {
 
     atan2PxPz2Hist  ->Fill(ang(mom_lep.px(), mom_lep.pz()));
     atan2PyPz2Hist  ->Fill(ang(mom_lep.py(), mom_lep.pz()));
-
-//    vtxYvsX->Fill(p8.process[0].xProd(),p8.process[0].yProd());
-//    vtxXvsT->Fill(p8.process[0].tProd(),p8.process[0].xProd());
-//    vtxXvsZ->Fill(p8.process[0].zProd(),p8.process[0].xProd());
-//    vtxYvsZ->Fill(p8.process[0].zProd(),p8.process[0].yProd());
-//    vtxTvsZ->Fill(p8.process[0].zProd(),p8.process[0].tProd());
-//
-//    vtxXvsTZSum->Fill(p8.process[0].tProd()+p8.process[0].zProd(),p8.process[0].xProd());
-//    vtxXvsTZDiff->Fill(p8.process[0].tProd()-p8.process[0].zProd(),p8.process[0].xProd());
-//
-//    double hadZ = p8.process[0].zProd() - TMath::Cos(0.0125)*p8.process[0].tProd();
-//    double lepZ = p8.process[0].zProd() + TMath::Cos(0.0125)*p8.process[0].tProd();
-//    lepVsHadPartZ->Fill(hadZ,lepZ);
 }
 
 

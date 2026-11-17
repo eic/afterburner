@@ -78,7 +78,6 @@ int main(int argc, char** argv)
     conv.convert();
 
     // Close / finalize
-    // should be autohandled if(arg.PlottingEnabled) hst.finalize();
     if (reader)  reader->close();
     if (writer)  writer->close();
     if(root_file) {

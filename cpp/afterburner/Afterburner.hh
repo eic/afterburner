@@ -16,6 +16,9 @@
 #include "Smearer.hh"
 
 namespace ab{
+    /// The transform of one head-on event into the crossing frame: first `rotation`, then `boost`, applied to every
+    /// momentum and vertex four-position (p_crossing = boost * (rotation * p_head_on)); then the event is moved to
+    /// `vertex`.
     struct AfterburnerEventResult {
         CLHEP::HepBoost boost;
         CLHEP::HepRotation rotation;
@@ -40,6 +43,22 @@ namespace ab{
         AfterburnerEventResult process_event();
 
         AfterburnerEventResult process_event(const CLHEP::HepLorentzVector &init_vtx);
+
+        /// ion_beam_velocity and electron_beam_velocity are |p|/E of the head-on input's beams along +z and -z. The
+        /// transform puts beams of these velocities exactly onto the smeared beam directions; the overloads above
+        /// take 1 (massless beams).
+        AfterburnerEventResult process_event(const CLHEP::HepLorentzVector &init_vtx, double ion_beam_velocity, double electron_beam_velocity);
+
+        /// The Lorentz transform that takes a head-on event (beam of velocity ion_beam_velocity along +z, beam of
+        /// velocity electron_beam_velocity along -z) to beams flying along ion_dir and electron_dir: a rotation of
+        /// +z onto the head-on beam axis, then a boost perpendicular to that axis. Both beam energies grow by the
+        /// boost's gamma.
+        static void crossing_transform(const CLHEP::Hep3Vector &ion_dir,
+                                       const CLHEP::Hep3Vector &electron_dir,
+                                       double ion_beam_velocity,
+                                       double electron_beam_velocity,
+                                       CLHEP::HepBoost &boost,
+                                       CLHEP::HepRotation &rotation);
 
         void print() const;
 
