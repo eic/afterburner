@@ -236,8 +236,70 @@ ab::AfterburnerEventResult ab::Afterburner::process_event() {
     return process_event(CLHEP::HepLorentzVector(0,0,0,0));
 }
 
-//! move vertex in translation,boost,rotation according to vertex settings
 ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorentzVector &init_vtx) {
+    return process_event(init_vtx, 1.0, 1.0);
+}
+
+//! The Lorentz transform from the head-on frame to the crossing frame.
+//!
+//! Head-on, the ion beam flies along +z with velocity v_ion and the electron beam along -z with velocity v_e. A
+//! rotation R turns +z onto the head-on beam axis d; a boost B with velocity beta perpendicular to d then tilts both
+//! beams toward the boost direction, by alpha with tan(alpha) = gamma*beta/v: the momentum along d keeps its size and
+//! gains gamma*beta*E across it. The two tilts must add up to Theta, the angle between ion_dir and -electron_dir:
+//!     tan(Theta) = g*(1/v_ion + 1/v_e) / (1 - g^2/(v_ion*v_e)),   g = gamma*beta,
+//! and d and the boost direction b follow from ion_dir = cos(alpha_ion) d + sin(alpha_ion) b and
+//! electron_dir = -cos(alpha_e) d + sin(alpha_e) b. Both beams then fly exactly along their directions, and both
+//! energies grow by the same factor gamma (beta is perpendicular to both momenta). For massless beams (v = 1)
+//! beta = (ion_dir + electron_dir)/2 and each beam turns by Theta/2.
+//!
+//! Keep the boost after the rotation. In the crossing frame beta has a part -Theta^2/4 along the beams' bisector.
+//! A boost applied to the head-on event before the rotation turns that part into a longitudinal boost: one beam
+//! gains 3 Theta^2/8 in energy, the other -Theta^2/8, and one beam ends Theta^3/8 off its direction.
+void ab::Afterburner::crossing_transform(const CLHEP::Hep3Vector &ion_dir,
+                                         const CLHEP::Hep3Vector &electron_dir,
+                                         const double v_ion,
+                                         const double v_e,
+                                         CLHEP::HepBoost &boost,
+                                         CLHEP::HepRotation &rotation)
+{
+    const CLHEP::Hep3Vector z_axis(0, 0, 1);
+    const CLHEP::Hep3Vector u_ion = ion_dir.unit();
+    const CLHEP::Hep3Vector u_e = electron_dir.unit();
+    const double sin_theta = u_ion.cross(u_e).mag();
+    const double cos_theta = -u_ion.dot(u_e);
+
+    CLHEP::Hep3Vector beam_axis = u_ion;      // the head-on beam axis in the crossing frame
+    boost = CLHEP::HepBoost();
+    if (sin_theta > 0) {
+        const double a = 1 / v_ion + 1 / v_e;
+        const double k = 1 / (v_ion * v_e);
+        // the positive root g of k tan(Theta) g^2 + a g - tan(Theta) = 0, in a form exact for any 0 < Theta < pi
+        const double g = 2 * sin_theta / (a * cos_theta + std::sqrt(a * a * cos_theta * cos_theta + 4 * k * sin_theta * sin_theta));
+        const double alpha_ion = std::atan(g / v_ion);
+        const double alpha_e = std::atan(g / v_e);
+        const double sin_sum = std::sin(alpha_ion + alpha_e);
+        beam_axis = ((std::sin(alpha_e) * u_ion - std::sin(alpha_ion) * u_e) / sin_sum).unit();
+        const CLHEP::Hep3Vector boost_dir = ((std::cos(alpha_e) * u_ion + std::cos(alpha_ion) * u_e) / sin_sum).unit();
+        boost = CLHEP::HepBoost(boost_dir * (g / std::sqrt(1 + g * g)));
+    }
+
+    // the smallest rotation that turns +z onto the beam axis
+    const CLHEP::Hep3Vector rotation_axis = z_axis.cross(beam_axis);
+    const double sin_rotation = rotation_axis.mag();
+    const double cos_rotation = z_axis.dot(beam_axis);
+    if (sin_rotation > 0) {
+        rotation = CLHEP::HepRotation(rotation_axis / sin_rotation, std::atan2(sin_rotation, cos_rotation));
+    } else if (cos_rotation > 0) {
+        rotation = CLHEP::HepRotation();
+    } else {
+        rotation = CLHEP::HepRotation(CLHEP::Hep3Vector(0, 1, 0), M_PI);
+    }
+}
+
+//! move vertex in translation,boost,rotation according to vertex settings
+ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorentzVector &init_vtx,
+                                                          const double ion_beam_velocity,
+                                                          const double electron_beam_velocity) {
     using namespace std;
 
     if (m_verbosity) {
@@ -268,13 +330,17 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     }
 
     // boost-rotation from beam angles
-    const static CLHEP::Hep3Vector z_axis(0, 0, 1);
     const static CLHEP::Hep3Vector y_axis(0, 1, 0);
 
     //CLHEP::Hep3Vector ideal_ion_dir = spherical_to_cartesian(_cfg.ion_beam.direction_theta, _cfg.ion_beam.direction_phi);
     //CLHEP::Hep3Vector ideal_electron_dir = spherical_to_cartesian(_cfg.electron_beam.direction_theta, _cfg.electron_beam.direction_phi);
     CLHEP::Hep3Vector ideal_electron_dir(0, 0, -1);
-    CLHEP::Hep3Vector ideal_ion_dir = CLHEP::Hep3Vector(z_axis).rotateY(_cfg.crossing_angle_hor).rotateX(_cfg.crossing_angle_ver);
+    // Ion beam direction: crossing_angle_hor is its angle to +z in the x-z plane (positive toward +x),
+    // crossing_angle_ver its angle to +z in the y-z plane (positive toward +y). eicBeamShape (Pythia8) builds the same
+    // vector: RotXY(mXAngle, -mXAngleY) applied to +z.
+    const double hor = _cfg.crossing_angle_hor;
+    const double ver = _cfg.crossing_angle_ver;
+    CLHEP::Hep3Vector ideal_ion_dir(std::sin(hor), std::cos(hor) * std::sin(ver), std::cos(hor) * std::cos(ver));
 
     //double crossing_angle = acos(ideal_ion_dir.unit().dot(-ideal_electron_dir.unit()));
 
@@ -319,28 +385,7 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
     assert(fabs(real_ion_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
     assert(fabs(real_electron_dir.mag2() - 1) < CLHEP::Hep3Vector::getTolerance());
 
-    // apply minimal beam energy shift rotation and boost
-    CLHEP::Hep3Vector boost_axis = real_ion_dir + real_electron_dir;
-    if (boost_axis.mag2() > CLHEP::Hep3Vector::getTolerance()) {
-        //non-zero boost
-
-        // split the boost to half for each beam for minimal beam  energy shift
-        result.boost = CLHEP::HepBoost(0.5 * boost_axis);
-
-        if (m_verbosity) {
-            cout << __PRETTY_FUNCTION__ << ": non-zero boost " << endl;
-        }
-    }  //    if (cos_rotation_angle> CLHEP::Hep3Vector::getTolerance())
-    else {
-        result.boost = CLHEP::HepBoost(CLHEP::Hep3Vector(0, 0, 0));
-        if (m_verbosity) {
-            cout << __PRETTY_FUNCTION__ << ": zero boost " << endl;
-        }
-    }
-
-    //rotation to collision to along z-axis with beamA pointing to +z
-    CLHEP::Hep3Vector beamDiffAxis = (real_ion_dir - real_electron_dir);
-    if (beamDiffAxis.mag2() < CLHEP::Hep3Vector::getTolerance()) {
+    if ((real_ion_dir - real_electron_dir).mag2() < CLHEP::Hep3Vector::getTolerance()) {
         cout << "PHHepMCGenHelper::process_event - Fatal error -"
              << "Beam A and Beam B are too close to each other in direction "
              << "Please double check beam direction and divergence setting. "
@@ -353,40 +398,13 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
         throw std::runtime_error("Beam A and Beam B are too close to each other in direction ");
     }
 
-    beamDiffAxis = beamDiffAxis / beamDiffAxis.mag();
-    double cos_rotation_angle_to_z = beamDiffAxis.dot(z_axis);
+    // rotation, then boost: the head-on beams land exactly on real_ion_dir and real_electron_dir
+    crossing_transform(real_ion_dir, real_electron_dir, ion_beam_velocity, electron_beam_velocity, result.boost, result.rotation);
+
     if (m_verbosity) {
-        cout << __PRETTY_FUNCTION__ << ": check rotation ";
-        cout << "cos_rotation_angle_to_z= " << cos_rotation_angle_to_z << endl;
+        cout << __PRETTY_FUNCTION__ << ": rotation " << result.rotation.axis() << " by " << result.rotation.delta()
+             << ", then boost " << result.boost.boostVector() << endl;
     }
-
-    if (1 - cos_rotation_angle_to_z < CLHEP::Hep3Vector::getTolerance()) {
-        //no rotation
-
-        result.rotation = CLHEP::HepRotation(z_axis, 0);
-
-        if (m_verbosity) {
-            cout << __PRETTY_FUNCTION__ << ": no rotation " << endl;
-        }
-    } else if (cos_rotation_angle_to_z + 1 < CLHEP::Hep3Vector::getTolerance()) {
-        // you got beam flipped
-        result.rotation = CLHEP::HepRotation(CLHEP::Hep3Vector(0, 1, 0), M_PI);
-        if (m_verbosity) {
-            cout << __PRETTY_FUNCTION__ << ": reverse beam direction " << endl;
-        }
-    } else {
-        // need a rotation. A rotation about (beam axis x z) by -angle turns +z onto the beam axis: it takes the
-        // head-on event to the crossing frame.
-        CLHEP::Hep3Vector rotation_axis = (real_ion_dir - real_electron_dir).cross(z_axis);
-        const double rotation_angle_to_z = -acos(cos_rotation_angle_to_z);
-
-        result.rotation = CLHEP::HepRotation(rotation_axis, rotation_angle_to_z);
-
-        if (m_verbosity) {
-            cout << __PRETTY_FUNCTION__ << ": has rotation " << endl;
-        }
-    }  //  if (boost_axis.mag2() > CLHEP::Hep3Vector::getTolerance())
-
 
     if (m_verbosity) {
         cout << __PRETTY_FUNCTION__ << ": final boost rotation shift of the collision" << endl;

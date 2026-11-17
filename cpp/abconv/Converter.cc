@@ -9,9 +9,9 @@
 #include <HepMC3/GenEvent.h>
 #include <HepMC3/Print.h>
 
-#include <CLHEP/Vector/EulerAngles.h>
 #include <CLHEP/Vector/LorentzVector.h>
 #include <CLHEP/Vector/Boost.h>
+#include <CLHEP/Vector/LorentzRotation.h>
 #include "Converter.hh"
 #include "afterburner/EicConfigurator.hh"
 
@@ -78,8 +78,19 @@ void ab::abconv::Converter::convert() {
 
         if (_afterburner)
         {
+            // Velocities |p|/E of the head-on beams. The transform puts beams of these velocities exactly on the
+            // smeared beam directions, so a massive ion beam leaves at the crossing angle. The beam along +z goes to
+            // the ion beam direction.
+            double ion_beam_velocity = 1.0;
+            double electron_beam_velocity = 1.0;
+            for (const auto& beam: get_beam_particles(evt)) {
+                const FourVector& mom = beam->momentum();
+                if (mom.e() <= 0 || mom.length() <= 0) continue;
+                (mom.z() > 0 ? ion_beam_velocity : electron_beam_velocity) = mom.length() / mom.e();
+            }
+
             // Run afterburner calculation
-            auto ab_result = _afterburner->process_event();
+            auto ab_result = _afterburner->process_event(CLHEP::HepLorentzVector(0, 0, 0, 0), ion_beam_velocity, electron_beam_velocity);
 
             // Re-center the event to the origin before transforming. The vertex
             // loop below iterates evt.vertices(), which excludes the bookkeeping
@@ -89,56 +100,24 @@ void ab::abconv::Converter::convert() {
             // transformed consistently). No-op when event_pos() is already zero.
             evt.shift_position_to(FourVector(0, 0, 0, 0));
 
-            // Boost. GenEvent::boost(v) applies HepBoost(-v) (a particle at rest gets velocity -v), so pass
-            // -boost to apply the afterburner's HepBoost(+boost)
-            auto boost = ab_result.boost.boostVector();
-            evt.boost(FourVector(-boost.x(), -boost.y(), -boost.z(), 0));
-
-            if(_verbose) {
-                std::cout << "************\nAFTER BOOST\n************\n";
-                Print::content(evt);
-            }
-
-            // Rotate
-            auto axis = ab_result.rotation.axis();
-            auto euler = ab_result.rotation.eulerAngles();
-
-            // Instead of using HepMC rotate, we just rotate particle momentum-s
+            // The afterburner's transform, rotation first and then boost, applied to every momentum and to every
+            // vertex four-position: a displaced vertex stays on its parent's momentum.
+            const CLHEP::HepLorentzRotation transform = ab_result.boost * ab_result.rotation;
             for (const auto& p: evt.particles())
             {
-                FourVector mom=p->momentum();
-
-                CLHEP::Hep3Vector tmp(mom.x(), mom.y(), mom.z());
-                tmp = tmp.rotate(ab_result.rotation.eulerAngles());
-
-                FourVector temp(tmp.x(),tmp.y(),tmp.z(),mom.e());
-                p->set_momentum(temp);
+                const FourVector mom = p->momentum();
+                const CLHEP::HepLorentzVector q = transform * CLHEP::HepLorentzVector(mom.x(), mom.y(), mom.z(), mom.e());
+                p->set_momentum(FourVector(q.x(), q.y(), q.z(), q.t()));
             }
-            if(_verbose) {
-                std::cout << "************\nAFTER ROTATION\n************\n";
-                Print::content(evt);
-            }
-
-            // Same boost+rotation as above, but for vertex positions: the
-            // GenEvent::boost() and the loop above act on momenta only, so
-            // displaced vertices must be transformed here too, otherwise a
-            // secondary-vertex offset is no longer parallel to its parent
-            // particle's momentum. The momenta got HepBoost(+boost) above.
             for (const auto& v: evt.vertices())
             {
                 if (!v->has_set_position()) continue;
-                FourVector pos = v->position();
-
-                CLHEP::HepLorentzVector x(pos.x(), pos.y(), pos.z(), pos.t());
-                x = CLHEP::HepBoost(boost) * x;
-
-                CLHEP::Hep3Vector tmp(x.x(), x.y(), x.z());
-                tmp = tmp.rotate(ab_result.rotation.eulerAngles());
-
-                v->set_position(FourVector(tmp.x(), tmp.y(), tmp.z(), x.t()));
+                const FourVector pos = v->position();
+                const CLHEP::HepLorentzVector x = transform * CLHEP::HepLorentzVector(pos.x(), pos.y(), pos.z(), pos.t());
+                v->set_position(FourVector(x.x(), x.y(), x.z(), x.t()));
             }
             if(_verbose) {
-                std::cout << "************\nAFTER VERTEX TRANSFORM\n************\n";
+                std::cout << "************\nAFTER BOOST AND ROTATION\n************\n";
                 Print::content(evt);
             }
 

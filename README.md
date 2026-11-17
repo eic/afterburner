@@ -78,6 +78,15 @@ How exactly the afterburner works illustrated by `abconv my.hepmc` command.
 3. AB processes events applying crossing angle and beam effects for each event. 
    `-s,--ev-start`, `-e,--ev-end`, `-l,--limit` flags limit the number of events to process
 
+   For each event AB draws the interaction point and the two beam directions (crossing angle, divergence, crab
+   kicks), then moves the whole event, momenta and vertex positions, with one Lorentz transform: a rotation of +z
+   onto the head-on beam axis, then a boost perpendicular to that axis. The boost is computed from the velocities
+   |p|/E of the input's beam particles, so that both beams leave exactly along their drawn directions, a massive ion
+   beam included. The beam along +z in the input becomes the ion beam.
+
+   A Lorentz transform keeps √s, so the boost raises both beam energies by the same factor
+   γ ≈ 1/cos(θ/2) ≈ 1 + θ²/8, where θ is the crossing angle (+7.8 × 10⁻⁵ at 25 mrad, +1.5 × 10⁻⁴ at 35 mrad). For nominal beam energies at the crossing, generate the head-on events at E·cos(θ/2).
+
 4. By defaults AB also creates *.hist.root file that contains validation histograms  
    `--plot-off` flag can switch off histograms creation
 
@@ -108,6 +117,60 @@ converter.
 > (!) For now IP8 is a copy of IP6 parameters with 35 mrad crossing angle. It will be populated with IP8 own parameters as 
 > soon as they are officially published.
 
+### Coordinate system
+
+AB writes events in the EIC/ePIC detector frame. The ePIC geometry and EICrecon use the same frame:
+
+- **z** lies on the electron beam axis, which is also the detector (solenoid) axis. It points opposite to the
+  electron beam's motion: electrons fly along −z, and +z is the hadron-going ("forward") direction.
+- **x** points horizontally toward the center of the accelerator ring.
+- **y** points up, from the ground to the sky.
+- The frame is right-handed (x = y × z), with its origin at the nominal interaction point.
+
+Seen from above, hadrons circulate counterclockwise and electrons clockwise. At either IP, +z therefore follows the
+hadron beam and +x points to the ring center.
+
+The preset beam angles are given in this frame:
+
+- `crossing_angle_hor` is the hadron beam's angle to +z in the x-z plane, positive toward +x.
+- `crossing_angle_ver` is its angle to +z in the y-z plane, positive toward +y.
+
+| IP  | `crossing_angle_hor` | `crossing_angle_ver` | outgoing hadron beam                                        |
+|-----|----------------------|----------------------|-------------------------------------------------------------|
+| IP6 | −25 mrad             | +0.1 mrad            | toward the ring outside (−x), where the far-forward detectors are |
+| IP8 | +35 mrad             | 0                    | toward the ring inside (+x)                                 |
+
+<img src="docs/eic-frame.svg" alt="EIC/ePIC detector frame: ring seen from above, IP6 and IP8 in the x-z plane" width="100%"/>
+
+Sources:
+
+- E.C. Aschenauer, D. Holmes, K. Hamdi, *Coordinate systems used in EIC* (2022),
+  [doi:10.5281/zenodo.14267257](https://doi.org/10.5281/zenodo.14267257), sec. 2 and Fig. 3:
+  - hadrons circulate counterclockwise, electrons clockwise;
+  - y points to the sky and x to the ring inside;
+  - the detector is rotated by 8 mrad so that its z axis lies along the electron beam, with positive z in the
+    hadron beam direction;
+  - the outgoing hadron beam and the ZDC are on the ring-outside side.
+
+  The [ePIC detector-integration page](https://www.epic-eic.org/detector/detector_integration.html) repeats sec. 2
+  without the sentences on the electron beam.
+- W. Li, CFNS summer school, 4 June 2026,
+  [day 1, slide 8](https://indico.cfnssbu.physics.sunysb.edu/event/604/contributions/2328/attachments/1161/1844/2026_CFNS_summer_school_lectures_day_1.pdf):
+  "Z-axis: -ve electron beam momentum", "X-axis: Points to the center of accelerator ring", "Y-Axis: Points upwards".
+- The ePIC geometry sets `CrossingAngle = -0.025*rad` and `electronCrossingAngle = 0.0` in
+  [`compact/definitions.xml`](https://github.com/eic/epic/blob/main/compact/definitions.xml) and places the
+  far-forward magnets at x < 0.
+- EICrecon gives the electron beams negative pz and the hadron beam px = pz sin(−0.025)
+  ([`Beam.h`](https://github.com/eic/EICrecon/blob/main/src/algorithms/reco/Beam.h),
+  `m_crossingAngle{-0.025}` in the kinematics algorithms).
+- The beam-effects note (first entry of [References](#references)), sec. 3.1.1:
+  - it names the same right-handed frame: z "anti-parallel to the electron direction of travel", y "to the sky",
+    x "toward the inside of the ring";
+  - at IP6 the beams enter from the ring inside and exit to the ring outside, and "the opposite is true for IP8".
+
+The code fixes the signs of z and of the crossing angle. The direction of x, toward the ring center, comes from the
+documents above.
+
 ### Input file requirements
 
 - The CLI command can accept any file, that HepMC3 library can open:
@@ -117,6 +180,11 @@ converter.
   **By default, it is not possible to apply just crossing angle or just beam effects.**
   **But!** in the upcoming version one can provide beam parameters through yaml config files,
   where one would be able to switch off crossing angle, beam effects, etc. 
+- The beam energy spread must come from the generator. AB applies one Lorentz transform per event, which keeps
+  the event's center-of-mass energy; independent energy spreads of the two beams change it (EIC beam-effects note,
+  section 3.2.2). AB keeps the energies the input beams have, event by event.
+- For the nominal beam energies after AB, generate the head-on events at E·cos(θ/2), θ the crossing angle
+  (see **Afterburner algorithm**). With nominal head-on energies both beams come out higher by θ²/8.
 
 
 ### All options:

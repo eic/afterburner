@@ -20,7 +20,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eRu_115x9() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -60,7 +60,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eCu_115x9() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -101,7 +101,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eHe3_166x9() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -142,7 +142,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eD_130x9() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -181,7 +181,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ep_130x9() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -219,7 +219,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ep_250x9() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 1300000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -259,7 +259,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eAu_100x9() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -294,7 +294,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eAu_110x9() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -335,7 +335,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ePb_100x9() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -370,7 +370,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ePb_110x9() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -405,7 +405,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_100x9() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
     
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -440,7 +440,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_275x9() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
     
     cfg.ion_beam.beta_crab_hor = 1300000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -474,7 +474,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_100x9() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
     
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -509,7 +509,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_275x9() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
     
     cfg.ion_beam.beta_crab_hor = 1300000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -551,7 +551,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eRu_115x10() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -591,7 +591,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eCu_115x10() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -632,7 +632,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eHe3_166x10() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -673,7 +673,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eD_130x10() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -712,7 +712,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ep_130x10() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -750,7 +750,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ep_250x10() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 1300000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -785,7 +785,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eAu_110x18() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -821,7 +821,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eAu_110x10() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -862,7 +862,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eAu_100x10() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -897,7 +897,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eAu_110x5() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -933,7 +933,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_eAu_41x5() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     //βcrabm1300/500/200beta function at crab cavity,
     cfg.ion_beam.beta_crab_hor = 200000.0;
@@ -971,7 +971,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ePb_110x18() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -1007,7 +1007,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ePb_110x10() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -1048,7 +1048,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ePb_100x10() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -1083,7 +1083,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ePb_110x5() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -1119,7 +1119,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_ePb_41x5() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     //βcrabm1300/500/200beta function at crab cavity,
     cfg.ion_beam.beta_crab_hor = 200000.0;
@@ -1155,7 +1155,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_41x5() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
 
     cfg.ion_beam.beta_crab_hor = 200000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -1190,7 +1190,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_100x5() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
     
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -1225,7 +1225,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_100x10() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
     
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -1260,7 +1260,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_275x10() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
     
     cfg.ion_beam.beta_crab_hor = 1300000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -1295,7 +1295,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hiacc_275x18() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
     
     cfg.ion_beam.beta_crab_hor = 1300000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -1331,7 +1331,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_41x5() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
     
     cfg.ion_beam.beta_crab_hor = 200000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -1366,7 +1366,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_100x5() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
     
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -1401,7 +1401,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_100x10() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
     
     cfg.ion_beam.beta_crab_hor = 500000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -1436,7 +1436,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_275x10() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
     
     cfg.ion_beam.beta_crab_hor = 1300000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;
@@ -1471,7 +1471,7 @@ ab::AfterburnerConfig ab::EicConfigurator::preset_ip6_hidiv_275x18() {
 
     // Crossing angle
     cfg.crossing_angle_hor = -25e-3;         // Crossing angle in horizontal plane [rad]
-    cfg.crossing_angle_ver = -100e-6;        // Crossing angle in vertical plane [rad]
+    cfg.crossing_angle_ver = 100e-6;         // Crossing angle in vertical plane [rad]
     
     cfg.ion_beam.beta_crab_hor = 1300000.0;
     cfg.electron_beam.beta_crab_hor = 150000.0;

@@ -41,17 +41,18 @@ namespace ab {
         std::string name = "auto";
 
         /**
-         * Crossing angle in horizontal plane [rad]
-         * The ion beam flies along +z rotated by crossing_angle_hor about y, then by crossing_angle_ver about x;
-         * the electron beam along -z. IP6: -25 mrad, the ion beam toward -x.
+         * Crossing angle in horizontal plane [rad]: the ion beam's angle to +z in the x-z plane, positive toward +x.
+         * EIC/ePIC detector frame: z on the electron beam axis, pointing opposite to the electron motion (electrons
+         * fly along -z); x horizontal, toward the ring center; y up. See README.md, "Coordinate system".
+         * IP6: -25 mrad, the ion beam toward the ring outside.
          */
         double crossing_angle_hor = -25e-3;
 
         /**
-         * Crossing angle in vertical plane [rad]
-         * A rotation about x: -100e-6 tilts the ion beam toward +y.
+         * Crossing angle in vertical plane [rad]: the ion beam's angle in the y-z plane, positive toward +y.
+         * IP6: +100 urad.
          */
-        double crossing_angle_ver = -100e-6;
+        double crossing_angle_ver = 100e-6;
 
         unsigned int random_seed = 1;
 
