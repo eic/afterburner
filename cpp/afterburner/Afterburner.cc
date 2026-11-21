@@ -386,54 +386,6 @@ ab::AfterburnerEventResult ab::Afterburner::process_event(const CLHEP::HepLorent
         }
     }  //  if (boost_axis.mag2() > CLHEP::Hep3Vector::getTolerance())
 
-    // rotate the collision vertex z direction to middle of the beam angles
-
-    // the final longitudinal vertex smear axis
-    CLHEP::Hep3Vector beamCenterDiffAxis = (ideal_ion_dir - ideal_electron_dir);
-    beamCenterDiffAxis = beamCenterDiffAxis / beamCenterDiffAxis.mag();
-
-    double cos_rotation_center_angle_to_z = beamCenterDiffAxis.dot(z_axis);
-
-    if (1 - fabs(cos_rotation_center_angle_to_z) < CLHEP::Hep3Vector::getTolerance()) {
-        // new axis is basically beam axis
-
-        if (m_verbosity) {
-            cout << __PRETTY_FUNCTION__
-                 << ": collision longitudinal axis is very close to z-axis. No additional rotation of vertexes: "
-                 << "cos_rotation_center_angle_to_z = " << cos_rotation_center_angle_to_z
-                 << endl;
-        }
-    } else {
-        // need a rotation
-        CLHEP::Hep3Vector rotation_axis = beamCenterDiffAxis.cross(z_axis);
-        const double rotation_angle_to_z = -acos(cos_rotation_center_angle_to_z);
-        const CLHEP::HepRotation rotation(rotation_axis, rotation_angle_to_z);
-
-
-        CLHEP::Hep3Vector init_3vertex(
-                result.vertex.x(),
-                result.vertex.y(),
-                result.vertex.z());
-
-        CLHEP::Hep3Vector final_3vertex = init_3vertex;//rotation * init_3vertex;
-
-        result.vertex = CLHEP::HepLorentzVector(
-                final_3vertex.x(),
-                final_3vertex.y(),
-                final_3vertex.z(),
-                result.vertex.t());
-
-        if (m_verbosity) {
-            cout << __PRETTY_FUNCTION__
-                 << ": collision longitudinal axis is rotated: "
-                 << "cos_rotation_center_angle_to_z = " << cos_rotation_center_angle_to_z << ", "
-                 << "rotation_axis = " << rotation_axis << ", "
-                 << "init_3vertex = " << init_3vertex << ", "
-                 << "final_3vertex = " << final_3vertex << ", "
-                 << endl;
-        }
-    }
-
 
     if (m_verbosity) {
         cout << __PRETTY_FUNCTION__ << ": final boost rotation shift of the collision" << endl;
