@@ -46,6 +46,9 @@ void ab::abconv::Converter::convert() {
             bool must_exit = check_beams_setup(evt);
             if(must_exit) return;
 
+            // Record abconv in the list of tools that processed the file
+            run_info->tools().push_back({"abconv", ABCONV_VERSION, "EIC afterburner"});
+
             // Autodetect afterburner config if we have afterburner
             if(_afterburner) {
                 // Print AB configuration and add it to RunInfo
