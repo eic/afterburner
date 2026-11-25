@@ -1,6 +1,12 @@
 # EIC Afterburner Project
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
-project(EICAfterburner VERSION 1.0.0 LANGUAGES CXX)
+
+# Version from git describe
+include(cmake/git_version.cmake)
+set_git_version(AFTERBURNER_VERSION)
+
+project(EICAfterburner VERSION ${AFTERBURNER_VERSION} LANGUAGES CXX)
+message(STATUS "${PROJECT_NAME}: Version: ${AFTERBURNER_VERSION_FULL}")
 
 # C++ Standard
 if(NOT DEFINED CMAKE_CXX_STANDARD)
