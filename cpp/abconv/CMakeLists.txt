@@ -39,6 +39,9 @@ target_link_libraries(${TARGET_NAME}
         ROOT::Hist
 )
 
+# Version reported by --version
+target_compile_definitions(${TARGET_NAME} PRIVATE ABCONV_VERSION="${AFTERBURNER_VERSION_FULL}")
+
 # ZLIB support (optional)
 if(ZLIB_FOUND)
     message(STATUS "${TARGET_NAME}: Compressed file support enabled")
